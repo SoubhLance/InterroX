@@ -1,0 +1,11 @@
+fastapi==0.142.3
+uvicorn[standard]==0.54.0
+redis==8.1.0
+pydantic-settings==2.15.0
+python-dotenv==1.2.4
+python-multipart==0.0.32
+pytest==9.1.1
+httpx==0.28.1
+pymupdf==1.28.2
+pytesseract==0.3.13
+pillow==12.3.0
