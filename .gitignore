@@ -54,3 +54,6 @@ htmlcov/
 .DS_Store
 Thumbs.db
 
+
+*.pdf
+*.rdb
