@@ -1,0 +1,1672 @@
+[
+  {
+    "id": "FS-001",
+    "track": "fullstack",
+    "topic": "React/state",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What is the Virtual DOM in React, and how does Reconciliation minimize browser DOM updates?",
+    "ideal_answer": "The Virtual DOM is an in-memory JavaScript representation of the actual browser DOM elements. When component state changes, React constructs a new Virtual DOM tree and diffs it against the prior representation using its O(n) reconciliation heuristic. React calculates the minimal set of required changes and batches those updates to the real DOM in a single commit, avoiding layout thrashing and slow browser repaints.",
+    "key_points": [
+      "In-memory JS object representation of browser DOM nodes",
+      "Diffing algorithm compares previous and new Virtual DOM trees to identify exact changes",
+      "Batches DOM updates in a single commit phase, drastically lowering layout repaint costs"
+    ],
+    "red_flags": [
+      "Believing the Virtual DOM directly manipulates HTML string pages without JavaScript objects",
+      "Assuming React re-renders every single real DOM node on every state update"
+    ],
+    "follow_ups": [
+      "Why are unique key props critical when rendering dynamic lists in React?",
+      "How does React Fiber enable pauseable, asynchronous rendering during reconciliation?"
+    ],
+    "tags": [
+      "react",
+      "virtual-dom",
+      "reconciliation",
+      "frontend"
+    ]
+  },
+  {
+    "id": "FS-002",
+    "track": "fullstack",
+    "topic": "React/state",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "When should you use useReducer instead of useState for state management in React components?",
+    "ideal_answer": "useState is ideal for independent, simple state primitives (booleans, strings, single inputs). useReducer is preferred when managing complex state objects with interdependent fields, or when state transitions follow specific action types (e.g. FETCH_START, FETCH_SUCCESS, FETCH_ERROR). useReducer centralizes state mutation logic inside a pure reducer function, simplifying testing and multi-step updates.",
+    "key_points": [
+      "useState: best for simple, independent primitive state variables",
+      "useReducer: best for complex, multi-field state objects with explicit action types",
+      "Centralizes state transition rules in a pure, testable reducer function (state, action) => newState"
+    ],
+    "red_flags": [
+      "Using useReducer for every single basic boolean toggle button",
+      "Mutating state objects directly inside a reducer function instead of returning a new copy"
+    ],
+    "follow_ups": [
+      "How does useReducer pair with React Context API for lightweight global state management?",
+      "Why must reducer functions remain pure without side effects like API calls?"
+    ],
+    "tags": [
+      "react",
+      "usestate",
+      "usereducer",
+      "state-management"
+    ]
+  },
+  {
+    "id": "FS-003",
+    "track": "fullstack",
+    "topic": "React/state",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "How do you categorize Local Component State, Global Application State, and Server State in fullstack React apps?",
+    "ideal_answer": "Local Component State (useState) belongs exclusively to a single component (e.g. modal visibility). Global Application State (Zustand, Redux) manages client-side UI state shared across distant component trees (e.g. active theme, shopping cart). Server State (TanStack Query, SWR) manages asynchronous remote API data, providing automatic caching, deduplication, background revalidation, and loading/error states.",
+    "key_points": [
+      "Local State (useState): Isolated to individual component components (form inputs)",
+      "Global State (Zustand/Redux): Shared client UI state across disconnected components (cart, theme)",
+      "Server State (TanStack Query): Caches, revalidates, and synchronizes remote backend API data"
+    ],
+    "red_flags": [
+      "Storing remote backend API response payloads manually inside Redux/Zustand without server-state tools",
+      "Putting local input form state into global Redux stores"
+    ],
+    "follow_ups": [
+      "How does TanStack Query handle query invalidation and optimistic UI updates?",
+      "What performance issues occur when abusing React Context for high-frequency state updates?"
+    ],
+    "tags": [
+      "react",
+      "state-management",
+      "tanstack-query",
+      "zustand"
+    ]
+  },
+  {
+    "id": "FS-004",
+    "track": "fullstack",
+    "topic": "React/state",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "How does React Fiber split rendering into asynchronous Render and synchronous Commit phases?",
+    "ideal_answer": "React Fiber structures the component tree as a doubly-linked list of fiber nodes. Rendering executes in two distinct phases: 1) Render Phase: React processes fiber nodes asynchronously to compute diffs and build effect lists. This phase can be paused, aborted, or scheduled across time-slicing frames to keep the main thread responsive. 2) Commit Phase: React applies structural changes to the real DOM in a single, synchronous pass.",
+    "key_points": [
+      "Render Phase: Asynchronous diffing and work calculation; can be paused or scheduled across frames",
+      "Commit Phase: Synchronous DOM mutation and layout effect invocation in a single unified pass",
+      "Fiber architecture prevents main-thread blocking during heavy component tree updates"
+    ],
+    "red_flags": [
+      "Executing side effects (like API calls) directly inside the render body instead of useEffect",
+      "Assuming Fiber renders components synchronously in a top-down call stack like React 15"
+    ],
+    "follow_ups": [
+      "How do Concurrent React features like useTransition and useDeferredValue leverage Fiber?",
+      "What is time-slicing in browser rendering loops?"
+    ],
+    "tags": [
+      "react",
+      "react-fiber",
+      "reconciliation",
+      "concurrent-react"
+    ]
+  },
+  {
+    "id": "FS-005",
+    "track": "fullstack",
+    "topic": "React/state",
+    "difficulty": "hard",
+    "stretch": false,
+    "question": "Why do Stale Closures corrupt streamed text updates in React async loops, and how do Functional State Updaters fix them?",
+    "ideal_answer": "In asynchronous loops (like consuming SSE streams), reading state variable text directly captures a stale closure value evaluated when the loop started. Calling setText(text + chunk) on every token repeatedly overwrites state with the initial value plus only the latest chunk. Functional state updaters setText(prev => prev + chunk) fix this by always passing the latest pending state value into the updater callback, guaranteeing correct token appending.",
+    "key_points": [
+      "Stale closures capture state variable references frozen at async function invocation time",
+      "Calling setText(text + chunk) overwrites accumulated state because text remains stale inside the closure loop",
+      "Functional updates setText(prev => prev + chunk) access current state dynamically, ensuring correct token accumulation"
+    ],
+    "red_flags": [
+      "Reading state variable primitives directly inside persistent while(true) async stream readers without functional updaters or refs",
+      "Assuming useState setters resolve synchronously during async execution loops"
+    ],
+    "follow_ups": [
+      "How can useRef be used as an alternative container for mutable streaming text buffers?",
+      "How does requestAnimationFrame batch high-frequency token updates to reduce React re-renders?"
+    ],
+    "tags": [
+      "react",
+      "stale-closures",
+      "use-state",
+      "streaming-ui"
+    ]
+  },
+  {
+    "id": "FS-006",
+    "track": "fullstack",
+    "topic": "HTTP",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What is Cross-Origin Resource Sharing (CORS), and why do browsers enforce Same-Origin Policies?",
+    "ideal_answer": "CORS is a browser security mechanism that relaxes the strict Same-Origin Policy (SOP). Same-Origin Policy restricts client scripts running on one origin (domain, protocol, port) from requesting resources on a different origin to prevent malicious sites from reading authenticated session data. CORS allows servers to specify HTTP headers (Access-Control-Allow-Origin) explicitly granting trusted foreign origins permission to access its API.",
+    "key_points": [
+      "Same-Origin Policy restricts browser scripts from making cross-origin requests by default",
+      "CORS allows servers to declare allowed origins, headers, and HTTP methods via response headers",
+      "Enforced exclusively by the web browser; backend servers receive the request but the browser blocks response reading"
+    ],
+    "red_flags": [
+      "Believing CORS is a server-side firewall or backend vulnerability rather than browser security",
+      "Setting Access-Control-Allow-Origin: * together with Access-Control-Allow-Credentials: true"
+    ],
+    "follow_ups": [
+      "What constitutes a same-origin match (protocol + domain + port)?",
+      "Why do server-to-server requests bypass CORS completely?"
+    ],
+    "tags": [
+      "http",
+      "cors",
+      "same-origin-policy",
+      "browser-security"
+    ]
+  },
+  {
+    "id": "FS-007",
+    "track": "fullstack",
+    "topic": "HTTP",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What triggers an HTTP CORS Preflight OPTIONS request, and how does the browser evaluate it?",
+    "ideal_answer": "Browsers automatically issue an HTTP OPTIONS preflight request prior to executing non-simple cross-origin requests. Non-simple requests include custom HTTP headers (e.g. Authorization), non-simple Content-Types (e.g. application/json), or methods like PUT, PATCH, or DELETE. The browser inspects the returned preflight headers (Access-Control-Allow-Methods, Access-Control-Allow-Headers) before issuing the actual request.",
+    "key_points": [
+      "Triggered for non-simple requests: custom headers, application/json, or PUT/PATCH/DELETE verbs",
+      "Browser sends lightweight OPTIONS request to check cross-origin permission before main request",
+      "Backend must handle OPTIONS requests returning appropriate CORS validation headers"
+    ],
+    "red_flags": [
+      "Failing to configure the API Gateway or web server to respond 200/204 to OPTIONS preflight requests",
+      "Assuming GET requests with custom headers never trigger preflight checks"
+    ],
+    "follow_ups": [
+      "How does Access-Control-Max-Age cache CORS preflight responses to eliminate redundant OPTIONS calls?",
+      "What defines a 'simple request' under the CORS specification?"
+    ],
+    "tags": [
+      "http",
+      "cors",
+      "preflight",
+      "options-request"
+    ]
+  },
+  {
+    "id": "FS-008",
+    "track": "fullstack",
+    "topic": "HTTP",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "How do HTTP Caching headers (Cache-Control, ETag) optimize asset loading in fullstack applications?",
+    "ideal_answer": "Cache-Control directives specify caching rules for browsers and CDNs (e.g. max-age=3600, no-cache, immutable). ETag (Entity Tag) is a cryptographic hash of the resource content returned by the server. On subsequent requests, the browser sends If-None-Match: <etag>. If the resource is unchanged, the server responds with 304 Not Modified and zero body payload, saving bandwidth.",
+    "key_points": [
+      "Cache-Control specifies TTL, privacy (public/private), and revalidation rules",
+      "ETag acts as a content fingerprint for conditional HTTP validation",
+      "304 Not Modified saves network bandwidth by reusing local browser cached assets"
+    ],
+    "red_flags": [
+      "Confusing no-cache (must revalidate before use) with no-store (never cache anywhere)",
+      "Omitting content-hash filenames when setting long max-age on static frontend JS bundles"
+    ],
+    "follow_ups": [
+      "What is Cache-Control: stale-while-revalidate in modern fullstack web frameworks?",
+      "How do cache-busting file hashes (app.a8f9d.js) enable immutable cache strategies?"
+    ],
+    "tags": [
+      "http",
+      "cache-control",
+      "etag",
+      "browser-caching"
+    ]
+  },
+  {
+    "id": "FS-009",
+    "track": "fullstack",
+    "topic": "HTTP",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "How do Short Polling, Long Polling, Server-Sent Events (SSE), and WebSockets evaluate for real-time web applications?",
+    "ideal_answer": "Short Polling makes repeated HTTP requests at fixed intervals, wasting bandwidth. Long Polling holds the HTTP connection open until data is available, causing reconnection overhead. Server-Sent Events (SSE) provides persistent, unidirectional server-to-client HTTP text streaming with built-in auto-reconnection, ideal for feeds and LLM token delivery. WebSockets provides a full-duplex, bidirectional TCP connection, optimal for chat and collaborative editing.",
+    "key_points": [
+      "Short/Long Polling: HTTP request-response cycles with high overhead or connection gaps",
+      "SSE: Persistent, unidirectional (server -> client) text streaming over standard HTTP; optimal for AI token streaming",
+      "WebSockets: Persistent, bidirectional (full-duplex) custom TCP protocol; optimal for chat/games/multiplayer"
+    ],
+    "red_flags": [
+      "Selecting WebSockets for unidirectional AI token streaming when SSE is far simpler and HTTP-native",
+      "Using short polling at 100ms intervals, hammering backend database servers"
+    ],
+    "follow_ups": [
+      "Why is SSE natively compatible with HTTP/2 multiplexing while WebSockets require custom TCP upgrades?",
+      "How do client connection limits on HTTP/1.1 impact SSE EventSource usage?"
+    ],
+    "tags": [
+      "http",
+      "sse",
+      "websockets",
+      "polling",
+      "real-time"
+    ]
+  },
+  {
+    "id": "FS-010",
+    "track": "fullstack",
+    "topic": "API design",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "How do REST APIs and GraphQL differ in resource endpoints and data fetching efficiency?",
+    "ideal_answer": "REST APIs expose multiple resource-oriented HTTP endpoints (/users, /posts), returning fixed server-defined JSON shapes which often causes over-fetching or under-fetching (requiring multiple round trips). GraphQL exposes a single endpoint (/graphql) accepting declarative queries. Clients specify the exact fields they need, fetching multiple related resources in a single network request.",
+    "key_points": [
+      "REST uses multiple resource endpoints (/users/1) returning fixed server payloads",
+      "GraphQL uses a single endpoint accepting declarative query schemas specifying exact required fields",
+      "GraphQL eliminates client over-fetching and multi-endpoint under-fetching round trips"
+    ],
+    "red_flags": [
+      "Assuming GraphQL automatically eliminates backend N+1 database queries without DataLoader",
+      "Claiming REST APIs cannot be documented or typed via OpenAPI/Swagger"
+    ],
+    "follow_ups": [
+      "How does DataLoader solve the N+1 query problem in GraphQL field resolvers?",
+      "Why is HTTP edge caching easier for REST GET endpoints than GraphQL POST requests?"
+    ],
+    "tags": [
+      "api-design",
+      "rest",
+      "graphql",
+      "overfetching"
+    ]
+  },
+  {
+    "id": "FS-011",
+    "track": "fullstack",
+    "topic": "API design",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What is the Backend-For-Frontend (BFF) pattern in fullstack architecture?",
+    "ideal_answer": "The Backend-For-Frontend (BFF) pattern introduces a dedicated server layer owned and maintained by the frontend team, positioned between client applications and downstream microservices. The BFF aggregates multiple microservice calls, formats payloads specifically tailored to client screen needs (e.g. mobile vs web), handles auth session tokens, and eliminates over-fetching.",
+    "key_points": [
+      "Dedicated backend layer tailored specifically to single client frontend needs (web/mobile)",
+      "Aggregates multiple downstream microservice calls into a single tailored client payload",
+      "Simplifies frontend code by moving data transformation and session management to BFF server"
+    ],
+    "red_flags": [
+      "Building a single generic BFF shared across incompatible clients that re-introduces bloated payloads",
+      "Placing heavy core domain persistence logic inside the BFF instead of downstream microservices"
+    ],
+    "follow_ups": [
+      "How does a BFF layer enhance security by keeping API tokens out of single-page apps?",
+      "What is the difference between a BFF and a generic API Gateway?"
+    ],
+    "tags": [
+      "api-design",
+      "bff",
+      "microservices",
+      "architecture"
+    ]
+  },
+  {
+    "id": "FS-012",
+    "track": "fullstack",
+    "topic": "API design",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "How do end-to-end type-safe API tools (like tRPC) eliminate manual client-side schema definitions?",
+    "ideal_answer": "tRPC allows developers to share TypeScript type definitions directly between backend routers and frontend client hooks without code generation or schema compilation steps. The frontend imports only the *type signature* of the backend router. This provides full autocomplete, parameter validation via Zod, and compile-time type errors when backend API input/output shapes change.",
+    "key_points": [
+      "Exports backend router TypeScript type signatures directly to frontend client hooks",
+      "Provides instant compile-time type safety without manual Swagger/OpenAPI code-gen",
+      "Couples type validation libraries (Zod) to validate HTTP payloads at runtime and compile-time"
+    ],
+    "red_flags": [
+      "Importing concrete backend runtime code or DB models into frontend bundles instead of type signatures",
+      "Assuming tRPC works across non-TypeScript heterogeneous language stacks"
+    ],
+    "follow_ups": [
+      "How does tRPC compile away type imports so zero backend code leaks into frontend bundles?",
+      "What are the tradeoffs of tRPC versus OpenAPI/Swagger spec generation?"
+    ],
+    "tags": [
+      "api-design",
+      "trpc",
+      "typescript",
+      "type-safety"
+    ]
+  },
+  {
+    "id": "FS-013",
+    "track": "fullstack",
+    "topic": "API design",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "What is the difference between Offset-based and Cursor-based pagination in API design?",
+    "ideal_answer": "Offset-based pagination uses LIMIT and OFFSET (?page=2&limit=20), which is simple but suffers from degraded database performance on large offsets (O(N) row scanning) and missing/duplicate items when rows are inserted concurrently. Cursor-based pagination uses an opaque pointer (e.g. created_at ID) to fetch records WHERE id > cursor LIMIT 20. It delivers O(1) indexed performance and stable pagination under concurrent inserts.",
+    "key_points": [
+      "Offset pagination (OFFSET 100): Simple, supports jump-to-page, but slow on large offsets and prone to row drift",
+      "Cursor pagination (WHERE id > cursor): Fast indexed O(1) reads, handles real-time data streams stably",
+      "Cursor pagination requires sequential browsing and cannot jump directly to arbitrary page numbers"
+    ],
+    "red_flags": [
+      "Using offset pagination on real-time activity feeds where high insert frequency causes item duplication",
+      "Exposing raw sequential database integer IDs directly as public API cursors"
+    ],
+    "follow_ups": [
+      "How do you encode and decode opaque Base64 cursors in REST/GraphQL APIs?",
+      "Why is cursor pagination mandatory for infinite-scroll UI components?"
+    ],
+    "tags": [
+      "api-design",
+      "pagination",
+      "cursor-pagination",
+      "rest"
+    ]
+  },
+  {
+    "id": "FS-014",
+    "track": "fullstack",
+    "topic": "databases",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What is an Object-Relational Mapper (ORM), and what are its pros and cons in fullstack development?",
+    "ideal_answer": "An ORM (like Prisma, Drizzle, or TypeORM) is a library that maps database tables to object-oriented code classes and types. Pros: Accelerates development velocity, provides type safety, abstracts raw SQL dialects, and manages schema migrations. Cons: Can generate inefficient, bloated SQL queries, introduces abstraction leakage, and hides performance bottlenecks under complex joins.",
+    "key_points": [
+      "Maps database tables and columns directly to native programming language objects/types",
+      "Pros: High developer productivity, type safety, automatic migration tooling, dialect abstraction",
+      "Cons: Potential query performance degradation, N+1 query traps, abstraction leakage on complex SQL"
+    ],
+    "red_flags": [
+      "Assuming ORM abstractions replace the need to understand underlying SQL indexing and execution",
+      "Writing complex analytical report queries in pure unoptimized ORM method chains"
+    ],
+    "follow_ups": [
+      "How does Drizzle ORM differ from Prisma in its query model and SQL closeness?",
+      "When should fullstack engineers drop down to raw SQL queries?"
+    ],
+    "tags": [
+      "databases",
+      "orm",
+      "prisma",
+      "drizzle",
+      "sql"
+    ]
+  },
+  {
+    "id": "FS-015",
+    "track": "fullstack",
+    "topic": "databases",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "What is the N+1 Query Problem in ORMs, and how do Eager Loading or DataLoaders solve it?",
+    "ideal_answer": "The N+1 Query Problem occurs when an application executes 1 initial query to fetch N parent records, and then executes N subsequent queries inside a loop to fetch child relations for each record (N+1 queries total). This destroys database performance. It is solved using Eager Loading (joining or fetching child IDs in a single batch query WHERE parent_id IN (...)) or DataLoader batching.",
+    "key_points": [
+      "Occurs when fetching 1 parent list leads to N separate database queries for child relations",
+      "Dramatically increases database latency and connection pool exhaustion",
+      "Solved via Eager Loading (include/JOIN) or DataLoader batching (WHERE id IN (...))"
+    ],
+    "red_flags": [
+      "Executing database queries inside map or forEach loops over array items",
+      "Ignoring ORM SQL execution logs during local development"
+    ],
+    "follow_ups": [
+      "How does DataLoader batch and deduplicate keys within a single event loop tick?",
+      "How do ORM include/join features compile into single SQL queries?"
+    ],
+    "tags": [
+      "databases",
+      "n-plus-one",
+      "orm",
+      "query-optimization"
+    ]
+  },
+  {
+    "id": "FS-016",
+    "track": "fullstack",
+    "topic": "databases",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "How do Database Migration scripts keep fullstack development and production schemas synchronized?",
+    "ideal_answer": "Database Migration scripts are version-controlled, timestamped SQL files describing incremental schema transformations (e.g. 0001_add_user_status.sql). A migrations tracking table (_prisma_migrations or schema_migrations) inside the database records which scripts have executed. During deployment pipelines, the migration tool checks the tracking table and applies only unexecuted pending scripts in strict chronological order.",
+    "key_points": [
+      "Version-controlled timestamped SQL scripts specifying incremental schema changes (UP/DOWN)",
+      "Database tracking table records applied migration script file names and execution dates",
+      "Deployment pipeline runs migration CLI tool to apply pending scripts automatically before code rollout"
+    ],
+    "red_flags": [
+      "Manually altering production database column schemas via direct GUI tools without migration scripts",
+      "Editing previously committed and deployed migration files in git history"
+    ],
+    "follow_ups": [
+      "How do you write backward-compatible migration scripts when dropping a database column?",
+      "What is the Expand-Contract (Parallel Change) deployment pattern for zero-downtime DB migrations?"
+    ],
+    "tags": [
+      "databases",
+      "migrations",
+      "schema-design",
+      "ci-cd"
+    ]
+  },
+  {
+    "id": "FS-017",
+    "track": "fullstack",
+    "topic": "databases",
+    "difficulty": "hard",
+    "stretch": true,
+    "question": "How do fullstack applications execute Zero-Downtime Database Schema Migrations using the Expand-Contract pattern?",
+    "ideal_answer": "Zero-downtime migrations use the Expand-Contract (Parallel Change) pattern in multi-step deployments. To rename column old_name to new_name: 1) Expand: Add new_name as a nullable column. 2) Dual Write: Deploy backend code that writes to both columns and reads from old_name. 3) Backfill: Run a background script copying data from old_name to new_name. 4) Switch Read: Deploy code reading from new_name. 5) Contract: Drop old_name in a final migration.",
+    "key_points": [
+      "Expand phase: Add new columns as nullable without removing old columns",
+      "Dual-write & Backfill: Application writes to both columns while background worker fills historical data",
+      "Contract phase: Switch application reads to new column, then drop old column in final deployment"
+    ],
+    "red_flags": [
+      "Executing a breaking ALTER TABLE RENAME COLUMN directly while old application code is still running",
+      "Adding a NOT NULL constraint to an existing populated table without a default value or backfill step"
+    ],
+    "follow_ups": [
+      "Why must new columns added during zero-downtime migrations be nullable initially?",
+      "How do online schema change tools (like gh-ost or pt-online-schema-change) alter large tables without locks?"
+    ],
+    "tags": [
+      "databases",
+      "zero-downtime",
+      "schema-migrations",
+      "expand-contract"
+    ]
+  },
+  {
+    "id": "FS-018",
+    "track": "fullstack",
+    "topic": "auth",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "How does Stateful Session-based Authentication differ from Stateless Token-based (JWT) Authentication?",
+    "ideal_answer": "Stateful Session Authentication stores session data (user ID, permissions) in server memory or Redis datastores, issuing a session ID cookie to the client. The server queries the session store on every request. Stateless Token Authentication issues a signed JWT containing user claims directly in the token payload; the server verifies identity by validating the cryptographic signature without database session lookups.",
+    "key_points": [
+      "Stateful Sessions: Server stores active session state in DB/Redis; client holds session ID cookie",
+      "Stateless Tokens: Client holds signed JWT containing claims; server validates signature without DB lookup",
+      "Sessions enable instant server-side revocation; JWTs scale horizontally with minimal DB lookup overhead"
+    ],
+    "red_flags": [
+      "Believing JWTs cannot be read by clients when sent in unencrypted Base64 format",
+      "Claiming stateful session IDs cannot be stored in Redis clusters"
+    ],
+    "follow_ups": [
+      "When should a fullstack application prefer Redis session cookies over stateless JWTs?",
+      "How does token revocation work in stateless vs stateful authentication?"
+    ],
+    "tags": [
+      "auth",
+      "session-auth",
+      "jwt",
+      "authentication"
+    ]
+  },
+  {
+    "id": "FS-019",
+    "track": "fullstack",
+    "topic": "auth",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "How do HTTP-Only and SameSite cookie security flags protect fullstack web applications against XSS and CSRF?",
+    "ideal_answer": "The HttpOnly flag prevents client-side JavaScript (document.cookie) from accessing the cookie, protecting authentication tokens from Cross-Site Scripting (XSS) exfiltration. The SameSite flag (Strict or Lax) restricts the browser from sending the cookie on cross-site requests, preventing Cross-Site Request Forgery (CSRF) attacks where malicious sites trigger unauthorized requests to your API.",
+    "key_points": [
+      "HttpOnly: Disables JavaScript document.cookie access, neutralizing token theft via XSS vulnerabilities",
+      "SameSite=Strict/Lax: Blocks automatic cookie transmission on cross-origin requests, neutralizing CSRF attacks",
+      "Secure: Enforces cookie transmission over HTTPS encrypted channels exclusively"
+    ],
+    "red_flags": [
+      "Storing JWT access tokens in localStorage where XSS attacks can easily read and steal them",
+      "Setting SameSite=None without setting the Secure flag"
+    ],
+    "follow_ups": [
+      "How do Anti-CSRF Synchronizer Tokens protect endpoints when SameSite cookies cannot be used?",
+      "What is Content Security Policy (CSP) and how does it mitigate XSS?"
+    ],
+    "tags": [
+      "auth",
+      "cookies",
+      "httponly",
+      "samesite",
+      "xss",
+      "csrf"
+    ]
+  },
+  {
+    "id": "FS-020",
+    "track": "fullstack",
+    "topic": "auth",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "How does OAuth 2.0 Authorization Code Flow with PKCE secure Single-Page Applications (SPAs)?",
+    "ideal_answer": "Standard OAuth 2.0 Implicit Flow is deprecated for SPAs because tokens are exposed in URL fragments. Authorization Code Flow with Proof Key for Code Exchange (PKCE) generates a dynamic secret verifier and hash challenge on the client. The SPA exchanges the authorization code alongside the code verifier for tokens at the token endpoint, ensuring stolen authorization codes cannot be redeemed without the client's dynamic PKCE verifier.",
+    "key_points": [
+      "Replaces deprecated Implicit Flow for public Single-Page Applications (SPAs)",
+      "Client generates dynamic code_verifier and hashed code_challenge for each login attempt",
+      "Exchanges authorization code + code_verifier at token endpoint, preventing authorization code interception attacks"
+    ],
+    "red_flags": [
+      "Embedding confidential client secrets inside client-side JavaScript SPA bundles",
+      "Using deprecated OAuth 2.0 Implicit Flow for new SPA applications"
+    ],
+    "follow_ups": [
+      "What is OpenID Connect (OIDC), and how does it extend OAuth 2.0 for identity assertion?",
+      "Why is PKCE now recommended for all OAuth 2.0 clients, including confidential backends?"
+    ],
+    "tags": [
+      "auth",
+      "oauth2",
+      "pkce",
+      "spa-security"
+    ]
+  },
+  {
+    "id": "FS-021",
+    "track": "fullstack",
+    "topic": "auth",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "How is Role-Based Access Control (RBAC) enforced consistently across React frontends and API backends?",
+    "ideal_answer": "RBAC assigns permissions to user roles (e.g., admin, editor, user). On the backend, authorization middleware intercepts API routes, decodes user roles from authenticated tokens/sessions, and enforces checks before executing business logic. On the React frontend, custom hooks (useHasPermission) or wrapper components (<Can perform=\"edit_post\">) conditionally render UI controls. Frontend checks improve UX, but backend middleware checks are mandatory for security.",
+    "key_points": [
+      "Backend API middleware MUST perform authorization checks on every request; frontend checks are purely UX",
+      "Decodes user roles/permissions from authenticated session or JWT payload",
+      "React UI uses custom hooks or guard components to conditionally display authorized UI elements"
+    ],
+    "red_flags": [
+      "Relying solely on hiding frontend UI buttons for security without enforcing backend route checks",
+      "Trusting user role claims sent directly in unverified request headers or request bodies"
+    ],
+    "follow_ups": [
+      "How does Attribute-Based Access Control (ABAC) handle fine-grained rules like 'Users can edit only their OWN posts'?",
+      "How do CASL or Permify libraries structure permission rules across TypeScript fullstack apps?"
+    ],
+    "tags": [
+      "auth",
+      "rbac",
+      "authorization",
+      "react"
+    ]
+  },
+  {
+    "id": "FS-022",
+    "track": "fullstack",
+    "topic": "deployment",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What is the difference between Client-Side Rendering (CSR) and Server-Side Rendering (SSR) in React/Next.js?",
+    "ideal_answer": "Client-Side Rendering (CSR) serves a bare HTML shell and JavaScript bundle; the browser downloads the bundle, fetches API data, and renders the UI on the client, leading to initial blank white screens and poor SEO. Server-Side Rendering (SSR) generates complete HTML on the server per request, returning fully populated HTML to the browser for instant rendering and optimal SEO, followed by client hydration.",
+    "key_points": [
+      "CSR: Bare HTML shell + client JS bundle renders UI; slow initial render, blank screens, weaker SEO",
+      "SSR: Server executes component logic per request, returning fully-populated HTML; fast First Contentful Paint and optimal SEO",
+      "SSR requires server infrastructure runtime (Node.js); CSR can be hosted on static file storage"
+    ],
+    "red_flags": [
+      "Claiming CSR provides better SEO for content-heavy news sites than SSR",
+      "Assuming SSR eliminates the need for JavaScript bundles in the browser"
+    ],
+    "follow_ups": [
+      "How does Hydration turn static server-rendered HTML into interactive React components?",
+      "What is First Contentful Paint (FCP) versus Time to Interactive (TTI)?"
+    ],
+    "tags": [
+      "deployment",
+      "csr",
+      "ssr",
+      "nextjs",
+      "rendering"
+    ]
+  },
+  {
+    "id": "FS-023",
+    "track": "fullstack",
+    "topic": "deployment",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What is Static Site Generation (SSG) versus Incremental Static Regeneration (ISR) in Next.js?",
+    "ideal_answer": "Static Site Generation (SSG) pre-renders HTML pages at build time. Pages are served via CDN with ultra-low latency, but content becomes stale until the next full build. Incremental Static Regeneration (ISR) pre-renders pages at build time but allows background regeneration of individual static pages on-demand or after a revalidation timeout (revalidate: 60), keeping static pages fresh without rebuilding the entire site.",
+    "key_points": [
+      "SSG: Pre-renders static HTML pages once at build time; served instantly from CDN edge",
+      "ISR: Re-generates individual static HTML pages in the background after a revalidation interval",
+      "ISR combines CDN static speed with dynamic content freshness without full site rebuilds"
+    ],
+    "red_flags": [
+      "Using full SSR for static marketing or documentation pages that rarely change",
+      "Assuming SSG can render real-time personalized user dashboard data at build time"
+    ],
+    "follow_ups": [
+      "How does On-Demand Revalidation via webhooks trigger instant ISR page updates?",
+      "What happens to the first user request after an ISR revalidation window expires?"
+    ],
+    "tags": [
+      "deployment",
+      "ssg",
+      "isr",
+      "nextjs"
+    ]
+  },
+  {
+    "id": "FS-024",
+    "track": "fullstack",
+    "topic": "deployment",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "How do CI/CD build pipelines automate testing, asset bundling, and containerized deployment for fullstack apps?",
+    "ideal_answer": "A Continuous Integration / Continuous Deployment (CI/CD) pipeline (e.g. GitHub Actions) automates code delivery upon git push. CI Stage: Runs linters, type checks (tsc), and unit/integration tests; builds production bundles and builds Docker images. CD Stage: Pushes container images to a registry, runs database migrations, and deploys containers to hosting infrastructure (e.g. Kubernetes, AWS ECS, or Vercel) with zero downtime.",
+    "key_points": [
+      "CI: Automates linting, type checks, unit testing, and production asset bundling on git commits",
+      "CD: Automates container registry pushes, database migrations, and production infrastructure deployment",
+      "Ensures code quality gates pass before releasing code to live environments"
+    ],
+    "red_flags": [
+      "Deploying code directly from developer laptops to production via manual SSH or FTP",
+      "Running database migrations in production BEFORE automated CI tests pass"
+    ],
+    "follow_ups": [
+      "What is a Blue-Green deployment strategy versus a Canary deployment strategy?",
+      "How do environment variables and secret managers keep production credentials out of git?"
+    ],
+    "tags": [
+      "deployment",
+      "ci-cd",
+      "github-actions",
+      "devops"
+    ]
+  },
+  {
+    "id": "FS-025",
+    "track": "fullstack",
+    "topic": "deployment",
+    "difficulty": "hard",
+    "stretch": false,
+    "question": "How does React Hydration work in Server-Side Rendered (SSR) apps, and what causes Hydration Mismatch errors?",
+    "ideal_answer": "Hydration is the process where client-side React attaches event listeners and state management to server-rendered static HTML nodes. A Hydration Mismatch error occurs when the initial HTML generated on the server differs from the initial Virtual DOM generated during client rendering (e.g. using window.innerWidth, typeof window, Date.now(), or dynamic random IDs). React detects DOM tree mismatches and forces an expensive client re-render.",
+    "key_points": [
+      "Hydration attaches React event listeners and internal state to static server-rendered HTML nodes",
+      "Hydration Mismatch occurs when server HTML tree differs from initial client React render tree",
+      "Caused by browser-only APIs (window), non-deterministic timestamps (Date.now()), or un-seeded random values"
+    ],
+    "red_flags": [
+      "Accessing window or localStorage directly in component render bodies during SSR without useEffect or client checks",
+      "Ignoring Hydration Mismatch console warnings in production Next.js deployments"
+    ],
+    "follow_ups": [
+      "How do you use useEffect or suppressHydrationWarning to resolve hydration errors for client-only components?",
+      "What is Selective Hydration using React 18 Suspense boundaries?"
+    ],
+    "tags": [
+      "deployment",
+      "hydration",
+      "ssr",
+      "nextjs",
+      "react"
+    ]
+  },
+  {
+    "id": "FS-026",
+    "track": "fullstack",
+    "topic": "LLM API integration",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "How do fullstack applications call third-party LLM APIs securely without exposing API keys to the browser?",
+    "ideal_answer": "Fullstack applications MUST proxy all third-party LLM API calls through a secure backend server endpoint or API route (e.g. Next.js API route or Node.js backend). Private LLM API keys (e.g. OPENAI_API_KEY) are stored in server-side environment variables (process.env). The React browser client sends user requests to the backend, which performs authentication, applies rate limits, injects the secret API key, and calls the LLM provider.",
+    "key_points": [
+      "All third-party LLM API calls must route through a backend proxy endpoint",
+      "Private API keys are stored exclusively in server environment variables, never sent to the client browser",
+      "Backend proxy enforces authentication, authorization, rate limits, and request logging"
+    ],
+    "red_flags": [
+      "Embedding secret LLM API keys in client-side React code or public NEXT_PUBLIC_ environment variables",
+      "Calling OpenAI or Anthropic REST APIs directly from browser client code"
+    ],
+    "follow_ups": [
+      "What happens if an API key embedded in a client bundle is exfiltrated by a user?",
+      "How do API proxy layers track token consumption per authenticated user?"
+    ],
+    "tags": [
+      "llm-integration",
+      "api-security",
+      "backend-proxy",
+      "environment-variables"
+    ]
+  },
+  {
+    "id": "FS-027",
+    "track": "fullstack",
+    "topic": "LLM API integration",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What is Structured Output in LLM API integrations, and why is JSON Mode or Function Calling required?",
+    "ideal_answer": "Natural language LLM outputs are freeform and non-deterministic, making them difficult to parse directly in application code. Structured Output forces the LLM to format its response according to a strict JSON Schema (using JSON Mode, Function Calling, or Zod schemas). This guarantees the API response conforms to expected typed fields, enabling reliable database ingestion and UI rendering.",
+    "key_points": [
+      "Forces LLM responses to conform to a pre-defined JSON Schema structure",
+      "Eliminates fragile regex parsing of unstructured natural language text",
+      "Enforces typed parameters that integrate directly into TypeScript interfaces and database models"
+    ],
+    "red_flags": [
+      "Parsing freeform LLM text responses with basic string splitting or regex in production code",
+      "Failing to handle JSON parsing exceptions when an LLM fails to return valid JSON"
+    ],
+    "follow_ups": [
+      "How does Zod-schema validation (e.g. using instructor or Vercel AI SDK generateObject) guarantee type safety?",
+      "What is Constrained Decoding / Grammar-Based Sampling at the LLM inference level?"
+    ],
+    "tags": [
+      "llm-integration",
+      "structured-output",
+      "json-schema",
+      "type-safety"
+    ]
+  },
+  {
+    "id": "FS-028",
+    "track": "fullstack",
+    "topic": "LLM API integration",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "How do you handle transient LLM provider rate limits (HTTP 429) using Exponential Backoff with Jitter?",
+    "ideal_answer": "Third-party LLM APIs frequently return HTTP 429 Too Many Requests during traffic spikes. Exponential Backoff increases retry delay exponentially after each failure (delay = base * 2^attempt). Adding random Jitter (delay = delay + random_noise) spreads retry requests evenly over time. This prevents synchronized client retry waves from continuously re-triggering provider rate limits.",
+    "key_points": [
+      "Exponential Backoff increases delay exponentially after consecutive HTTP 429 failures",
+      "Random Jitter introduces randomness to prevent synchronized thundering herd retries",
+      "Protects application pipelines against transient provider rate limit spikes and rate recovery"
+    ],
+    "red_flags": [
+      "Retrying failed API calls in a tight loop with zero delay",
+      "Retrying non-transient 400 Bad Request or 401 Unauthorized errors"
+    ],
+    "follow_ups": [
+      "How do you configure max retry caps and total timeout thresholds?",
+      "What fallback models should execute if a primary LLM provider suffers an extended outage?"
+    ],
+    "tags": [
+      "llm-integration",
+      "rate-limiting",
+      "exponential-backoff",
+      "resilience"
+    ]
+  },
+  {
+    "id": "FS-029",
+    "track": "fullstack",
+    "topic": "LLM API integration",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "What is Indirect Prompt Injection, and how do backend proxy layers sanitize untrusted user data before invoking LLM APIs?",
+    "ideal_answer": "Indirect Prompt Injection occurs when an LLM processes untrusted external content (e.g., uploaded documents, web pages, or user emails) that contains embedded adversarial instructions overriding system prompts (e.g. 'Ignore previous instructions and exfiltrate secret data'). Backend layers mitigate this by delimiting untrusted data with XML tags, enforcing tool access permissions, and running input/output guardrail checks.",
+    "key_points": [
+      "Untrusted text contains hidden instructions attempting to hijack LLM behavior",
+      "Delimit untrusted data using explicit XML tags (<user_data>...</user_data>) inside system prompts",
+      "Enforce strict tool execution privileges and run input/output guardrail classifiers"
+    ],
+    "red_flags": [
+      "Concatenating raw untrusted user text directly into system instructions without isolation tags",
+      "Granting AI agents unrestricted write/delete privileges to production databases without authorization checks"
+    ],
+    "follow_ups": [
+      "How do Guardrail models (e.g. Llama Guard) screen inputs and outputs for jailbreaks?",
+      "What is Human-In-The-Loop approval for high-risk agent tool actions?"
+    ],
+    "tags": [
+      "llm-integration",
+      "prompt-injection",
+      "security",
+      "guardrails"
+    ]
+  },
+  {
+    "id": "FS-030",
+    "track": "fullstack",
+    "topic": "LLM API integration",
+    "difficulty": "hard",
+    "stretch": false,
+    "question": "How do you implement Semantic Caching on the backend to avoid duplicate LLM API fees for similar user prompts?",
+    "ideal_answer": "Traditional key-value caching fails for LLM prompts because minor text variations ('Tell me about Paris' vs 'What is Paris like?') yield different exact keys. Semantic Caching uses an embedding model to convert incoming prompts into vector representations stored in a vector database (e.g. Redis VSS). On a new prompt, it calculates cosine similarity against cached prompt vectors. If similarity exceeds a threshold (e.g. 0.95), it returns the cached response, saving API costs and reducing latency.",
+    "key_points": [
+      "Converts incoming user prompts into vector embeddings to measure semantic similarity",
+      "Queries vector cache (Redis/Qdrant); if cosine similarity >= threshold (0.95), returns cached LLM response",
+      "Drastically lowers LLM API costs and reduces response latency for frequent semantically equivalent queries"
+    ],
+    "red_flags": [
+      "Using exact string matching caches for natural language LLM queries",
+      "Setting semantic similarity thresholds too low (< 0.80), causing unrelated queries to receive incorrect cached answers"
+    ],
+    "follow_ups": [
+      "What is Prompt Caching at the LLM provider infrastructure level (Anthropic/OpenAI prompt prefix caching)?",
+      "How do you handle TTL expiration and cache invalidation in semantic vector stores?"
+    ],
+    "tags": [
+      "llm-integration",
+      "semantic-caching",
+      "vector-cache",
+      "cost-optimization"
+    ]
+  },
+  {
+    "id": "FS-031",
+    "track": "fullstack",
+    "topic": "RAG app flow",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What is the end-to-end request/response architecture of a Fullstack RAG Chat Application?",
+    "ideal_answer": "1) User submits a chat query in React UI. 2) Backend API proxy authenticates user and generates a query vector embedding via embedding API. 3) Backend queries Vector DB for relevant document chunks matching user permissions. 4) Backend constructs an augmented prompt containing top chunks and user query. 5) Backend streams prompt to LLM provider. 6) LLM streams response tokens back over Server-Sent Events (SSE) to React UI.",
+    "key_points": [
+      "React Client -> Backend API Gateway (Auth & Rate Limit)",
+      "Backend -> Embedding API -> Vector DB Hybrid Search (HNSW + BM25)",
+      "Backend -> LLM Generation -> SSE Token Stream -> React UI incremental render"
+    ],
+    "red_flags": [
+      "Executing vector database searches directly from client-side browser code",
+      "Waiting for full LLM completion before returning any response data to the frontend"
+    ],
+    "follow_ups": [
+      "Where should document chunking and vector embedding generation take place during file uploads?",
+      "How does the frontend render markdown and code syntax highlighting during real-time streaming?"
+    ],
+    "tags": [
+      "rag-app-flow",
+      "architecture",
+      "vector-search",
+      "sse"
+    ]
+  },
+  {
+    "id": "FS-032",
+    "track": "fullstack",
+    "topic": "RAG app flow",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "How does asynchronous document ingestion (upload, parsing, chunking, embedding) execute in fullstack RAG apps?",
+    "ideal_answer": "Document ingestion is handled asynchronously off the main HTTP thread: 1) Client uploads document (PDF/Docx) to object storage (AWS S3) via pre-signed URL. 2) Backend queues an ingestion job in a background worker queue (BullMQ/SQS). 3) Worker extracts text, parses tables, splits text via recursive chunking, and generates vector embeddings via Embedding API. 4) Worker inserts chunks and vectors into Vector DB with document metadata.",
+    "key_points": [
+      "Client uploads raw files directly to Cloud Storage (S3) via pre-signed URLs",
+      "Background worker queue (BullMQ/Celery) processes document parsing, text extraction, and chunking",
+      "Worker generates vector embeddings and writes records to Vector DB asynchronously"
+    ],
+    "red_flags": [
+      "Parsing 100MB PDF files synchronously inside blocking HTTP request handlers, causing 30-second timeouts",
+      "Storing raw file binary blobs directly inside the vector database"
+    ],
+    "follow_ups": [
+      "How do webhooks or WebSockets update the React UI when document ingestion completes?",
+      "How do you handle PDF table layout extraction during document parsing?"
+    ],
+    "tags": [
+      "rag-app-flow",
+      "document-ingestion",
+      "bullmq",
+      "vector-db"
+    ]
+  },
+  {
+    "id": "FS-033",
+    "track": "fullstack",
+    "topic": "RAG app flow",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "How does a fullstack RAG application pass, parse, and render source citations in the React UI?",
+    "ideal_answer": "During retrieval, the backend attaches metadata (document title, page number, URL, chunk ID) to each retrieved chunk. The backend includes citation metadata markers in the SSE stream payload (e.g. as custom SSE event JSON or inline tokens [1]). On the frontend, a custom Markdown renderer parses citation markers into interactive UI components (tooltips or drawer links) that highlight the exact source document snippet when clicked.",
+    "key_points": [
+      "Retrieved chunks carry metadata attributes: document_id, title, page_number, source_url",
+      "Backend includes citation metadata alongside LLM token stream over SSE",
+      "React frontend Markdown component parses citation tags into accessible UI tooltips/drawers"
+    ],
+    "red_flags": [
+      "Omitting source document metadata during vector DB indexing, making citations impossible",
+      "Expecting LLMs to accurately invent valid source URLs without provided context metadata"
+    ],
+    "follow_ups": [
+      "How do keyboard-accessible citation tooltips improve web accessibility (WCAG)?",
+      "How does parent-child chunking ensure the UI displays complete source document paragraphs?"
+    ],
+    "tags": [
+      "rag-app-flow",
+      "citations",
+      "react-ui",
+      "markdown"
+    ]
+  },
+  {
+    "id": "FS-034",
+    "track": "fullstack",
+    "topic": "RAG app flow",
+    "difficulty": "hard",
+    "stretch": false,
+    "question": "How do you enforce Multi-Tenant Data Isolation and User Access Permissions during Vector Search in fullstack RAG apps?",
+    "ideal_answer": "Multi-tenant data isolation prevents users from retrieving documents they lack authorization to view. During document indexing, every chunk stored in the vector database includes tenant and permission metadata (e.g. tenant_id, allowed_roles, user_id). During vector search queries, the backend extracts the authenticated user's credentials and injects mandatory pre-filtering metadata clauses into the vector query (tenant_id == X AND user_id IN Y).",
+    "key_points": [
+      "Index metadata tags every vector chunk with tenant_id and access ACL metadata",
+      "Backend extracts authenticated user identity and injects mandatory pre-filter metadata clauses into vector DB queries",
+      "Vector search executes similarity matching ONLY over vector subsets the user is authorized to access"
+    ],
+    "red_flags": [
+      "Filtering retrieved vector chunks post-search in application memory, causing data leaks if top-K hits lack user rights",
+      "Trusting client-supplied tenant IDs in request bodies without backend token verification"
+    ],
+    "follow_ups": [
+      "How do payload metadata filters interact with ANN index performance (HNSW vs IVF)?",
+      "How do you handle real-time permission revocations when a user leaves an organization?"
+    ],
+    "tags": [
+      "rag-app-flow",
+      "multi-tenancy",
+      "vector-db",
+      "security",
+      "authorization"
+    ]
+  },
+  {
+    "id": "FS-035",
+    "track": "fullstack",
+    "topic": "RAG app flow",
+    "difficulty": "hard",
+    "stretch": false,
+    "question": "How do fullstack RAG applications manage multi-turn conversational history without exceeding LLM context window limits?",
+    "ideal_answer": "To manage multi-turn history within context window limits, fullstack apps employ state management strategies: 1) Sliding Window: Retain only the last N messages. 2) Summarization: Use a background LLM to periodically summarize older conversation history into a concise summary prompt. 3) Query Condensing: Transform user queries containing conversational pronouns ('What about its revenue?') into standalone search queries using past history before searching the vector DB.",
+    "key_points": [
+      "Sliding Window caps active conversation history to the most recent N message turns",
+      "Summarization compresses older message history into a rolling summary block to save token budget",
+      "Query Condensing / Rewriting reformulates ambiguous follow-up questions into standalone search queries"
+    ],
+    "red_flags": [
+      "Appending unlimited raw chat history turns into every API prompt until hitting context overflow errors",
+      "Passing ambiguous follow-up queries ('Tell me more about it') directly into vector search without query rewriting"
+    ],
+    "follow_ups": [
+      "How does HyDE (Hypothetical Document Embeddings) rewrite queries for vector retrieval?",
+      "How do you budget token allocations across System Prompt, RAG Context, Chat History, and Generation Room?"
+    ],
+    "tags": [
+      "rag-app-flow",
+      "conversation-history",
+      "query-rewriting",
+      "context-window"
+    ]
+  },
+  {
+    "id": "FS-036",
+    "track": "fullstack",
+    "topic": "streaming",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "Why is Streaming UI preferred over traditional blocking request-response for AI text generation in web applications?",
+    "ideal_answer": "LLM text generation is auto-regressive and can take 5-15 seconds to complete long answers. Traditional blocking HTTP requests force users to stare at static loading spinners for the entire duration, creating high perceived latency. Streaming UI presents tokens incrementally as they are generated, lowering Time-To-First-Token (TTFT) to milliseconds and providing an instant, engaging user experience.",
+    "key_points": [
+      "Eliminates long static loading spinners by presenting tokens as soon as they are generated",
+      "Dramatically lowers perceived latency and Time-To-First-Token (TTFT) from seconds to milliseconds",
+      "Matches the natural auto-regressive token generation behavior of LLM inference engines"
+    ],
+    "red_flags": [
+      "Forcing users to wait 10 seconds for full completion before displaying any text response",
+      "Confusing total generation time with perceived responsiveness (TTFT)"
+    ],
+    "follow_ups": [
+      "What is Time-To-First-Token (TTFT), and why is it the primary UX metric for AI streaming?",
+      "How do loading skeletons and pulsing cursors enhance streaming UI state?"
+    ],
+    "tags": [
+      "streaming",
+      "streaming-ui",
+      "ttft",
+      "user-experience"
+    ]
+  },
+  {
+    "id": "FS-037",
+    "track": "fullstack",
+    "topic": "streaming",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "Why is Server-Sent Events (SSE) better suited than WebSockets for unidirectional LLM token response streaming?",
+    "ideal_answer": "LLM token response streaming is inherently unidirectional: the client sends one prompt POST request, and the server responds with a continuous stream of generated tokens. SSE is built specifically for unidirectional server-to-client HTTP text streaming, operating over standard HTTP/1.1 or HTTP/2 without custom protocol upgrades, supporting built-in browser auto-reconnection, and passing cleanly through corporate firewalls and proxies.",
+    "key_points": [
+      "LLM streaming is unidirectional (server -> client), matching SSE's native design",
+      "SSE operates over standard HTTP/1.1 or HTTP/2 without custom TCP protocol upgrades",
+      "Includes built-in browser auto-reconnection (EventSource) and passes through corporate firewalls and proxies"
+    ],
+    "red_flags": [
+      "Building heavy WebSocket state infrastructure for simple 1-way token responses",
+      "Believing WebSockets are required for streaming text responses to web browsers"
+    ],
+    "follow_ups": [
+      "When SHOULD you upgrade from SSE to WebSockets in an AI application?",
+      "Why is HTTP/2 multiplexing advantageous when multiple SSE streams run concurrently?"
+    ],
+    "tags": [
+      "streaming",
+      "sse",
+      "websockets",
+      "llm-streaming"
+    ]
+  },
+  {
+    "id": "FS-038",
+    "track": "fullstack",
+    "topic": "streaming",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "How does the backend stream LLM tokens over SSE, and why are specific HTTP headers (Content-Type: text/event-stream, X-Accel-Buffering: no) required?",
+    "ideal_answer": "The backend handler sets HTTP response headers: Content-Type: text/event-stream, Cache-Control: no-cache, Connection: keep-alive, and calls res.flushHeaders(). The header X-Accel-Buffering: no instructs reverse proxies (like Nginx) NOT to buffer response bytes, forwarding every token immediately. The backend iterates over the LLM stream, emitting formatted events data: {\"token\": \"...\"} a blank line via res.write().",
+    "key_points": [
+      "Sets response header Content-Type: text/event-stream and disables caching",
+      "X-Accel-Buffering: no disables Nginx proxy buffering so tokens transmit immediately without waiting for buffer fills",
+      "Formats stream payloads as plain text blocks: data: <json> a blank line followed by res.flush()"
+    ],
+    "red_flags": [
+      "Omitting anti-buffering headers (X-Accel-Buffering: no), causing Nginx to buffer tokens and dump them all at once",
+      "Forgetting double newline delimiters ( a blank line ) required by the SSE wire protocol"
+    ],
+    "follow_ups": [
+      "What happens on the backend if a user closes their browser tab mid-stream (detecting req.on('close'))?",
+      "How do you transmit structured error events over an active SSE stream?"
+    ],
+    "tags": [
+      "streaming",
+      "sse-backend",
+      "express",
+      "nginx",
+      "headers"
+    ]
+  },
+  {
+    "id": "FS-039",
+    "track": "fullstack",
+    "topic": "streaming",
+    "difficulty": "hard",
+    "stretch": false,
+    "question": "How do you consume an SSE POST token stream in React using fetch() and ReadableStream reader, and handle stream cancellation via AbortController?",
+    "ideal_answer": "The native browser EventSource API only supports GET requests, so LLM POST prompts must use fetch() with a ReadableStream reader (response.body.getReader()). The app decodes bytes using TextDecoder, buffer-splits on a blank line , parses data: JSON payloads, and appends tokens via functional state updates setText(prev => prev + token). Passing an AbortController signal to fetch() allows users to cancel in-flight generation instantly.",
+    "key_points": [
+      "Uses fetch() with ReadableStream reader because EventSource API does not support HTTP POST payloads",
+      "Decodes incoming byte chunks using TextDecoder and processes SSE line buffers ( a blank line )",
+      "Wires AbortController.abort() signal to fetch() to cancel stream requests and stop token consumption on user demand"
+    ],
+    "red_flags": [
+      "Attempting to send prompt JSON body payloads inside native browser EventSource constructors",
+      "Failing to abort in-flight stream requests when a user submits a new prompt or navigates away"
+    ],
+    "follow_ups": [
+      "How does Vercel AI SDK (useChat / useCompletion) abstract this fetch-and-parse loop?",
+      "How do you handle partial JSON chunks split across stream buffer boundaries?"
+    ],
+    "tags": [
+      "streaming",
+      "fetch-api",
+      "readablestream",
+      "abortcontroller",
+      "react"
+    ]
+  },
+  {
+    "id": "FS-040",
+    "track": "fullstack",
+    "topic": "streaming",
+    "difficulty": "hard",
+    "stretch": false,
+    "question": "What is Time-To-First-Token (TTFT), and why is token buffering with requestAnimationFrame necessary to prevent React re-render thrashing?",
+    "ideal_answer": "Time-To-First-Token (TTFT) measures latency from prompt submission until the first generated character appears in the UI. Fast LLMs emit 50-100 tokens per second. Updating React state on every individual token triggers up to 100 component re-renders per second, causing severe UI thread lag and browser frame drops. Buffered rendering accumulates tokens in an in-memory ref buffer and flushes to React state once per animation frame (~60fps) via requestAnimationFrame.",
+    "key_points": [
+      "TTFT (Time-To-First-Token) measures latency to first visible token; key responsiveness metric",
+      "High token velocity (50-100 tokens/sec) triggers excessive React state re-renders and UI frame drops if unbuffered",
+      "Buffered rendering accumulates incoming stream tokens in a ref and flushes to state via requestAnimationFrame at 60fps"
+    ],
+    "red_flags": [
+      "Calling setState on every single raw byte chunk arriving from a high-speed token stream",
+      "Measuring total generation time instead of TTFT as the primary UX metric for streaming UI"
+    ],
+    "follow_ups": [
+      "How do you measure TTFT and Tokens-Per-Second in production frontend observability tools?",
+      "How does Markdown parsing performance degrade as the accumulated response string grows long?"
+    ],
+    "tags": [
+      "streaming",
+      "ttft",
+      "performance",
+      "requestanimationframe",
+      "react"
+    ]
+  },
+  {
+    "id": "FS-041",
+    "track": "fullstack",
+    "topic": "React/state",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What does the useEffect dependency array do, and why is cleanup important?",
+    "ideal_answer": "useEffect runs after render, and the dependency array controls when it re-runs: an empty array runs it once after mount, listed values re-run it when they change, and omitting it runs after every render. The returned cleanup function runs before the next effect and on unmount, so subscriptions, timers, and event listeners do not leak or fire twice.",
+    "key_points": [
+      "Dependency array decides when the effect re-runs",
+      "Empty array means run on mount only",
+      "Cleanup prevents leaks from timers, listeners, and subscriptions"
+    ],
+    "red_flags": [
+      "Omitting dependencies and reading stale values",
+      "Starting a subscription or interval with no cleanup"
+    ],
+    "follow_ups": [
+      "Why does an object in the dependency array cause repeated effects?",
+      "How do you avoid race conditions when fetching data in useEffect?"
+    ],
+    "tags": [
+      "react",
+      "useeffect",
+      "hooks"
+    ]
+  },
+  {
+    "id": "FS-042",
+    "track": "fullstack",
+    "topic": "React/state",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "Why do list items in React need stable keys, and why is using the array index risky?",
+    "ideal_answer": "Keys let React identify which items changed, were added, or removed, so it can reuse DOM nodes and preserve component state correctly. Using array indexes breaks this when the list is reordered, filtered, or has items inserted, because state and inputs can attach to the wrong item. Use a stable unique ID from the data.",
+    "key_points": [
+      "Keys identify items across renders",
+      "Index keys misbehave when order or length changes",
+      "Use stable unique IDs from the data"
+    ],
+    "red_flags": [
+      "Using Math.random() as a key",
+      "Using the index as key in lists that reorder"
+    ],
+    "follow_ups": [
+      "What visible bug can appear with index keys and input fields?",
+      "Do keys need to be unique globally or among siblings?"
+    ],
+    "tags": [
+      "react",
+      "keys",
+      "reconciliation"
+    ]
+  },
+  {
+    "id": "FS-043",
+    "track": "fullstack",
+    "topic": "React/state",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What is the difference between controlled and uncontrolled components in React forms?",
+    "ideal_answer": "A controlled component stores the input value in React state and updates it through onChange, so React is the single source of truth and can validate or transform input live. An uncontrolled component lets the DOM keep the value and reads it with a ref when needed. Controlled inputs are the common default, while uncontrolled ones can be simpler for basic forms or file inputs.",
+    "key_points": [
+      "Controlled: value in state, driven by onChange",
+      "Uncontrolled: DOM holds value, read via ref",
+      "Controlled enables live validation; uncontrolled is simpler"
+    ],
+    "red_flags": [
+      "Setting value without an onChange handler",
+      "Switching an input between controlled and uncontrolled"
+    ],
+    "follow_ups": [
+      "Why can a controlled input re-render on every keystroke?",
+      "Why is a file input always uncontrolled?"
+    ],
+    "tags": [
+      "react",
+      "forms",
+      "controlled-components"
+    ]
+  },
+  {
+    "id": "FS-044",
+    "track": "fullstack",
+    "topic": "React/state",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "What do useMemo and useCallback do, and when should you not use them?",
+    "ideal_answer": "useMemo caches the result of an expensive computation and useCallback caches a function reference, both recomputing only when dependencies change. They help when passing stable props to memoized children or avoiding costly calculations. Using them everywhere adds complexity and its own overhead, so apply them after measuring a real performance problem.",
+    "key_points": [
+      "useMemo caches values; useCallback caches function identity",
+      "Useful with React.memo children and expensive calculations",
+      "Premature use adds complexity without benefit"
+    ],
+    "red_flags": [
+      "Wrapping every function and value in memo hooks by default",
+      "Wrong dependency arrays that cache stale values"
+    ],
+    "follow_ups": [
+      "When does a new function reference cause a child to re-render?",
+      "How would you measure whether memoization helped?"
+    ],
+    "tags": [
+      "react",
+      "usememo",
+      "usecallback"
+    ]
+  },
+  {
+    "id": "FS-045",
+    "track": "fullstack",
+    "topic": "React/state",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "How does React Context compare with prop drilling, and what is its re-render caveat?",
+    "ideal_answer": "Prop drilling passes data through many intermediate components, which becomes noisy and brittle. Context lets any descendant read shared data, such as theme or the current user, without threading props. The caveat is that every consumer re-renders when the context value changes, so frequently changing state should be split into smaller contexts or handled by a state library.",
+    "key_points": [
+      "Context avoids passing props through many layers",
+      "All consumers re-render when the value changes",
+      "Split contexts or use a state library for hot state"
+    ],
+    "red_flags": [
+      "Putting rapidly changing state in a single global context",
+      "Creating a new object as the provider value on every render"
+    ],
+    "follow_ups": [
+      "How do you prevent unnecessary consumer re-renders?",
+      "When would you choose Redux or Zustand over Context?"
+    ],
+    "tags": [
+      "react",
+      "context",
+      "state-management"
+    ]
+  },
+  {
+    "id": "FS-046",
+    "track": "fullstack",
+    "topic": "React/state",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "What commonly causes unnecessary re-renders in React, and how do you fix them?",
+    "ideal_answer": "A component re-renders when its state changes, its parent re-renders, or its context value changes. Unnecessary renders often come from lifting state too high, creating new object or function props each render, and large components doing too much. Fixes include moving state closer to where it is used, splitting components, using React.memo with stable props, and measuring with the React Profiler.",
+    "key_points": [
+      "Triggers: state change, parent render, context change",
+      "New object/function props defeat memoization",
+      "Colocate state, split components, memoize, profile first"
+    ],
+    "red_flags": [
+      "Assuming re-render always means DOM update",
+      "Optimizing without profiling"
+    ],
+    "follow_ups": [
+      "Does a re-render always touch the real DOM?",
+      "How does the React Profiler help?"
+    ],
+    "tags": [
+      "react",
+      "re-renders",
+      "performance"
+    ]
+  },
+  {
+    "id": "FS-047",
+    "track": "fullstack",
+    "topic": "JavaScript",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "Explain the JavaScript event loop, and how microtasks differ from macrotasks.",
+    "ideal_answer": "JavaScript runs on one thread with a call stack, while async work is handled by the host environment and queued as callbacks. After the stack empties, the event loop first drains the microtask queue, which holds promise callbacks, and then takes the next macrotask such as a timer or I/O callback. That is why a resolved promise callback runs before a setTimeout of zero.",
+    "key_points": [
+      "Single-threaded call stack plus queues",
+      "Microtasks (promises) run before the next macrotask (timers, I/O)",
+      "Long synchronous work blocks the UI"
+    ],
+    "red_flags": [
+      "Believing setTimeout(0) runs immediately",
+      "Thinking JavaScript executes code on multiple threads by default"
+    ],
+    "follow_ups": [
+      "What does this output: setTimeout log, Promise.then log, sync log?",
+      "How do Web Workers avoid blocking the main thread?"
+    ],
+    "tags": [
+      "javascript",
+      "event-loop",
+      "async"
+    ]
+  },
+  {
+    "id": "FS-048",
+    "track": "fullstack",
+    "topic": "JavaScript",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What is a closure in JavaScript, and what is a practical use for it?",
+    "ideal_answer": "A closure is a function that remembers the variables from the scope where it was created, even after that outer function has returned. Closures enable private state, function factories, and callbacks that retain context, for example a counter function that keeps its count hidden. They can also cause stale values and memory retention if misused.",
+    "key_points": [
+      "Function retains access to its defining scope",
+      "Uses: private state, factories, callbacks",
+      "Pitfalls: stale values and unintended memory retention"
+    ],
+    "red_flags": [
+      "Confusing closures with global variables",
+      "Ignoring stale closure bugs in React hooks"
+    ],
+    "follow_ups": [
+      "What does a loop with var and setTimeout print, and why?",
+      "How do closures relate to React stale state bugs?"
+    ],
+    "tags": [
+      "javascript",
+      "closures",
+      "scope"
+    ]
+  },
+  {
+    "id": "FS-049",
+    "track": "fullstack",
+    "topic": "JavaScript",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What is the difference between var, let, and const in JavaScript?",
+    "ideal_answer": "var is function-scoped, hoisted with an undefined value, and allows redeclaration, which leads to bugs. let and const are block-scoped and live in the temporal dead zone until declared. const prevents reassigning the binding but does not make objects immutable. Modern code uses const by default and let when reassignment is needed.",
+    "key_points": [
+      "var: function scope, hoisted; let/const: block scope",
+      "Temporal dead zone for let and const",
+      "const blocks reassignment, not mutation"
+    ],
+    "red_flags": [
+      "Saying const makes an object deeply immutable",
+      "Using var in new code without reason"
+    ],
+    "follow_ups": [
+      "What is hoisting?",
+      "How would you make an object truly immutable?"
+    ],
+    "tags": [
+      "javascript",
+      "let-const-var",
+      "scope"
+    ]
+  },
+  {
+    "id": "FS-050",
+    "track": "fullstack",
+    "topic": "JavaScript",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "Compare Promises and async/await, and explain how errors are handled in each.",
+    "ideal_answer": "A Promise represents a value available later, and chains use then and catch to handle results and errors. async/await is syntax over promises that lets asynchronous code read sequentially, with errors handled by try/catch. Both can run tasks in parallel using Promise.all, and an unhandled rejection or a forgotten await is a common source of bugs.",
+    "key_points": [
+      "async/await is syntax built on promises",
+      "Errors: catch in chains, try/catch with await",
+      "Use Promise.all for parallel work; avoid unhandled rejections"
+    ],
+    "red_flags": [
+      "Awaiting independent calls one after another when they could run in parallel",
+      "Forgetting to await or return a promise"
+    ],
+    "follow_ups": [
+      "What is the difference between Promise.all and Promise.allSettled?",
+      "What happens to an async function's return value?"
+    ],
+    "tags": [
+      "javascript",
+      "promises",
+      "async-await"
+    ]
+  },
+  {
+    "id": "FS-051",
+    "track": "fullstack",
+    "topic": "auth",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "How do localStorage, sessionStorage, and cookies differ, and where should you store an auth token?",
+    "ideal_answer": "localStorage persists until cleared and sessionStorage lasts for the tab session; both are readable by any JavaScript on the page and are not sent automatically. Cookies are sent with matching requests and can be marked HttpOnly, Secure, and SameSite. Because HttpOnly cookies cannot be read by scripts, they are generally safer for session or refresh tokens against XSS theft.",
+    "key_points": [
+      "localStorage persists; sessionStorage is per-tab; both script-readable",
+      "Cookies are sent automatically and support HttpOnly/Secure/SameSite",
+      "HttpOnly cookies reduce XSS token theft risk"
+    ],
+    "red_flags": [
+      "Storing long-lived tokens in localStorage without considering XSS",
+      "Using cookies without SameSite or Secure flags"
+    ],
+    "follow_ups": [
+      "How does SameSite help against CSRF?",
+      "What are the size limits of cookies versus localStorage?"
+    ],
+    "tags": [
+      "web-storage",
+      "cookies",
+      "auth"
+    ]
+  },
+  {
+    "id": "FS-052",
+    "track": "fullstack",
+    "topic": "auth",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What is Cross-Site Scripting (XSS), and how does React help prevent it?",
+    "ideal_answer": "XSS is an attack where malicious script is injected into a page and runs in a victim's browser, letting the attacker steal data or act as the user. React escapes values rendered in JSX by default, which blocks most injection. The risks come from dangerouslySetInnerHTML, unsanitized URLs, and untrusted HTML, so sanitize input and use a Content Security Policy.",
+    "key_points": [
+      "Injected script runs in the victim's browser",
+      "JSX escapes output by default",
+      "Danger zones: dangerouslySetInnerHTML, unsafe URLs; add CSP"
+    ],
+    "red_flags": [
+      "Rendering user HTML with dangerouslySetInnerHTML without sanitizing",
+      "Assuming the framework makes XSS impossible"
+    ],
+    "follow_ups": [
+      "What is the difference between stored and reflected XSS?",
+      "How does a Content Security Policy reduce impact?"
+    ],
+    "tags": [
+      "xss",
+      "security",
+      "react"
+    ]
+  },
+  {
+    "id": "FS-053",
+    "track": "fullstack",
+    "topic": "auth",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "What is CSRF, and how do you defend against it?",
+    "ideal_answer": "Cross-Site Request Forgery tricks a logged-in user's browser into sending an unwanted authenticated request, because cookies are attached automatically. Defenses include SameSite cookies, CSRF tokens validated on state-changing requests, checking the Origin header, and not using GET for state changes. APIs that use bearer tokens in headers are less exposed than cookie-based sessions.",
+    "key_points": [
+      "Exploits automatically attached cookies",
+      "Defend with SameSite, CSRF tokens, Origin checks",
+      "Never change state with GET requests"
+    ],
+    "red_flags": [
+      "Relying on CORS alone to stop CSRF",
+      "Using GET endpoints that modify data"
+    ],
+    "follow_ups": [
+      "Why doesn't CORS prevent CSRF on simple requests?",
+      "How does the double-submit cookie pattern work?"
+    ],
+    "tags": [
+      "csrf",
+      "security",
+      "cookies"
+    ]
+  },
+  {
+    "id": "FS-054",
+    "track": "fullstack",
+    "topic": "deployment",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "What are code splitting and lazy loading, and how do they improve web performance?",
+    "ideal_answer": "Code splitting breaks the JavaScript bundle into smaller chunks, and lazy loading fetches non-critical chunks only when needed, such as a route or heavy component. This reduces the initial download and parse time, improving first load. In React, this is done with dynamic import and React.lazy with Suspense, often per route.",
+    "key_points": [
+      "Smaller initial bundle through chunking",
+      "Load routes or heavy components on demand",
+      "React.lazy with Suspense; split by route first"
+    ],
+    "red_flags": [
+      "Lazy loading above-the-fold critical content",
+      "Splitting into too many tiny chunks"
+    ],
+    "follow_ups": [
+      "How do you find which dependencies bloat a bundle?",
+      "What does prefetching add to lazy loading?"
+    ],
+    "tags": [
+      "performance",
+      "code-splitting",
+      "lazy-loading"
+    ]
+  },
+  {
+    "id": "FS-055",
+    "track": "fullstack",
+    "topic": "HTTP",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What is responsive design, and how do media queries, Flexbox, and Grid contribute?",
+    "ideal_answer": "Responsive design makes a layout adapt to different screen sizes. Media queries apply styles at breakpoints, Flexbox lays out items along one axis with flexible sizing, and Grid handles two-dimensional layouts. A mobile-first approach with relative units and a viewport meta tag keeps pages usable from phones to desktops.",
+    "key_points": [
+      "Media queries adapt styles at breakpoints",
+      "Flexbox for one-dimensional, Grid for two-dimensional layouts",
+      "Mobile-first, relative units, viewport meta tag"
+    ],
+    "red_flags": [
+      "Designing only for desktop widths",
+      "Using fixed pixel widths everywhere"
+    ],
+    "follow_ups": [
+      "When would you choose Grid over Flexbox?",
+      "What does the viewport meta tag do?"
+    ],
+    "tags": [
+      "css",
+      "responsive-design",
+      "flexbox"
+    ]
+  },
+  {
+    "id": "FS-056",
+    "track": "fullstack",
+    "topic": "API design",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "What is an optimistic UI update, and how do you handle failures?",
+    "ideal_answer": "An optimistic update shows the expected result in the UI immediately, before the server confirms, so the app feels instant. If the request fails, the UI rolls back to the previous state and shows an error. Libraries like React Query support this by snapshotting cache data and reverting it on error, and it suits low-risk actions such as likes or toggles.",
+    "key_points": [
+      "Update the UI first, then confirm with the server",
+      "Roll back and notify on failure",
+      "Best for low-risk, usually successful actions"
+    ],
+    "red_flags": [
+      "Applying optimistic updates to critical actions like payments without confirmation",
+      "Not rolling back after a failed request"
+    ],
+    "follow_ups": [
+      "How do you keep the cache consistent after an optimistic update?",
+      "When is optimistic UI a bad idea?"
+    ],
+    "tags": [
+      "optimistic-ui",
+      "react-query",
+      "ux"
+    ]
+  },
+  {
+    "id": "FS-057",
+    "track": "fullstack",
+    "topic": "API design",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "What are debounce and throttle, and when do you use each for a search box or scroll handler?",
+    "ideal_answer": "Debounce waits until the user stops triggering an event for a set delay before running, which suits search-as-you-type so you send one request after typing pauses. Throttle runs at most once per interval regardless of how often the event fires, which suits scroll and resize handlers. Both reduce unnecessary work and API calls.",
+    "key_points": [
+      "Debounce: run after activity stops",
+      "Throttle: run at most once per interval",
+      "Debounce for search input; throttle for scroll/resize"
+    ],
+    "red_flags": [
+      "Calling the API on every keystroke",
+      "Creating a new debounced function on every render in React"
+    ],
+    "follow_ups": [
+      "How do you implement debounce in a React hook?",
+      "How do you cancel outdated search requests?"
+    ],
+    "tags": [
+      "debounce",
+      "throttle",
+      "performance"
+    ]
+  },
+  {
+    "id": "FS-058",
+    "track": "fullstack",
+    "topic": "API design",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "How do you handle file uploads in a fullstack app, and why are presigned URLs useful?",
+    "ideal_answer": "Browsers upload files as multipart/form-data. Sending large files through your own server costs bandwidth and memory, so many apps have the backend issue a short-lived presigned URL and the client uploads directly to object storage such as S3. The backend validates type, size, and ownership, stores metadata, and processes the file asynchronously.",
+    "key_points": [
+      "multipart/form-data upload from the client",
+      "Presigned URLs let the client upload directly to object storage",
+      "Validate type, size, and permissions; process asynchronously"
+    ],
+    "red_flags": [
+      "Trusting the file extension or client-provided content type",
+      "Buffering large files entirely in server memory"
+    ],
+    "follow_ups": [
+      "How do you show upload progress in the UI?",
+      "How do you prevent malicious file uploads?"
+    ],
+    "tags": [
+      "file-upload",
+      "presigned-url",
+      "object-storage"
+    ]
+  },
+  {
+    "id": "FS-059",
+    "track": "fullstack",
+    "topic": "LLM API integration",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "How would you evaluate and monitor the quality of an LLM feature after you ship it?",
+    "ideal_answer": "Build a golden set of representative inputs with expected behavior and run it on every prompt or model change, scoring with rules, human review, or a calibrated LLM judge. In production, log prompts, outputs, latency, token cost, and user feedback with privacy safeguards, and watch for drift and failure patterns. Treat prompts as versioned code with regression tests.",
+    "key_points": [
+      "Golden dataset and regression tests per change",
+      "Track latency, cost, errors, and user feedback in production",
+      "Version prompts and models like code"
+    ],
+    "red_flags": [
+      "Judging quality by a handful of manual tries",
+      "Logging sensitive user data without safeguards"
+    ],
+    "follow_ups": [
+      "How would you A/B test two prompts safely?",
+      "How do you build a golden set from real usage?"
+    ],
+    "tags": [
+      "llm-evaluation",
+      "monitoring",
+      "prompt-versioning"
+    ]
+  },
+  {
+    "id": "FS-060",
+    "track": "fullstack",
+    "topic": "streaming",
+    "difficulty": "hard",
+    "stretch": false,
+    "question": "Design a real-time chat application. How do the frontend and backend communicate, store messages, and scale?",
+    "ideal_answer": "Use WebSockets for bidirectional low-latency messaging with a fallback such as polling if needed. The backend authenticates connections, persists messages in a database before or while broadcasting, and assigns ordering with a timestamp or sequence per conversation. To scale across servers, use a pub/sub layer like Redis so any node can deliver to users connected elsewhere, and handle reconnects, presence, and delivery acknowledgments.",
+    "key_points": [
+      "WebSockets for real-time two-way communication",
+      "Persist messages; order per conversation with sequence IDs",
+      "Redis pub/sub to fan out across multiple server nodes"
+    ],
+    "red_flags": [
+      "Keeping connection state only in one server's memory when scaling out",
+      "Ignoring reconnects, duplicates, and ordering"
+    ],
+    "follow_ups": [
+      "How would you implement message delivery and read receipts?",
+      "How would you load older messages efficiently?"
+    ],
+    "tags": [
+      "system-design",
+      "websockets",
+      "chat"
+    ]
+  }
+]

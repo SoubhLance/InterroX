@@ -1,0 +1,1082 @@
+[
+  {
+    "id": "HR-001",
+    "track": "hr",
+    "topic": "motivation",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "Why did you choose this career path in software or AI?",
+    "ideal_answer": "A strong answer links a genuine origin story to concrete evidence: a project, course, or problem that drew you in, and what you did next to deepen it. Show curiosity that is backed by action, such as building something or learning on your own, and connect it to what you want to do next.",
+    "key_points": [
+      "Genuine reason, not a generic 'I like technology'",
+      "Evidence of action: projects, learning, practice",
+      "Links the past choice to future direction"
+    ],
+    "red_flags": [
+      "Saying you chose it only for salary or because everyone else did",
+      "Vague answer with no concrete example"
+    ],
+    "follow_ups": [
+      "What was the first project that made you sure about this path?",
+      "Where do you want to be in five years?"
+    ],
+    "tags": [
+      "motivation",
+      "career",
+      "passion"
+    ]
+  },
+  {
+    "id": "HR-002",
+    "track": "hr",
+    "topic": "motivation",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What are your short-term and long-term career goals?",
+    "ideal_answer": "Give a realistic short-term goal, such as becoming productive quickly and building depth in a specific area, and a longer-term direction such as growing into a technical lead or specialist. Tie both to learning and contribution, and show that the role you are applying for is a logical step toward them.",
+    "key_points": [
+      "Specific short-term goal tied to the role",
+      "Long-term direction that shows growth",
+      "Alignment between goals and the company's work"
+    ],
+    "red_flags": [
+      "Goals unrelated to the job or the industry",
+      "Saying you plan to leave the company quickly"
+    ],
+    "follow_ups": [
+      "What skills will you need to reach that goal?",
+      "How will this role help you get there?"
+    ],
+    "tags": [
+      "goals",
+      "career-growth",
+      "planning"
+    ]
+  },
+  {
+    "id": "HR-003",
+    "track": "hr",
+    "topic": "motivation",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "What keeps you motivated when the work becomes repetitive or difficult?",
+    "ideal_answer": "Describe a real source of motivation such as solving problems, learning, or the impact of the work, and a practical habit that keeps you going, for example breaking tasks into milestones or automating repetitive parts. A good example shows you pushed through a dull or hard stretch and what you gained.",
+    "key_points": [
+      "Intrinsic motivators like learning and impact",
+      "Practical coping habits, not just willpower",
+      "A real example of persisting through difficulty"
+    ],
+    "red_flags": [
+      "Saying you only work well when everything is exciting",
+      "Motivated only by external rewards"
+    ],
+    "follow_ups": [
+      "Tell me about a boring task you finished and how.",
+      "How do you recover after a setback?"
+    ],
+    "tags": [
+      "motivation",
+      "resilience",
+      "habits"
+    ]
+  },
+  {
+    "id": "HR-004",
+    "track": "hr",
+    "topic": "motivation",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "What kind of work environment helps you do your best work?",
+    "ideal_answer": "Be honest but flexible: mention conditions such as clear goals, feedback, collaboration, and room to learn, and show that you can also adapt to different styles. Support the answer with an example of a team or setting where you performed well and why.",
+    "key_points": [
+      "Concrete environment traits tied to performance",
+      "Shows adaptability, not rigid demands",
+      "Backed by a real example"
+    ],
+    "red_flags": [
+      "A list of demands that sounds inflexible",
+      "Criticizing previous teams or institutions"
+    ],
+    "follow_ups": [
+      "How do you work when you get little direction?",
+      "Describe a time you thrived in a team."
+    ],
+    "tags": [
+      "environment",
+      "culture",
+      "work-style"
+    ]
+  },
+  {
+    "id": "HR-005",
+    "track": "hr",
+    "topic": "strengths_weaknesses",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What are your key strengths?",
+    "ideal_answer": "Choose two or three strengths relevant to the role and prove each with a short example, such as a problem you solved or a result you delivered. Avoid generic adjectives without evidence, and connect the strengths to how they would help the team.",
+    "key_points": [
+      "Strengths relevant to the job",
+      "Each backed by a concrete example",
+      "Links strengths to value for the team"
+    ],
+    "red_flags": [
+      "Listing adjectives with no proof",
+      "Claiming to have no weaknesses or to be perfect"
+    ],
+    "follow_ups": [
+      "Which of these strengths took effort to develop?",
+      "How did a strength help you in a team project?"
+    ],
+    "tags": [
+      "strengths",
+      "self-awareness",
+      "evidence"
+    ]
+  },
+  {
+    "id": "HR-006",
+    "track": "hr",
+    "topic": "strengths_weaknesses",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "What is a weakness of yours, and what are you doing about it?",
+    "ideal_answer": "Name a real, non-fatal weakness, such as hesitating to ask for help or spending too long polishing, and show specific steps you have taken, for example setting time limits or asking for feedback earlier. End with evidence of progress, so the answer shows self-awareness and improvement.",
+    "key_points": [
+      "A genuine weakness that is not critical to the role",
+      "Specific actions taken to improve",
+      "Evidence of progress"
+    ],
+    "red_flags": [
+      "Disguised strengths such as 'I work too hard'",
+      "A weakness that disqualifies you for the role with no plan"
+    ],
+    "follow_ups": [
+      "How do you know it is improving?",
+      "Has this weakness ever caused a problem?"
+    ],
+    "tags": [
+      "weakness",
+      "self-improvement",
+      "growth"
+    ]
+  },
+  {
+    "id": "HR-007",
+    "track": "hr",
+    "topic": "strengths_weaknesses",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "What would your teammates or professors say is your biggest strength and biggest area to improve?",
+    "ideal_answer": "Answer from their point of view with real feedback you have received, for example reliability and clear communication as strengths, and delegating or speaking up earlier as improvement areas. Mention how you reacted to that feedback, which shows openness and honesty.",
+    "key_points": [
+      "Uses real feedback, not invented praise",
+      "Balanced: one strength, one improvement area",
+      "Shows how you responded to feedback"
+    ],
+    "red_flags": [
+      "Only positive feedback with nothing to improve",
+      "Dismissing or arguing with past feedback"
+    ],
+    "follow_ups": [
+      "When did you last receive critical feedback?",
+      "What did you change afterwards?"
+    ],
+    "tags": [
+      "feedback",
+      "self-awareness",
+      "peers"
+    ]
+  },
+  {
+    "id": "HR-008",
+    "track": "hr",
+    "topic": "strengths_weaknesses",
+    "difficulty": "hard",
+    "stretch": false,
+    "question": "How do you decide when to go deep on a skill versus staying broad as a fresher?",
+    "ideal_answer": "Explain a deliberate approach: build a solid base across core fundamentals first, then go deep in one or two areas that match your goals and the role's needs, revisiting the plan regularly. Use an example such as learning backend fundamentals broadly and then specializing in a topic through a project.",
+    "key_points": [
+      "Has a deliberate learning strategy",
+      "Fundamentals first, then focused depth",
+      "Example showing the strategy in action"
+    ],
+    "red_flags": [
+      "Chasing every new tool with no depth",
+      "Refusing to learn outside a narrow comfort zone"
+    ],
+    "follow_ups": [
+      "What are you learning right now and why?",
+      "How do you verify that you actually learned it?"
+    ],
+    "tags": [
+      "learning",
+      "skill-development",
+      "planning"
+    ]
+  },
+  {
+    "id": "HR-009",
+    "track": "hr",
+    "topic": "teamwork_conflict",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "Describe a project where you worked in a team. What was your role?",
+    "ideal_answer": "Use STAR: describe the project and goal, your specific responsibility, the actions you took beyond your tasks such as helping others or integrating work, and the outcome. Be honest about what was yours versus the team's and mention one thing you learned about collaboration.",
+    "key_points": [
+      "Clear situation, role, actions, and result",
+      "Distinguishes personal contribution from team effort",
+      "Reflects on what collaboration taught you"
+    ],
+    "red_flags": [
+      "Using only 'we' with no personal contribution",
+      "Taking all the credit"
+    ],
+    "follow_ups": [
+      "How did the team divide the work?",
+      "What would you do differently next time?"
+    ],
+    "tags": [
+      "teamwork",
+      "star",
+      "collaboration"
+    ]
+  },
+  {
+    "id": "HR-010",
+    "track": "hr",
+    "topic": "teamwork_conflict",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "Tell me about a time you disagreed with a teammate. How did you handle it?",
+    "ideal_answer": "Describe the disagreement briefly and factually, then focus on actions: listening to their reasoning, discussing trade-offs with evidence, and agreeing on a decision or testing both options. Show respect and a focus on the project goal, and state the result and relationship afterwards.",
+    "key_points": [
+      "Disagreement about the work, not the person",
+      "Listened, used evidence, sought a shared goal",
+      "Resolution and preserved relationship"
+    ],
+    "red_flags": [
+      "Blaming or criticizing the teammate",
+      "Avoiding the conflict entirely or winning at any cost"
+    ],
+    "follow_ups": [
+      "What if the teammate still disagreed?",
+      "Did you ever realize you were wrong?"
+    ],
+    "tags": [
+      "conflict",
+      "communication",
+      "teamwork"
+    ]
+  },
+  {
+    "id": "HR-011",
+    "track": "hr",
+    "topic": "teamwork_conflict",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "How do you handle a teammate who is not contributing equally?",
+    "ideal_answer": "First check privately for reasons such as confusion or personal issues, and offer help or clearer task division. If the pattern continues, raise it with the team lead calmly with specifics, focusing on the impact on the project rather than blame. Show that you protected the deadline while staying fair.",
+    "key_points": [
+      "Talk to the person first, with empathy",
+      "Escalate with facts if needed",
+      "Protects the project and relationships"
+    ],
+    "red_flags": [
+      "Complaining publicly or doing their work silently forever",
+      "Immediately reporting without any conversation"
+    ],
+    "follow_ups": [
+      "What if the person is your friend?",
+      "Describe a time you did this in practice."
+    ],
+    "tags": [
+      "teamwork",
+      "accountability",
+      "communication"
+    ]
+  },
+  {
+    "id": "HR-012",
+    "track": "hr",
+    "topic": "teamwork_conflict",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "Describe a time you had to work with someone whose style was very different from yours.",
+    "ideal_answer": "Explain the difference, for example a detail-oriented partner versus a fast mover, and how you adapted by agreeing on communication norms and playing to each other's strengths. Show a result that was better because of the difference and what you learned about adapting your style.",
+    "key_points": [
+      "Acknowledges the style difference without judgment",
+      "Specific adaptations made",
+      "Positive outcome and learning"
+    ],
+    "red_flags": [
+      "Describing the person as difficult without self-reflection",
+      "No concrete adaptation by you"
+    ],
+    "follow_ups": [
+      "What did you learn about your own style?",
+      "How do you build trust with new teammates?"
+    ],
+    "tags": [
+      "teamwork",
+      "diversity",
+      "adaptability"
+    ]
+  },
+  {
+    "id": "HR-013",
+    "track": "hr",
+    "topic": "teamwork_conflict",
+    "difficulty": "hard",
+    "stretch": false,
+    "question": "Two teammates are in conflict and it is slowing the project. What would you do?",
+    "ideal_answer": "Stay neutral, talk to each person separately to understand the root cause, then bring them together to focus on the shared goal and agree on concrete next steps. If it does not resolve, involve the team lead with facts about the delivery risk. Keep the discussion about the work, not personalities.",
+    "key_points": [
+      "Neutral, listens to both sides separately",
+      "Focuses on the shared goal and concrete actions",
+      "Escalates appropriately if needed"
+    ],
+    "red_flags": [
+      "Taking sides or gossiping",
+      "Ignoring it hoping it resolves itself"
+    ],
+    "follow_ups": [
+      "What if both insist they are right?",
+      "When would you involve a manager?"
+    ],
+    "tags": [
+      "conflict-resolution",
+      "mediation",
+      "teamwork"
+    ]
+  },
+  {
+    "id": "HR-014",
+    "track": "hr",
+    "topic": "leadership",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "Tell me about a time you took the lead on a task or project.",
+    "ideal_answer": "Describe a situation where no one owned something and you stepped up: how you planned the work, divided tasks, kept people informed, and handled obstacles. Close with the measurable result and what you learned about leading peers without formal authority.",
+    "key_points": [
+      "Took initiative without being asked",
+      "Planning, delegation, and communication",
+      "Result and lessons about leadership"
+    ],
+    "red_flags": [
+      "Describing bossing people around",
+      "A story where you did everything yourself"
+    ],
+    "follow_ups": [
+      "How did you motivate teammates?",
+      "What was the hardest part of leading peers?"
+    ],
+    "tags": [
+      "leadership",
+      "initiative",
+      "ownership"
+    ]
+  },
+  {
+    "id": "HR-015",
+    "track": "hr",
+    "topic": "leadership",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "Describe a time you took ownership of a problem that was not strictly your responsibility.",
+    "ideal_answer": "Explain how you noticed the problem, why you chose to act, what you did, and how you kept relevant people informed. Show follow-through to the end and the result, and the mindset that outcomes matter more than job boundaries.",
+    "key_points": [
+      "Noticed and acted proactively",
+      "Communicated with stakeholders",
+      "Followed through to resolution"
+    ],
+    "red_flags": [
+      "Ignoring a visible problem because it was not your job",
+      "Acting without informing the people involved"
+    ],
+    "follow_ups": [
+      "How did you decide it was worth your time?",
+      "What did you learn from it?"
+    ],
+    "tags": [
+      "ownership",
+      "initiative",
+      "responsibility"
+    ]
+  },
+  {
+    "id": "HR-016",
+    "track": "hr",
+    "topic": "leadership",
+    "difficulty": "hard",
+    "stretch": false,
+    "question": "How would you motivate a team that has lost enthusiasm in the middle of a long project?",
+    "ideal_answer": "Find out why enthusiasm dropped by listening, then address causes such as unclear goals, burnout, or lack of progress. Break the work into visible milestones, celebrate small wins, reconnect the work to its purpose, and adjust workload where possible. Lead by example with consistent energy and honesty.",
+    "key_points": [
+      "Diagnose the cause before acting",
+      "Visible milestones, recognition, purpose",
+      "Leads by example and adjusts workload"
+    ],
+    "red_flags": [
+      "Pushing harder without understanding the cause",
+      "Empty pep talks with no change"
+    ],
+    "follow_ups": [
+      "What if the cause is burnout?",
+      "How do you measure team morale?"
+    ],
+    "tags": [
+      "leadership",
+      "motivation",
+      "team-management"
+    ]
+  },
+  {
+    "id": "HR-017",
+    "track": "hr",
+    "topic": "failure_feedback",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "Tell me about a time you failed. What did you learn?",
+    "ideal_answer": "Pick a real failure, describe it honestly without blaming others, explain your part, and focus most of the answer on the corrective action and what changed afterwards. Show a concrete lesson applied later, so the story ends in growth rather than regret.",
+    "key_points": [
+      "Real failure with personal accountability",
+      "Corrective action taken",
+      "Lesson applied afterward"
+    ],
+    "red_flags": [
+      "Claiming you have never failed",
+      "Blaming teammates, professors, or circumstances"
+    ],
+    "follow_ups": [
+      "What would you do differently today?",
+      "How do you prevent the same mistake?"
+    ],
+    "tags": [
+      "failure",
+      "accountability",
+      "learning"
+    ]
+  },
+  {
+    "id": "HR-018",
+    "track": "hr",
+    "topic": "failure_feedback",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "Describe a time you received critical feedback. How did you respond?",
+    "ideal_answer": "Describe the feedback, your first reaction honestly, and then how you listened, asked clarifying questions, and acted on it. Show a measurable improvement and gratitude for the feedback, which signals coachability.",
+    "key_points": [
+      "Listened without being defensive",
+      "Asked questions and acted on it",
+      "Visible improvement afterward"
+    ],
+    "red_flags": [
+      "Defensive or dismissive reaction",
+      "Feedback story with no change made"
+    ],
+    "follow_ups": [
+      "Have you ever disagreed with feedback?",
+      "How do you ask for feedback proactively?"
+    ],
+    "tags": [
+      "feedback",
+      "coachability",
+      "growth"
+    ]
+  },
+  {
+    "id": "HR-019",
+    "track": "hr",
+    "topic": "failure_feedback",
+    "difficulty": "hard",
+    "stretch": false,
+    "question": "Tell me about a mistake you made that affected others. How did you handle it?",
+    "ideal_answer": "Own the mistake immediately, inform the affected people early, and explain the impact and your plan to fix it. Then fix it, and add a safeguard such as a check or test to prevent recurrence. Emphasize transparency and responsibility over hiding or minimizing.",
+    "key_points": [
+      "Owned it quickly and told affected people",
+      "Fixed the impact and added a safeguard",
+      "Transparent, not defensive"
+    ],
+    "red_flags": [
+      "Hiding the mistake or hoping nobody notices",
+      "Minimizing the impact or shifting blame"
+    ],
+    "follow_ups": [
+      "How soon did you tell your team?",
+      "What process change came from it?"
+    ],
+    "tags": [
+      "mistakes",
+      "ownership",
+      "transparency"
+    ]
+  },
+  {
+    "id": "HR-020",
+    "track": "hr",
+    "topic": "failure_feedback",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "Tell me about a project that did not meet its goal. What would you change?",
+    "ideal_answer": "Explain the goal, what fell short, and an honest analysis of causes such as unclear requirements or poor estimation, including your part. Then describe the specific changes you would make, such as earlier validation or smaller milestones, and any lessons you have since applied.",
+    "key_points": [
+      "Honest root-cause analysis",
+      "Own share of responsibility",
+      "Specific changes and applied lessons"
+    ],
+    "red_flags": [
+      "Blaming external factors only",
+      "No concrete lessons"
+    ],
+    "follow_ups": [
+      "What early warning signs did you miss?",
+      "How do you estimate work now?"
+    ],
+    "tags": [
+      "project-failure",
+      "retrospective",
+      "learning"
+    ]
+  },
+  {
+    "id": "HR-021",
+    "track": "hr",
+    "topic": "pressure_deadlines",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "Tell me about a time you had to meet a tight deadline. How did you manage it?",
+    "ideal_answer": "Describe the deadline and constraints, then how you prioritized the essential scope, broke the work into steps, communicated risks early, and asked for help where needed. State the result and what you learned about planning, without implying you would simply work unsustainable hours.",
+    "key_points": [
+      "Prioritized scope and planned steps",
+      "Communicated risks early",
+      "Delivered and learned from it"
+    ],
+    "red_flags": [
+      "Relying only on last-minute heroics",
+      "Never telling anyone about the risk"
+    ],
+    "follow_ups": [
+      "What did you cut and why?",
+      "How do you prevent last-minute crunches?"
+    ],
+    "tags": [
+      "deadlines",
+      "prioritization",
+      "time-management"
+    ]
+  },
+  {
+    "id": "HR-022",
+    "track": "hr",
+    "topic": "pressure_deadlines",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "How do you prioritize when you have multiple tasks due at the same time?",
+    "ideal_answer": "Explain a clear method: list tasks, assess urgency and impact, clarify expectations with stakeholders when priorities conflict, and tackle high-impact or blocking items first. Give an example, and mention reviewing the plan when things change.",
+    "key_points": [
+      "Urgency and impact framework",
+      "Clarifies priorities with stakeholders",
+      "Re-evaluates when situations change"
+    ],
+    "red_flags": [
+      "No method, just doing whatever comes first",
+      "Silently dropping tasks without telling anyone"
+    ],
+    "follow_ups": [
+      "What if two stakeholders both say theirs is urgent?",
+      "Which tools do you use to track tasks?"
+    ],
+    "tags": [
+      "prioritization",
+      "time-management",
+      "planning"
+    ]
+  },
+  {
+    "id": "HR-023",
+    "track": "hr",
+    "topic": "pressure_deadlines",
+    "difficulty": "hard",
+    "stretch": false,
+    "question": "Describe a high-pressure situation where things went wrong close to a deadline. What did you do?",
+    "ideal_answer": "Stay calm, assess what is broken and what is essential, and communicate the situation and options to stakeholders promptly. Focus on a fix or reduced scope that still delivers value, work methodically, and afterwards review what could prevent a repeat. Show composure and honesty.",
+    "key_points": [
+      "Calm assessment and clear communication",
+      "Scope or fix choices that protect value",
+      "Post-incident learning"
+    ],
+    "red_flags": [
+      "Panicking or hiding the problem",
+      "Cutting corners on quality without telling anyone"
+    ],
+    "follow_ups": [
+      "How did you decide what to cut?",
+      "How do you handle stress in general?"
+    ],
+    "tags": [
+      "pressure",
+      "crisis",
+      "communication"
+    ]
+  },
+  {
+    "id": "HR-024",
+    "track": "hr",
+    "topic": "adaptability",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "Tell me about a time you had to learn a new technology quickly.",
+    "ideal_answer": "Describe why you needed it, your learning plan, such as official docs, a small prototype, and asking experienced people, and how fast you became productive. Share the outcome and how you check that you truly understand, showing that you can ramp up without hand-holding.",
+    "key_points": [
+      "Clear learning approach",
+      "Applied learning through building",
+      "Productive result in the time available"
+    ],
+    "red_flags": [
+      "Only watching videos with nothing built",
+      "Waiting for someone to teach you"
+    ],
+    "follow_ups": [
+      "How do you decide what to learn first?",
+      "How did you verify you understood it?"
+    ],
+    "tags": [
+      "learning",
+      "adaptability",
+      "technology"
+    ]
+  },
+  {
+    "id": "HR-025",
+    "track": "hr",
+    "topic": "adaptability",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "Describe a time when requirements or plans changed suddenly. How did you adapt?",
+    "ideal_answer": "Explain the change, your first step to understand its impact, how you adjusted the plan and communicated with the team, and the result. Show a flexible, constructive attitude rather than frustration, and mention what you did to handle similar changes better later.",
+    "key_points": [
+      "Understood the impact before reacting",
+      "Adjusted plan and communicated",
+      "Constructive attitude"
+    ],
+    "red_flags": [
+      "Complaining about changes without adapting",
+      "Ignoring the change and continuing the old plan"
+    ],
+    "follow_ups": [
+      "How do you handle ambiguity?",
+      "What helps you stay flexible?"
+    ],
+    "tags": [
+      "adaptability",
+      "change",
+      "flexibility"
+    ]
+  },
+  {
+    "id": "HR-026",
+    "track": "hr",
+    "topic": "adaptability",
+    "difficulty": "hard",
+    "stretch": false,
+    "question": "How do you stay current in a field that changes as fast as AI?",
+    "ideal_answer": "Describe a sustainable routine such as following a few trusted sources, reading papers or release notes, and building small projects to try new ideas, while filtering hype from what matters. Give an example of something recent you learned and applied, showing curiosity with discipline.",
+    "key_points": [
+      "Specific routine and trusted sources",
+      "Learning by building, not just reading",
+      "Filters hype from substance"
+    ],
+    "red_flags": [
+      "Saying you read everything with no concrete example",
+      "Chasing trends without depth"
+    ],
+    "follow_ups": [
+      "What is something new you learned recently?",
+      "How do you decide what is worth learning?"
+    ],
+    "tags": [
+      "continuous-learning",
+      "ai",
+      "curiosity"
+    ]
+  },
+  {
+    "id": "HR-027",
+    "track": "hr",
+    "topic": "ethics",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "What would you do if you noticed a teammate cutting corners or being dishonest in their work?",
+    "ideal_answer": "Verify the facts first, then speak to the teammate privately and give them a chance to correct it. If it is serious or continues, escalate to a lead or follow the proper channel, focusing on facts and impact. Show that integrity and the team's trust matter more than avoiding discomfort.",
+    "key_points": [
+      "Verify facts and talk privately first",
+      "Escalate through proper channels if serious",
+      "Integrity over convenience"
+    ],
+    "red_flags": [
+      "Ignoring clear misconduct",
+      "Publicly accusing without verifying"
+    ],
+    "follow_ups": [
+      "What if the teammate is a close friend?",
+      "When would you skip the private conversation?"
+    ],
+    "tags": [
+      "integrity",
+      "ethics",
+      "accountability"
+    ]
+  },
+  {
+    "id": "HR-028",
+    "track": "hr",
+    "topic": "ethics",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "How would you handle being asked to share confidential information by someone without authorization?",
+    "ideal_answer": "Politely decline, explain that you are bound by confidentiality, and redirect them to the proper approval process or the information owner. If the pressure continues or seems suspicious, report it. Emphasize that protecting data and trust is a core professional duty.",
+    "key_points": [
+      "Politely refuses and redirects to process",
+      "Reports suspicious requests",
+      "Treats confidentiality as a professional duty"
+    ],
+    "red_flags": [
+      "Sharing it because the person seems senior or friendly",
+      "Hostile refusal with no guidance"
+    ],
+    "follow_ups": [
+      "What if a senior manager asks for it?",
+      "How do you handle user data in projects?"
+    ],
+    "tags": [
+      "confidentiality",
+      "ethics",
+      "security"
+    ]
+  },
+  {
+    "id": "HR-029",
+    "track": "hr",
+    "topic": "ethics",
+    "difficulty": "hard",
+    "stretch": false,
+    "question": "If you found a serious bug or security issue just before a release and your manager wanted to ship anyway, what would you do?",
+    "ideal_answer": "Gather evidence on the severity and affected users, and raise it clearly with the manager, proposing options such as a fix, a mitigation, or a limited release. If risk remains serious, escalate through proper channels and document the discussion. Show respect for the hierarchy without compromising user safety.",
+    "key_points": [
+      "Evidence-based assessment of impact",
+      "Proposes options, not just objections",
+      "Escalates and documents if risk to users remains"
+    ],
+    "red_flags": [
+      "Quietly staying silent about a serious risk",
+      "Going public or bypassing everyone without trying internal channels"
+    ],
+    "follow_ups": [
+      "What would change your mind and let you ship?",
+      "How do you communicate risk to non-technical managers?"
+    ],
+    "tags": [
+      "ethics",
+      "security",
+      "decision-making"
+    ]
+  },
+  {
+    "id": "HR-030",
+    "track": "hr",
+    "topic": "situational",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "Your code review feedback says your approach is wrong, but you believe it is correct. What do you do?",
+    "ideal_answer": "Assume good intent, ask the reviewer to explain their concern, and share your reasoning with evidence such as benchmarks or examples. Be open to being wrong, and if you still disagree, involve a third opinion or the team's standards. Prioritize a good outcome for the codebase over winning.",
+    "key_points": [
+      "Understand the reviewer's reasoning first",
+      "Respond with evidence",
+      "Open to change; escalate to a neutral opinion if needed"
+    ],
+    "red_flags": [
+      "Ignoring the feedback and merging anyway",
+      "Taking the feedback personally"
+    ],
+    "follow_ups": [
+      "When would you accept feedback even if you disagree?",
+      "How do you give code review feedback?"
+    ],
+    "tags": [
+      "code-review",
+      "communication",
+      "collaboration"
+    ]
+  },
+  {
+    "id": "HR-031",
+    "track": "hr",
+    "topic": "situational",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "You are given a task with unclear requirements. What do you do?",
+    "ideal_answer": "Ask clarifying questions about the goal, users, and success criteria, restate your understanding in writing, and confirm assumptions with the owner. If answers are slow, start with a small, low-risk piece and share early drafts. This avoids building the wrong thing.",
+    "key_points": [
+      "Clarify goal and success criteria",
+      "Confirm assumptions in writing",
+      "Start small and share early"
+    ],
+    "red_flags": [
+      "Guessing silently and building everything",
+      "Waiting idle without asking"
+    ],
+    "follow_ups": [
+      "What if nobody is available to answer?",
+      "How do you document assumptions?"
+    ],
+    "tags": [
+      "ambiguity",
+      "requirements",
+      "communication"
+    ]
+  },
+  {
+    "id": "HR-032",
+    "track": "hr",
+    "topic": "situational",
+    "difficulty": "hard",
+    "stretch": false,
+    "question": "You realize you will miss a deadline you committed to. What do you do?",
+    "ideal_answer": "Tell stakeholders as early as possible with a clear reason, the impact, and options such as reduced scope, extra help, or a new date. Take responsibility, present a concrete recovery plan, and update regularly. Early honesty protects trust better than a late surprise.",
+    "key_points": [
+      "Communicate early with a clear plan",
+      "Offers options such as scope or timeline changes",
+      "Takes responsibility and updates regularly"
+    ],
+    "red_flags": [
+      "Hiding the delay until the deadline arrives",
+      "Giving excuses with no plan"
+    ],
+    "follow_ups": [
+      "How do you avoid over-committing in the first place?",
+      "What would you cut first?"
+    ],
+    "tags": [
+      "deadlines",
+      "communication",
+      "accountability"
+    ]
+  },
+  {
+    "id": "HR-033",
+    "track": "hr",
+    "topic": "situational",
+    "difficulty": "hard",
+    "stretch": false,
+    "question": "A senior colleague asks you to help with their urgent task while you are in the middle of your own deadline work. What do you do?",
+    "ideal_answer": "Acknowledge the request, quickly assess the urgency and effort of both tasks, and be transparent about your constraints. Offer a concrete option such as helping later, giving a short pointer now, or checking with your lead to prioritize. This respects the colleague while protecting your commitments.",
+    "key_points": [
+      "Assess and compare urgency",
+      "Transparent about constraints, offers alternatives",
+      "Escalates to the lead to prioritize if conflict remains"
+    ],
+    "red_flags": [
+      "Saying yes to everything and missing your own deadline",
+      "A flat refusal with no explanation or alternative"
+    ],
+    "follow_ups": [
+      "What if your manager is unavailable?",
+      "How do you say no politely?"
+    ],
+    "tags": [
+      "prioritization",
+      "collaboration",
+      "communication"
+    ]
+  },
+  {
+    "id": "HR-034",
+    "track": "hr",
+    "topic": "company_fit",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "Why do you want to work for our company?",
+    "ideal_answer": "Show specific research: a product, technology, value, or recent news that genuinely interests you, and connect it to your skills and goals. Explain what you can contribute and what you hope to learn, avoiding generic praise that could apply to any company.",
+    "key_points": [
+      "Specific, researched reasons",
+      "Connects company work to your skills and goals",
+      "Mentions contribution, not just benefits"
+    ],
+    "red_flags": [
+      "Generic flattery or mentioning only salary and brand",
+      "No evidence of research"
+    ],
+    "follow_ups": [
+      "What do you know about our products?",
+      "Which of our values resonates with you most?"
+    ],
+    "tags": [
+      "company-fit",
+      "research",
+      "motivation"
+    ]
+  },
+  {
+    "id": "HR-035",
+    "track": "hr",
+    "topic": "company_fit",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "Why should we hire you over other candidates?",
+    "ideal_answer": "Summarize two or three strengths directly tied to the role's needs, each backed by a concrete example or project, plus your eagerness to learn. Stay confident but respectful and avoid putting others down; focus on the value you bring and how quickly you can contribute.",
+    "key_points": [
+      "Strengths mapped to the job requirements",
+      "Evidence for each claim",
+      "Confident without belittling others"
+    ],
+    "red_flags": [
+      "Arrogance or comparing yourself negatively to others",
+      "Generic claims with no proof"
+    ],
+    "follow_ups": [
+      "What do you think is your biggest gap for this role?",
+      "How soon could you contribute?"
+    ],
+    "tags": [
+      "company-fit",
+      "value",
+      "self-presentation"
+    ]
+  },
+  {
+    "id": "HR-036",
+    "track": "hr",
+    "topic": "company_fit",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "What do you expect from your manager and the team in your first year?",
+    "ideal_answer": "Mention reasonable expectations: clear goals, regular feedback, mentorship, and opportunities to grow, and balance them with what you will bring such as initiative and reliability. Show that you see the relationship as two-way and are willing to ask for what you need.",
+    "key_points": [
+      "Realistic expectations: goals, feedback, mentorship",
+      "Two-way relationship with your own responsibilities",
+      "Proactive about asking for support"
+    ],
+    "red_flags": [
+      "Demanding promotions or perks immediately",
+      "Expecting to be told exactly what to do all the time"
+    ],
+    "follow_ups": [
+      "How do you like to receive feedback?",
+      "What would a great first six months look like?"
+    ],
+    "tags": [
+      "expectations",
+      "onboarding",
+      "company-fit"
+    ]
+  },
+  {
+    "id": "HR-037",
+    "track": "hr",
+    "topic": "logistics",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "What are your salary expectations?",
+    "ideal_answer": "Show that you researched market ranges for the role, location, and experience level, and give a reasonable range while staying open to the overall package and growth opportunities. For a fresher role, it is fine to say you expect a fair package aligned with the company's structure and prioritize learning and growth.",
+    "key_points": [
+      "Researched a realistic range",
+      "Open to the full package and growth",
+      "Professional, not rigid or evasive"
+    ],
+    "red_flags": [
+      "An unrealistic number with no basis",
+      "Refusing to engage or saying only 'whatever'"
+    ],
+    "follow_ups": [
+      "How flexible are you on this figure?",
+      "What matters to you besides salary?"
+    ],
+    "tags": [
+      "salary",
+      "negotiation",
+      "expectations"
+    ]
+  },
+  {
+    "id": "HR-038",
+    "track": "hr",
+    "topic": "logistics",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "Are you willing to relocate or work in different locations or shifts?",
+    "ideal_answer": "Answer honestly and constructively. If you are flexible, say so and mention any preferences or considerations calmly; if there are constraints, state them clearly and explain what flexibility you do have. Avoid committing to something you cannot actually do.",
+    "key_points": [
+      "Honest answer about flexibility",
+      "States constraints clearly and respectfully",
+      "No false promises"
+    ],
+    "red_flags": [
+      "Saying yes to everything and then backing out",
+      "Rigid refusal with no discussion"
+    ],
+    "follow_ups": [
+      "What would make relocation easier for you?",
+      "How do you handle working across time zones?"
+    ],
+    "tags": [
+      "relocation",
+      "flexibility",
+      "logistics"
+    ]
+  },
+  {
+    "id": "HR-039",
+    "track": "hr",
+    "topic": "logistics",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "If you receive another offer, how would you decide between companies?",
+    "ideal_answer": "Explain a thoughtful decision framework: learning opportunities, role and growth path, team and manager, company stability, and compensation, in an order that reflects your priorities. Stay professional and honest without being pressured into an immediate decision or disrespecting any employer.",
+    "key_points": [
+      "Clear, mature decision criteria",
+      "Learning and growth weighed alongside pay",
+      "Professional and honest"
+    ],
+    "red_flags": [
+      "Choosing only on the highest salary with no other criteria",
+      "Using the offer as a pressure tactic"
+    ],
+    "follow_ups": [
+      "What matters most to you right now?",
+      "What would make you decline an offer?"
+    ],
+    "tags": [
+      "offers",
+      "decision-making",
+      "career"
+    ]
+  },
+  {
+    "id": "HR-040",
+    "track": "hr",
+    "topic": "logistics",
+    "difficulty": "hard",
+    "stretch": false,
+    "question": "Do you have any questions for us? What would you ask?",
+    "ideal_answer": "Ask thoughtful questions about the team's work, how success is measured in the first months, learning and mentorship, and current challenges, which show genuine interest. Avoid asking about things easily found online or only about leave and salary at this stage.",
+    "key_points": [
+      "Thoughtful, role-specific questions",
+      "Shows interest in growth and impact",
+      "Avoids questions answered by the website"
+    ],
+    "red_flags": [
+      "Having no questions at all",
+      "Asking only about perks or leave"
+    ],
+    "follow_ups": [
+      "What would you most like to learn about the team culture?",
+      "How would you evaluate whether this job is right for you?"
+    ],
+    "tags": [
+      "questions",
+      "interest",
+      "interview-skills"
+    ]
+  }
+]

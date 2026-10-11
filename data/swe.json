@@ -1,0 +1,1649 @@
+[
+  {
+    "id": "SWE-001",
+    "track": "swe",
+    "topic": "DSA",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What is the structural difference between an Array and a Singly Linked List in memory layout and element access?",
+    "ideal_answer": "An Array allocates contiguous memory locations, allowing O(1) random element access via index arithmetic and maximizing CPU cache locality. A Singly Linked List allocates non-contiguous nodes containing data and pointers to the next node. Accessing an element in a Linked List requires O(n) sequential traversal from the head node.",
+    "key_points": [
+      "Arrays use contiguous memory allocation enabling O(1) index access and optimal CPU caching",
+      "Linked Lists use non-contiguous node allocations with next-pointers, requiring O(n) sequential access",
+      "Inserting at the head of a linked list is O(1), whereas inserting in an array requires O(n) element shifting"
+    ],
+    "red_flags": [
+      "Claiming linked lists allow O(1) random access by index",
+      "Assuming arrays can dynamically expand without memory reallocation"
+    ],
+    "follow_ups": [
+      "How does a Doubly Linked List differ from a Singly Linked List in pointer memory and deletion overhead?",
+      "Why do dynamic array implementations double capacity when full?"
+    ],
+    "tags": [
+      "dsa",
+      "array",
+      "linked-list",
+      "data-structures"
+    ]
+  },
+  {
+    "id": "SWE-002",
+    "track": "swe",
+    "topic": "DSA",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "How does a Hash Table achieve average-case O(1) time complexity for lookup operations?",
+    "ideal_answer": "A Hash Table maps keys to bucket array indices using a hash function that computes a numerical hash code modulo the array size. When retrieving a key, the hash function locates the target array bucket in O(1) time. In cases of hash collisions (multiple keys hashing to the same bucket), collision resolution techniques like chaining or open addressing resolve candidate matches.",
+    "key_points": [
+      "Hash functions transform keys into numerical array bucket indices in O(1) time",
+      "Average-case lookup, insertion, and deletion operate in O(1) time complexity",
+      "Collisions are resolved via separate chaining (linked lists/trees) or open addressing (linear probing)"
+    ],
+    "red_flags": [
+      "Claiming Hash Tables guarantee worst-case O(1) time complexity under heavy collisions",
+      "Confusing hash table buckets with binary search tree pointers"
+    ],
+    "follow_ups": [
+      "What happens to Hash Table performance when all keys degrade to the same hash bucket?",
+      "How does Java 8 HashMap optimize heavy collisions by replacing linked lists with Red-Black trees?"
+    ],
+    "tags": [
+      "dsa",
+      "hash-table",
+      "time-complexity"
+    ]
+  },
+  {
+    "id": "SWE-003",
+    "track": "swe",
+    "topic": "DSA",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "How does a Binary Search Tree (BST) operate, and when does its lookup performance degrade to O(n)?",
+    "ideal_answer": "A Binary Search Tree maintains the invariant that for any node, all left subtree values are smaller and all right subtree values are larger. In a balanced BST, search, insertion, and deletion take O(log n) time by halving search space at each step. If elements are inserted in strictly sorted order without rebalancing, the tree degrades into a skewed linked list, causing operations to degrade to O(n) worst-case.",
+    "key_points": [
+      "BST property: left subtree < root < right subtree for all nodes",
+      "Balanced BST yields O(log n) search, insertion, and deletion time complexity",
+      "Unbalanced/skewed BSTs degrade to O(n) linear search complexity when inputs are sorted"
+    ],
+    "red_flags": [
+      "Claiming standard BSTs automatically self-balance on every insertion",
+      "Confusing in-order traversal with level-order breadth-first search"
+    ],
+    "follow_ups": [
+      "How do self-balancing trees like AVL or Red-Black Trees prevent BST skewing?",
+      "What tree traversal order prints a Binary Search Tree's elements in sorted order?"
+    ],
+    "tags": [
+      "dsa",
+      "bst",
+      "binary-tree",
+      "time-complexity"
+    ]
+  },
+  {
+    "id": "SWE-004",
+    "track": "swe",
+    "topic": "DSA",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "How does a Min-Heap structure support efficient Priority Queue operations?",
+    "ideal_answer": "A Min-Heap is a complete binary tree backed by an array where every parent node holds a value smaller than or equal to its children. Finding the minimum element takes O(1) time by inspecting the root index [0]. Inserting an element or removing the root minimum takes O(log n) time by percolating up or sifting down elements along tree height to restore heap order.",
+    "key_points": [
+      "Min-Heap property: parent node value <= child node values throughout complete binary tree",
+      "Root element at index [0] provides O(1) minimum element access",
+      "Insert and extract-min operate in O(log n) time via heapify/sift operations"
+    ],
+    "red_flags": [
+      "Claiming searching for an arbitrary non-root element in a Min-Heap takes O(1) time",
+      "Confusing Min-Heap ordering with Binary Search Tree ordering"
+    ],
+    "follow_ups": [
+      "How do array index formulas (2i + 1, 2i + 2) locate child nodes in an array-backed heap?",
+      "What is the time complexity of building a heap (Heapify) from an unsorted array of size n?"
+    ],
+    "tags": [
+      "dsa",
+      "min-heap",
+      "priority-queue"
+    ]
+  },
+  {
+    "id": "SWE-005",
+    "track": "swe",
+    "topic": "DSA",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "How do QuickSort and MergeSort compare in time complexity, space overhead, and algorithm stability?",
+    "ideal_answer": "QuickSort uses divide-and-conquer partitioning around a pivot, achieving average O(n log n) time and O(log n) in-place stack space, but degrades to O(n^2) time on bad pivot selection; it is unstable. MergeSort guarantees deterministic O(n log n) time across all cases and is stable, preserving equal element ordering. However, MergeSort requires O(n) auxiliary space to store sub-arrays during merge steps.",
+    "key_points": [
+      "QuickSort: average O(n log n), worst-case O(n^2), in-place O(log n) space, unstable",
+      "MergeSort: guaranteed O(n log n) time across all cases, O(n) auxiliary space, stable",
+      "Stability preserves relative order of duplicate elements; QuickSort is preferred in-memory"
+    ],
+    "red_flags": [
+      "Claiming MergeSort operates in O(1) auxiliary space without extra sub-arrays",
+      "Believing QuickSort worst-case time complexity is O(n log n)"
+    ],
+    "follow_ups": [
+      "How does randomized pivot selection or Median-of-Three prevent QuickSort O(n^2) degradation?",
+      "What is Timsort, and how does it combine MergeSort and InsertionSort for real-world languages?"
+    ],
+    "tags": [
+      "dsa",
+      "quicksort",
+      "mergesort",
+      "sorting",
+      "stability"
+    ]
+  },
+  {
+    "id": "SWE-006",
+    "track": "swe",
+    "topic": "DSA",
+    "difficulty": "hard",
+    "stretch": true,
+    "question": "How do self-balancing Red-Black Trees maintain logarithmic height bounds during insertions?",
+    "ideal_answer": "Red-Black Trees are self-balancing binary search trees where each node holds a color attribute (Red or Black) and obeys strict balancing rules: the root is Black, no two adjacent nodes can be Red (no Red-Red parent-child), and every path from a node to descendant null leaves contains identical Black node counts. Insertions color new nodes Red and restore properties using tree rotations and color flips in O(log n) time.",
+    "key_points": [
+      "Enforces strict node coloring constraints guaranteeing longest path <= 2 * shortest path",
+      "No consecutive Red nodes and equal Black-height across all paths to null leaves",
+      "Restores balance after insertion using local tree rotations (left/right) and recoloring in O(log n) time"
+    ],
+    "red_flags": [
+      "Claiming Red-Black trees require full tree rebuilds on every insertion",
+      "Confusing Red-Black tree strict height bounds with AVL tree height balance factors"
+    ],
+    "follow_ups": [
+      "How do AVL trees differ from Red-Black trees in balance strictness and lookup speed?",
+      "Why are Red-Black trees preferred for implementing C++ std::map and Java TreeMap?"
+    ],
+    "tags": [
+      "dsa",
+      "red-black-tree",
+      "self-balancing",
+      "tree-rotations"
+    ]
+  },
+  {
+    "id": "SWE-007",
+    "track": "swe",
+    "topic": "time complexity",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What is Big-O notation, and why does it focus on upper-bound asymptotic growth rather than exact execution runtime?",
+    "ideal_answer": "Big-O notation describes the upper bound of an algorithm's growth rate in time or memory as input size n approaches infinity. It ignores hardware-dependent CPU speeds, compiler optimizations, and constant factors to provide a standardized, machine-independent metric. Focusing on worst-case asymptotic bounds guarantees performance behavior under scale.",
+    "key_points": [
+      "Big-O characterizes asymptotic upper bound growth rate of time/space as n approaches infinity",
+      "Drops low-order terms and constant multipliers (e.g. 3n^2 + 5n -> O(n^2))",
+      "Provides machine-independent performance evaluation focused on scaling behavior"
+    ],
+    "red_flags": [
+      "Including constant multipliers inside Big-O expressions (e.g. writing O(2N) instead of O(N))",
+      "Confusing Big-O (upper bound) with Big-Omega (lower bound) or Big-Theta (tight bound)"
+    ],
+    "follow_ups": [
+      "What is the mathematical definition of Big-O involving constants c and n_0?",
+      "Why do algorithms with higher constant factors sometimes run faster for small inputs n?"
+    ],
+    "tags": [
+      "time-complexity",
+      "big-o",
+      "asymptotic-analysis"
+    ]
+  },
+  {
+    "id": "SWE-008",
+    "track": "swe",
+    "topic": "time complexity",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What is the time complexity of Binary Search on a sorted array of size n, and why?",
+    "ideal_answer": "Binary Search has a time complexity of O(log n). It operates by comparing the target value against the array's midpoint element. If they do not match, it eliminates half of the remaining search space in a single comparison step. Reducing the search space by half at each step requires log2(n) comparisons to locate the target or conclude it is absent.",
+    "key_points": [
+      "Binary search runs in O(log n) logarithmic time complexity",
+      "Halves remaining candidate search space in a single comparison step",
+      "Requires array to be pre-sorted before binary search can be applied"
+    ],
+    "red_flags": [
+      "Claiming binary search works on unsorted contiguous arrays",
+      "Confusing logarithmic time O(log n) with linear time O(n)"
+    ],
+    "follow_ups": [
+      "Why does binary search require random access array storage rather than singly linked lists?",
+      "How do you prevent integer overflow when calculating midpoint mid = low + (high - low) / 2?"
+    ],
+    "tags": [
+      "time-complexity",
+      "binary-search",
+      "logarithmic"
+    ]
+  },
+  {
+    "id": "SWE-009",
+    "track": "swe",
+    "topic": "time complexity",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "Why is array access by index O(1) time complexity, whereas searching for an unindexed value is O(n)?",
+    "ideal_answer": "Arrays store elements in contiguous memory. Accessing an index computes target memory address in O(1) constant time using base math: Address = Base_Address + Index * Element_Size. Searching for an unindexed value requires linearly scanning array elements one by one from start to end, resulting in O(n) worst-case time complexity.",
+    "key_points": [
+      "Contiguous memory enables direct address calculation in O(1) time: Base + Index * Size",
+      "Searching for a specific value requires linear iteration through array elements in O(n) time",
+      "Index access cost is independent of total array size n"
+    ],
+    "red_flags": [
+      "Claiming array index lookup requires traversing array elements sequentially",
+      "Confusing element value search with index access"
+    ],
+    "follow_ups": [
+      "How does CPU L1/L2 cache prefetching benefit contiguous array traversal?",
+      "What is the time complexity of inserting an element at the middle of an array?"
+    ],
+    "tags": [
+      "time-complexity",
+      "array",
+      "memory-access"
+    ]
+  },
+  {
+    "id": "SWE-010",
+    "track": "swe",
+    "topic": "time complexity",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "What is the difference between Auxiliary Space Complexity and Total Space Complexity?",
+    "ideal_answer": "Auxiliary Space Complexity measures only the extra or temporary memory allocated by an algorithm during execution (like call stacks or scratch arrays), excluding input data size. Total Space Complexity includes both the memory occupied by input data plus auxiliary memory allocated by the algorithm. Algorithms are evaluated on auxiliary space to measure pure overhead.",
+    "key_points": [
+      "Auxiliary space counts temporary memory allocated by algorithm execution excluding input data",
+      "Total space counts input data storage plus auxiliary temporary space",
+      "In-place algorithms require O(1) auxiliary space regardless of input size"
+    ],
+    "red_flags": [
+      "Including input data size when calculating auxiliary space for in-place algorithms",
+      "Ignoring recursive call stack memory overhead when computing space complexity"
+    ],
+    "follow_ups": [
+      "What is the auxiliary space complexity of iterative versus recursive depth-first search (DFS)?",
+      "Why does Tail Call Optimization (TCO) reduce recursive auxiliary space to O(1)?"
+    ],
+    "tags": [
+      "time-complexity",
+      "space-complexity",
+      "auxiliary-space"
+    ]
+  },
+  {
+    "id": "SWE-011",
+    "track": "swe",
+    "topic": "time complexity",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "What is Amortized Time Complexity, and how does it apply to dynamic array append operations?",
+    "ideal_answer": "Amortized time complexity averages the execution cost of a sequence of operations over time, ensuring that rare expensive operations are spread across many cheap operations. Appending to a dynamic array takes O(1) time when capacity remains. When capacity is reached, the array allocates double its size and copies n elements in an O(n) operation. Averaged over n appends, total cost is O(n), giving an amortized O(1) time per append.",
+    "key_points": [
+      "Amortized analysis calculates average cost per operation over a worst-case sequence",
+      "Dynamic array append is O(1) most of the time; resizing allocates new 2x memory and copies n items in O(n)",
+      "Spreading the infrequent O(n) resize across n appends yields O(1) amortized cost per append"
+    ],
+    "red_flags": [
+      "Claiming every single dynamic array append takes strictly O(1) worst-case time",
+      "Confusing amortized time complexity with average-case probabilistic complexity"
+    ],
+    "follow_ups": [
+      "What happens to amortized append cost if dynamic array growth factor is 1.5x vs 2x?",
+      "What is the Accounting Method or Banker's Method in amortized analysis?"
+    ],
+    "tags": [
+      "time-complexity",
+      "amortized-analysis",
+      "dynamic-array"
+    ]
+  },
+  {
+    "id": "SWE-012",
+    "track": "swe",
+    "topic": "time complexity",
+    "difficulty": "hard",
+    "stretch": false,
+    "question": "How do you apply the Master Theorem to determine the asymptotic time complexity of divide-and-conquer recurrence relations?",
+    "ideal_answer": "The Master Theorem solves divide-and-conquer recurrences of the form T(n) = a * T(n/b) + f(n), where a >= 1 and b > 1. It compares f(n) against n^(log_b a), representing work at non-leaf nodes versus leaves. If n^(log_b a) dominates polynomially, T(n) = Theta(n^(log_b a)). If f(n) and n^(log_b a) are asymptotically equal, T(n) = Theta(n^(log_b a) * log n). If f(n) dominates, T(n) = Theta(f(n)).",
+    "key_points": [
+      "Solves recurrences T(n) = a * T(n/b) + f(n) for divide-and-conquer algorithms",
+      "Compares divide work f(n) with leaf node work n^(log_b a)",
+      "3 cases: leaf-dominated Theta(n^(log_b a)), balanced Theta(n^(log_b a) log n), or root-dominated Theta(f(n))"
+    ],
+    "red_flags": [
+      "Applying Master Theorem to non-polynomially bounded divide work or non-constant subproblems",
+      "Misidentifying parameters a (number of subproblems) and b (subproblem division factor)"
+    ],
+    "follow_ups": [
+      "What is the Master Theorem case for MergeSort where T(n) = 2T(n/2) + O(n)?",
+      "Why can't the standard Master Theorem solve T(n) = 2T(n/2) + n log n directly without extensions?"
+    ],
+    "tags": [
+      "time-complexity",
+      "master-theorem",
+      "recurrence-relations"
+    ]
+  },
+  {
+    "id": "SWE-013",
+    "track": "swe",
+    "topic": "OOP",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What is Encapsulation in Object-Oriented Programming, and how does it protect object state?",
+    "ideal_answer": "Encapsulation bundles data variables and the methods that operate on them within a single class unit, while restricting direct external access to internal state using access modifiers (private/protected). External callers modify state exclusively through public methods (getters/setters/methods) that enforce validation logic. This hides internal representation details and prevents arbitrary state corruption.",
+    "key_points": [
+      "Bundles data fields and related operating methods inside a single class object",
+      "Restricts direct field access using private/protected access modifiers",
+      "Exposes controlled public methods that validate and maintain object invariants"
+    ],
+    "red_flags": [
+      "Making all internal class fields public without restriction",
+      "Confusing encapsulation with class inheritance"
+    ],
+    "follow_ups": [
+      "How do getters and setters enforce data validation and business invariants?",
+      "What is the difference between private, protected, and public access modifiers?"
+    ],
+    "tags": [
+      "oop",
+      "encapsulation",
+      "object-oriented"
+    ]
+  },
+  {
+    "id": "SWE-014",
+    "track": "swe",
+    "topic": "OOP",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What is Polymorphism in Object-Oriented Programming, and how do compile-time and runtime polymorphism differ?",
+    "ideal_answer": "Polymorphism enables objects of different derived classes to be treated as instances of a shared base interface. Compile-time polymorphism (method overloading) resolves method signatures during compilation based on parameter types and counts. Runtime polymorphism (method overriding) resolves concrete method calls at execution time via dynamic dispatch using virtual method tables (vtables).",
+    "key_points": [
+      "Allows uniform interface invocations across varying underlying class implementations",
+      "Compile-time polymorphism (overloading) resolves method calls based on argument signature at compile time",
+      "Runtime polymorphism (overriding) resolves concrete derived class methods at runtime via virtual dispatch"
+    ],
+    "red_flags": [
+      "Claiming method overloading occurs at runtime via virtual tables",
+      "Confusing method overriding in subclasses with method overloading in the same class"
+    ],
+    "follow_ups": [
+      "How does a virtual method table (vtable) work under the hood in C++ or Java?",
+      "What is an abstract class versus an interface in object-oriented design?"
+    ],
+    "tags": [
+      "oop",
+      "polymorphism",
+      "overriding",
+      "overloading"
+    ]
+  },
+  {
+    "id": "SWE-015",
+    "track": "swe",
+    "topic": "OOP",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "How does Abstraction differ from Encapsulation in Object-Oriented System Design?",
+    "ideal_answer": "Abstraction focuses on hiding complex implementation details behind clean, high-level interface contracts, exposing only 'what' an object does rather than 'how' it works. Encapsulation focuses on bundling state and restricting access to internal fields to protect 'how' data is stored and modified. Interfaces and abstract classes achieve abstraction; private fields and public methods achieve encapsulation.",
+    "key_points": [
+      "Abstraction hides internal implementation complexity behind high-level interfaces ('what')",
+      "Encapsulation restricts direct access to internal state fields ('how')",
+      "Abstraction simplifies design usability; encapsulation guarantees data integrity and safety"
+    ],
+    "red_flags": [
+      "Treating Abstraction and Encapsulation as identical concepts",
+      "Claiming abstraction requires making all class members private"
+    ],
+    "follow_ups": [
+      "How do interface contracts promote modularity and testability?",
+      "Why should client code depend on abstract interfaces rather than concrete implementations?"
+    ],
+    "tags": [
+      "oop",
+      "abstraction",
+      "encapsulation"
+    ]
+  },
+  {
+    "id": "SWE-016",
+    "track": "swe",
+    "topic": "OOP",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "What is the Single Responsibility Principle (SRP) in SOLID design, and what problems occur when it is violated?",
+    "ideal_answer": "The Single Responsibility Principle (SRP) dictates that a class or module should have one, and only one, reason to change. It means a class should focus on a single cohesive responsibility or actor goal. Violating SRP produces 'God classes' that combine unrelated business logic (e.g. database persistence, UI formatting, authentication), making code fragile, difficult to unit test, and prone to regression bugs.",
+    "key_points": [
+      "A class should have only one reason to change, focusing on a single cohesive responsibility",
+      "Prevents tightly-coupled 'God classes' that mix distinct business concerns",
+      "Improves maintainability, code readability, and unit test isolation"
+    ],
+    "red_flags": [
+      "Interpreting SRP as 'a class should only contain a single method'",
+      "Mixing database querying, business logic, and HTTP response formatting in one service class"
+    ],
+    "follow_ups": [
+      "How do you refactor a monolith controller class that violates SRP into clean service modules?",
+      "How does SRP interact with the Open/Closed Principle (OCP)?"
+    ],
+    "tags": [
+      "oop",
+      "solid",
+      "srp",
+      "clean-code"
+    ]
+  },
+  {
+    "id": "SWE-017",
+    "track": "swe",
+    "topic": "OOP",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "What is the Dependency Inversion Principle (DIP), and how does Dependency Injection (DI) fulfill it?",
+    "ideal_answer": "The Dependency Inversion Principle states that high-level business modules should not depend directly on low-level concrete implementation modules; both should depend on abstract interfaces. Dependency Injection (DI) fulfills DIP by passing (injecting) concrete dependencies into a class via constructor parameters or frameworks rather than instantiating dependencies internally using new. This decoupling enables easy mock injection for unit testing.",
+    "key_points": [
+      "High-level modules and low-level modules depend on shared abstract interface contracts",
+      "Classes receive dependencies from external callers rather than instantiating concrete classes internally",
+      "Dramatically improves code testability by enabling mock/stub injection in unit tests"
+    ],
+    "red_flags": [
+      "Instantiating concrete database or API client dependencies directly inside business constructors",
+      "Confusing Dependency Inversion Principle (architectural rule) with Dependency Injection (implementation pattern)"
+    ],
+    "follow_ups": [
+      "What is an Inversion of Control (IoC) container in frameworks like Spring or NestJS?",
+      "What is constructor injection versus setter injection?"
+    ],
+    "tags": [
+      "oop",
+      "solid",
+      "dip",
+      "dependency-injection"
+    ]
+  },
+  {
+    "id": "SWE-018",
+    "track": "swe",
+    "topic": "OOP",
+    "difficulty": "hard",
+    "stretch": false,
+    "question": "How does the Liskov Substitution Principle (LSP) guide inheritance, and what classic example demonstrates its violation?",
+    "ideal_answer": "The Liskov Substitution Principle states that objects of a derived class must be seamlessly substitutable for objects of their base class without breaking program correctness or altering expected behavioral invariants. A classic violation occurs when Square inherits from Rectangle. Setting width and height independently works for Rectangle, but forced equal-side logic in Square breaks callers expecting independent dimensions.",
+    "key_points": [
+      "Subclasses must fulfill all behavioral contracts and invariants of base classes without error",
+      "Callers operating on base references must work correctly when passed any derived instance",
+      "Classic violation: Square inheriting from Rectangle breaks expected independent width/height behavior"
+    ],
+    "red_flags": [
+      "Overriding base methods to throw NotImplementedException or do nothing",
+      "Assuming LSP is satisfied merely by passing compile-time method signature checks"
+    ],
+    "follow_ups": [
+      "Why is 'Composition over Inheritance' often recommended to prevent LSP violations?",
+      "How do pre-conditions and post-conditions behave under LSP in derived classes?"
+    ],
+    "tags": [
+      "oop",
+      "solid",
+      "lsp",
+      "inheritance"
+    ]
+  },
+  {
+    "id": "SWE-019",
+    "track": "swe",
+    "topic": "OS",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What is the key difference between a Process and a Thread in operating systems?",
+    "ideal_answer": "A Process is an isolated execution instance with its own virtual address space, file descriptor table, page tables, and memory security context. A Thread is an execution unit within a process that shares virtual memory, global data, and file descriptors with sibling threads, maintaining only its own execution stack, registers, and program counter. Threads enable low-overhead concurrency within shared memory.",
+    "key_points": [
+      "Process maintains isolated virtual memory space, page tables, and file descriptors",
+      "Thread executes inside a process, sharing heap, global memory, and file descriptors with sibling threads",
+      "Inter-process communication (IPC) requires OS overhead; inter-thread communication shares process heap"
+    ],
+    "red_flags": [
+      "Claiming threads in different processes share the same virtual address space",
+      "Believing processes do not incur memory isolation overhead"
+    ],
+    "follow_ups": [
+      "What Inter-Process Communication (IPC) mechanisms enable processes to exchange data?",
+      "Why does a process crash terminate all its threads, while a thread crash can corrupt process heap?"
+    ],
+    "tags": [
+      "os",
+      "process",
+      "thread",
+      "concurrency"
+    ]
+  },
+  {
+    "id": "SWE-020",
+    "track": "swe",
+    "topic": "OS",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What is Virtual Memory, and how do Page Tables enable physical memory isolation?",
+    "ideal_answer": "Virtual Memory is an OS abstraction that provides each process with the illusion of a vast, contiguous address space. The CPU Memory Management Unit (MMU) translates virtual addresses to physical RAM addresses using Page Tables. Page Tables enforce hardware-level memory protection, preventing processes from reading or writing into another process's physical memory space.",
+    "key_points": [
+      "Provides processes with independent, contiguous virtual address space abstractions",
+      "MMU translates virtual pages to physical RAM frames via Page Tables",
+      "Enforces memory isolation and security, preventing processes from corrupting each other's memory"
+    ],
+    "red_flags": [
+      "Claiming virtual memory addresses correspond 1-to-1 directly to physical RAM chips without translation",
+      "Confusing virtual memory paging with disk swap memory"
+    ],
+    "follow_ups": [
+      "What is a Page Fault, and how does the OS kernel handle it?",
+      "What is the Translation Lookaside Buffer (TLB), and how does it speed up address translation?"
+    ],
+    "tags": [
+      "os",
+      "virtual-memory",
+      "page-table",
+      "mmu"
+    ]
+  },
+  {
+    "id": "SWE-021",
+    "track": "swe",
+    "topic": "OS",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "What occurs during a Context Switch, and why is switching between processes more expensive than switching between threads?",
+    "ideal_answer": "A Context Switch saves the current CPU execution state (registers, stack pointer, program counter) and restores the state of the next scheduled thread or process. Switching between processes is significantly more expensive because it requires flushing the Translation Lookaside Buffer (TLB), updating CPU page table base registers (CR3), and invalidating CPU cache lines due to virtual address space changes.",
+    "key_points": [
+      "Saves current CPU registers, stack pointer, and program counter; restores next thread/process state",
+      "Process context switch requires changing page tables (CR3 register) and flushing TLB caches",
+      "Thread context switch within the same process retains memory mappings, avoiding TLB flush overhead"
+    ],
+    "red_flags": [
+      "Claiming thread context switching within a process flushes page tables and TLB",
+      "Believing context switches execute with zero CPU clock cycle overhead"
+    ],
+    "follow_ups": [
+      "What is CPU cache line invalidation and cold cache penalty after a context switch?",
+      "How do user-space cooperative fibers/coroutines avoid OS kernel context switches?"
+    ],
+    "tags": [
+      "os",
+      "context-switch",
+      "tlb",
+      "cpu-scheduling"
+    ]
+  },
+  {
+    "id": "SWE-022",
+    "track": "swe",
+    "topic": "OS",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "What are the four Coffman conditions required for Deadlock to occur in an operating system?",
+    "ideal_answer": "Deadlock occurs when a set of concurrent processes are permanently blocked, each holding a resource while waiting for another held resource. The four necessary Coffman conditions are: 1) Mutual Exclusion (non-shareable resources), 2) Hold and Wait (processes hold resources while requesting new ones), 3) No Preemption (resources cannot be forcibly taken), and 4) Circular Wait (a closed chain of processes waiting on each other).",
+    "key_points": [
+      "Mutual Exclusion: at least one resource is held in a non-shareable mode",
+      "Hold and Wait: process holding resources requests additional resources held by others",
+      "No Preemption & Circular Wait: resources cannot be forcibly confiscated, creating a circular dependency chain"
+    ],
+    "red_flags": [
+      "Believing breaking just 1 of the 4 conditions is insufficient to prevent deadlock",
+      "Confusing deadlock (permanent block) with starvation (indefinite delay)"
+    ],
+    "follow_ups": [
+      "How does global resource lock ordering eliminate the Circular Wait condition?",
+      "What is Banker's Algorithm for deadlock avoidance?"
+    ],
+    "tags": [
+      "os",
+      "deadlock",
+      "coffman-conditions",
+      "concurrency"
+    ]
+  },
+  {
+    "id": "SWE-023",
+    "track": "swe",
+    "topic": "OS",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "How does a Mutex lock differ from a Counting Semaphore in thread synchronization?",
+    "ideal_answer": "A Mutex (Mutual Exclusion) is a locking mechanism ownership constraint where only the specific thread that locked the mutex can unlock it, allowing a single thread into a critical section. A Counting Semaphore is a signaling mechanism maintaining an integer counter; any thread can signal (increment) or wait on (decrement) the semaphore, regulating access to a resource pool of N capacity.",
+    "key_points": [
+      "Mutex enforces single-thread ownership: only the thread that acquired the lock can release it",
+      "Counting Semaphore regulates concurrent access to a fixed capacity pool of N resources",
+      "Semaphores act as signaling mechanisms; Mutexes act as locking mechanisms"
+    ],
+    "red_flags": [
+      "Allowing any random thread to unlock a Mutex held by another thread",
+      "Treating a binary semaphore as completely identical to a Mutex with ownership rules"
+    ],
+    "follow_ups": [
+      "What is Priority Inversion, and how does Priority Inheritance resolve it in Mutexes?",
+      "What is a Spinlock, and when is it preferred over a blocking kernel Mutex?"
+    ],
+    "tags": [
+      "os",
+      "mutex",
+      "semaphore",
+      "synchronization"
+    ]
+  },
+  {
+    "id": "SWE-024",
+    "track": "swe",
+    "topic": "OS",
+    "difficulty": "hard",
+    "stretch": true,
+    "question": "What is False Sharing in multi-threaded programming, and how do software engineers prevent it?",
+    "ideal_answer": "False Sharing occurs when threads running on independent CPU cores modify independent variables that reside on the same L1/L2 CPU cache line (typically 64 bytes). Whenever one core writes to its variable, the MESI cache coherency protocol invalidates the entire cache line in other cores, forcing expensive main memory syncs despite no true data dependency. Engineers prevent it using cache line padding (@Contended) to space variables across distinct cache lines.",
+    "key_points": [
+      "Occurs when independent variables assigned to different CPU cores reside on the same 64-byte cache line",
+      "MESI cache coherency protocol forces frequent cache line invalidations and bus re-syncs",
+      "Prevented by padding data structures (@Contended) so core variables occupy isolated cache lines"
+    ],
+    "red_flags": [
+      "Confusing False Sharing with true data race conditions on shared variables",
+      "Believing CPU cache coherency is managed manually in application source code"
+    ],
+    "follow_ups": [
+      "How does the MESI (Modified, Exclusive, Shared, Invalid) protocol maintain CPU cache consistency?",
+      "How does L1/L2 cache locality impact lock-free data structures like Disruptor ring buffers?"
+    ],
+    "tags": [
+      "os",
+      "false-sharing",
+      "cpu-cache",
+      "mesi",
+      "concurrency"
+    ]
+  },
+  {
+    "id": "SWE-025",
+    "track": "swe",
+    "topic": "DBMS",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What are the ACID properties in Relational Database Management Systems?",
+    "ideal_answer": "ACID guarantees database transaction reliability. Atomicity ensures all operations in a transaction complete successfully or all roll back completely. Consistency guarantees the database transitions from one valid schema state to another. Isolation ensures concurrent transactions do not interfere with each other. Durability guarantees committed transaction changes persist permanently, even through system crashes.",
+    "key_points": [
+      "Atomicity: All-or-nothing execution of transaction statements",
+      "Consistency: Enforces database constraints, foreign keys, and schema rules before and after transactions",
+      "Isolation & Durability: Prevents concurrent transaction interference; guarantees committed writes survive power failure"
+    ],
+    "red_flags": [
+      "Claiming Atomicity means transactions execute fast in a single clock cycle",
+      "Confusing Isolation levels with Durability crash-recovery guarantees"
+    ],
+    "follow_ups": [
+      "How does a Write-Ahead Log (WAL) ensure Durability during unexpected power outages?",
+      "What is two-phase commit (2PC) in distributed transactions?"
+    ],
+    "tags": [
+      "dbms",
+      "acid",
+      "transactions",
+      "relational-db"
+    ]
+  },
+  {
+    "id": "SWE-026",
+    "track": "swe",
+    "topic": "DBMS",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What is Database Normalization, and what anomaly does First Normal Form (1NF) resolve?",
+    "ideal_answer": "Database Normalization organizes relational schema tables to eliminate data redundancy and prevent insertion, update, and deletion anomalies. First Normal Form (1NF) requires that every table column contains atomic (indivisible) single values, eliminating repeating groups or arrays stored inside a single column cell. It also requires a primary key to uniquely identify each row.",
+    "key_points": [
+      "Normalization structures tables to eliminate redundancy and data modification anomalies",
+      "1NF enforces atomic, indivisible values per cell and removes multi-value arrays/lists",
+      "1NF requires each table row to be uniquely identifiable via a Primary Key"
+    ],
+    "red_flags": [
+      "Storing comma-separated text strings inside a single database column cell in 1NF",
+      "Assuming normalization increases read query execution speed by adding duplicate columns"
+    ],
+    "follow_ups": [
+      "What is the difference between Second Normal Form (2NF) and Third Normal Form (3NF)?",
+      "When is Denormalization intentionally applied in analytical data warehouses (OLAP)?"
+    ],
+    "tags": [
+      "dbms",
+      "normalization",
+      "1nf",
+      "schema-design"
+    ]
+  },
+  {
+    "id": "SWE-027",
+    "track": "swe",
+    "topic": "DBMS",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "How do Primary Keys, Foreign Keys, and Unique Indexes differ in relational database design?",
+    "ideal_answer": "A Primary Key uniquely identifies each record in a table, enforces NOT NULL constraints, and creates the clustered index in engines like InnoDB. A Foreign Key enforces referential integrity between tables by linking a column to a primary key in another table, preventing orphan records. A Unique Index enforces uniqueness for non-primary columns, allowing at most one NULL value in standard SQL.",
+    "key_points": [
+      "Primary Key: uniquely identifies rows, cannot contain NULLs, sets default clustered index layout",
+      "Foreign Key: maintains referential integrity between parent and child tables",
+      "Unique Index: enforces unique values across non-primary columns, allowing NULL handling based on SQL engine"
+    ],
+    "red_flags": [
+      "Allowing NULL values in a Primary Key column",
+      "Claiming a table can possess multiple Primary Keys"
+    ],
+    "follow_ups": [
+      "What is a Composite Primary Key?",
+      "What happens during DELETE operations when a Foreign Key specifies ON DELETE CASCADE?"
+    ],
+    "tags": [
+      "dbms",
+      "primary-key",
+      "foreign-key",
+      "indexing"
+    ]
+  },
+  {
+    "id": "SWE-028",
+    "track": "swe",
+    "topic": "DBMS",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "Why do relational database engines use B+ Trees rather than standard Binary Search Trees for disk-based indexing?",
+    "ideal_answer": "B+ Trees are multi-way self-balancing search trees optimized for disk storage. Unlike binary trees, B+ Tree nodes have high fan-out (hundreds of keys per node), matching disk block sizes and minimizing disk I/O read operations. Furthermore, all actual record data pointers are kept in leaf nodes, which are doubly-linked together, allowing O(log N) point lookups and extremely fast sequential range scans.",
+    "key_points": [
+      "High fan-out matches disk page block sizes, drastically reducing disk I/O head seeks",
+      "All data records reside in leaf nodes; internal nodes store only search routing keys",
+      "Doubly-linked leaf node chains enable high-speed sequential range queries"
+    ],
+    "red_flags": [
+      "Claiming standard binary search trees match disk block hardware efficiency",
+      "Assuming B+ Trees store table row data inside internal routing nodes"
+    ],
+    "follow_ups": [
+      "What is a Clustered Index versus a Non-Clustered (Secondary) Index?",
+      "Why is index fragmentation created when random UUIDs are used as B+ Tree primary keys?"
+    ],
+    "tags": [
+      "dbms",
+      "b-plus-tree",
+      "indexing",
+      "disk-io"
+    ]
+  },
+  {
+    "id": "SWE-029",
+    "track": "swe",
+    "topic": "DBMS",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "What are Transaction Isolation Levels, and what is a Dirty Read?",
+    "ideal_answer": "Transaction Isolation Levels (Read Uncommitted, Read Committed, Repeatable Read, Serializable) control how concurrent database transactions observe intermediate uncommitted data. A Dirty Read occurs at the 'Read Uncommitted' level when Transaction A reads data modified by Transaction B before Transaction B commits. If Transaction B subsequently rolls back, Transaction A operated on invalid data that never existed.",
+    "key_points": [
+      "Isolation levels trade off transaction concurrency against read anomaly vulnerabilities",
+      "Dirty Read: Reading uncommitted data written by a concurrent transaction that later rolls back",
+      "Read Committed prevents Dirty Reads; Repeatable Read prevents Non-Repeatable Reads; Serializable prevents Phantoms"
+    ],
+    "red_flags": [
+      "Claiming Read Committed level prevents Phantom Reads",
+      "Believing highest isolation (Serializable) carries zero performance or lock contention cost"
+    ],
+    "follow_ups": [
+      "What is a Non-Repeatable Read versus a Phantom Read?",
+      "How does Multi-Version Concurrency Control (MVCC) enable non-blocking reads in PostgreSQL?"
+    ],
+    "tags": [
+      "dbms",
+      "isolation-levels",
+      "dirty-read",
+      "transactions"
+    ]
+  },
+  {
+    "id": "SWE-030",
+    "track": "swe",
+    "topic": "DBMS",
+    "difficulty": "hard",
+    "stretch": false,
+    "question": "How do Optimistic Concurrency Control and Pessimistic Concurrency Control manage concurrent updates?",
+    "ideal_answer": "Pessimistic Concurrency Control assumes conflict will occur and locks target database rows immediately (e.g. SELECT ... FOR UPDATE), blocking other transactions until commit; it prevents conflicts but lowers throughput. Optimistic Concurrency Control (OCC) assumes conflicts are rare, allowing transactions to read and modify data without locks. Before commit, OCC checks a version or timestamp column; if modified concurrently, the transaction aborts and retries.",
+    "key_points": [
+      "Pessimistic Locking uses explicit row locks (FOR UPDATE), blocking concurrent writes; best for high contention",
+      "Optimistic Locking checks a version column during UPDATE without blocking reads; best for low contention",
+      "OCC yields higher system throughput under low conflict; Pessimistic prevents frequent retry aborts under high conflict"
+    ],
+    "red_flags": [
+      "Believing Optimistic Locking acquires exclusive database row locks during read phases",
+      "Using Pessimistic row locking for long-lived disconnected web form edits across user sessions"
+    ],
+    "follow_ups": [
+      "How do you construct an Optimistic Locking SQL UPDATE statement using version numbers?",
+      "What is Deadlock detection in Pessimistic locking database systems?"
+    ],
+    "tags": [
+      "dbms",
+      "concurrency-control",
+      "optimistic-locking",
+      "pessimistic-locking"
+    ]
+  },
+  {
+    "id": "SWE-031",
+    "track": "swe",
+    "topic": "computer networks",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What are the primary operational differences between TCP and UDP transport protocols?",
+    "ideal_answer": "TCP (Transmission Control Protocol) is a connection-oriented, reliable protocol that guarantees ordered packet delivery, error checking, flow control, and congestion management via a connection handshake. UDP (User Datagram Protocol) is a connectionless, lightweight protocol that sends datagrams without establishing a connection, offering no delivery guarantees or ordering but providing minimal latency.",
+    "key_points": [
+      "TCP: connection-oriented, reliable, ordered delivery, flow/congestion control (web, SSH, APIs)",
+      "UDP: connectionless, unreliable, unordered, zero handshake latency (DNS, streaming, gaming)",
+      "TCP uses packet acknowledgments and retransmissions; UDP discards lost packets without retry"
+    ],
+    "red_flags": [
+      "Claiming UDP guarantees ordered packet delivery without application-layer code",
+      "Using TCP for real-time multiplayer game position streaming where low latency beats retransmissions"
+    ],
+    "follow_ups": [
+      "What fields in the TCP header enable sequence tracking and packet reordering?",
+      "Why is DNS query traffic traditionally transmitted over UDP on port 53?"
+    ],
+    "tags": [
+      "computer-networks",
+      "tcp",
+      "udp",
+      "transport-layer"
+    ]
+  },
+  {
+    "id": "SWE-032",
+    "track": "swe",
+    "topic": "computer networks",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What sequence of packets occurs during the TCP Three-Way Handshake?",
+    "ideal_answer": "The TCP Three-Way Handshake establishes a reliable connection between client and server. 1) Client sends a SYN packet with a random initial sequence number (ISN_C). 2) Server responds with SYN-ACK, acknowledging ISN_C + 1 and sending its own sequence number (ISN_S). 3) Client returns an ACK packet acknowledging ISN_S + 1. The connection transitions to ESTABLISHED.",
+    "key_points": [
+      "Step 1: Client -> SYN (sets initial client sequence number)",
+      "Step 2: Server -> SYN-ACK (acknowledges client SYN and sends server sequence number)",
+      "Step 3: Client -> ACK (acknowledges server SYN, connection established)"
+    ],
+    "red_flags": [
+      "Reversing SYN and ACK packet order during the handshake sequence",
+      "Believing data payload transmission occurs before the 3-way handshake completes"
+    ],
+    "follow_ups": [
+      "What is a SYN Flood attack, and how do SYN cookies mitigate it?",
+      "How does TCP four-way connection termination (FIN/ACK) terminate an active connection?"
+    ],
+    "tags": [
+      "computer-networks",
+      "tcp-handshake",
+      "syn-ack"
+    ]
+  },
+  {
+    "id": "SWE-033",
+    "track": "swe",
+    "topic": "computer networks",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "What is the Domain Name System (DNS), and how does recursive DNS resolution operate?",
+    "ideal_answer": "DNS is a distributed hierarchical lookup system that translates human-readable domain names (api.example.com) into numerical IP addresses. In recursive resolution, a client queries a Recursive Resolver. If not cached, the resolver queries the Root DNS server for .com TLD servers, then queries the TLD server for example.com's Authoritative Name Server, and finally queries the Authoritative server to get the A/AAAA IP record.",
+    "key_points": [
+      "Translates human-readable domain names into IP routing addresses",
+      "Hierarchical resolution: Recursive Resolver -> Root Server -> TLD Server -> Authoritative Server",
+      "Caches IP records according to Time-To-Live (TTL) values to accelerate future lookups"
+    ],
+    "red_flags": [
+      "Claiming Authoritative DNS servers resolve all world domain queries from a single centralized database",
+      "Ignoring TTL caching mechanisms in DNS resolvers"
+    ],
+    "follow_ups": [
+      "What is the difference between A, AAAA, CNAME, and MX DNS record types?",
+      "How does DNS Round Robin achieve basic geographical load balancing?"
+    ],
+    "tags": [
+      "computer-networks",
+      "dns",
+      "dns-resolution"
+    ]
+  },
+  {
+    "id": "SWE-034",
+    "track": "swe",
+    "topic": "computer networks",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "How does HTTP/2 improve performance over HTTP/1.1 for modern web applications?",
+    "ideal_answer": "HTTP/1.1 suffers from Head-of-Line (HoL) blocking because requests over a single TCP connection must be processed sequentially, forcing browsers to open multiple parallel connections. HTTP/2 introduces binary framing and multiplexing, allowing multiple concurrent request/response streams over a single TCP connection. HTTP/2 also adds HPACK header compression and Server Push capabilities.",
+    "key_points": [
+      "Replaces plain text with a binary framing layer for request/response handling",
+      "Multiplexing allows multiple concurrent requests over a single TCP connection, ending HTTP HoL blocking",
+      "Adds HPACK header compression to reduce HTTP metadata bandwidth consumption"
+    ],
+    "red_flags": [
+      "Believing HTTP/2 operates over UDP instead of TCP",
+      "Confusing HTTP Head-of-Line blocking with TCP packet loss blocking"
+    ],
+    "follow_ups": [
+      "How does HTTP/3 solve TCP Head-of-Line blocking by utilizing QUIC over UDP?",
+      "Why is domain sharding obsolete under HTTP/2 multiplexing?"
+    ],
+    "tags": [
+      "computer-networks",
+      "http2",
+      "multiplexing",
+      "protocols"
+    ]
+  },
+  {
+    "id": "SWE-035",
+    "track": "swe",
+    "topic": "computer networks",
+    "difficulty": "hard",
+    "stretch": true,
+    "question": "How does TLS 1.3 achieve secure cryptographic session establishment with a single Round-Trip Time (1-RTT)?",
+    "ideal_answer": "TLS 1.2 required 2-RTT handshakes to negotiate cipher suites and exchange keys before sending encrypted data. TLS 1.3 reduces this to 1-RTT by embedding Diffie-Hellman key exchange parameters directly inside the initial ClientHello message. The server responds with ServerHello and its certificate, allowing both sides to derive symmetric session keys immediately. TLS 1.3 also supports 0-RTT session resumption for returning clients.",
+    "key_points": [
+      "Reduces handshake latency from 2-RTT (TLS 1.2) to 1-RTT by guessing key exchange parameters in ClientHello",
+      "Uses Ephemeral Diffie-Hellman (ECDHE) for Perfect Forward Secrecy (PFS)",
+      "Removes insecure legacy cipher algorithms (MD5, SHA1, RC4, RSA key exchange)"
+    ],
+    "red_flags": [
+      "Claiming TLS 1.3 uses symmetric encryption to exchange asymmetric public keys",
+      "Assuming 0-RTT session resumption is immune to replay attacks without anti-replay defenses"
+    ],
+    "follow_ups": [
+      "What is Perfect Forward Secrecy (PFS) in TLS handshakes?",
+      "How does Server Name Indication (SNI) allow a single IP address to host multiple TLS certificates?"
+    ],
+    "tags": [
+      "computer-networks",
+      "tls13",
+      "security",
+      "cryptography"
+    ]
+  },
+  {
+    "id": "SWE-036",
+    "track": "swe",
+    "topic": "basic system design",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What is the core difference between Vertical Scaling (Scaling Up) and Horizontal Scaling (Scaling Out)?",
+    "ideal_answer": "Vertical Scaling increases the hardware capacity of an existing single server by adding more CPU cores, RAM, or faster storage. It requires zero application code changes but hits strict hardware ceilings and creates a single point of failure. Horizontal Scaling adds more independent server instances to a pool behind a load balancer, providing virtually unlimited elasticity and fault tolerance.",
+    "key_points": [
+      "Vertical Scaling: Adds hardware capacity (CPU/RAM) to a single machine; simple but bounded by physical limits",
+      "Horizontal Scaling: Adds more server nodes to a distributed pool; highly scalable and fault tolerant",
+      "Horizontal scaling requires stateless application design and distributed state management"
+    ],
+    "red_flags": [
+      "Claiming vertical scaling eliminates single points of failure without standby replicas",
+      "Assuming horizontal scaling requires zero network or application architecture changes"
+    ],
+    "follow_ups": [
+      "Why are relational databases harder to scale horizontally than stateless web servers?",
+      "How does auto-scaling dynamically adjust server instance counts based on CPU metrics?"
+    ],
+    "tags": [
+      "basic-system-design",
+      "scaling",
+      "architecture"
+    ]
+  },
+  {
+    "id": "SWE-037",
+    "track": "swe",
+    "topic": "basic system design",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What is the purpose of a Load Balancer, and how does Round Robin traffic distribution work?",
+    "ideal_answer": "A Load Balancer sits between incoming client traffic and backend server pools, distributing requests to prevent any single server from becoming overwhelmed. Round Robin distribution routes incoming requests sequentially across the list of available healthy servers (Server A -> Server B -> Server C -> Server A). Load balancers also perform continuous health checks to remove failing servers.",
+    "key_points": [
+      "Distributes network traffic across backend server pools to maximize throughput and reliability",
+      "Round Robin algorithm routes requests sequentially down the list of active server instances",
+      "Executes health checks to automatically route traffic away from unhealthy servers"
+    ],
+    "red_flags": [
+      "Assuming Round Robin accounts for varying server hardware capacity or request execution time",
+      "Routing traffic to crashed servers due to missing health checks"
+    ],
+    "follow_ups": [
+      "How do Weighted Round Robin and Least Connections algorithms improve load balancing?",
+      "What is Layer 4 (Transport) versus Layer 7 (Application) load balancing?"
+    ],
+    "tags": [
+      "basic-system-design",
+      "load-balancer",
+      "round-robin"
+    ]
+  },
+  {
+    "id": "SWE-038",
+    "track": "swe",
+    "topic": "basic system design",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "What is Database Sharding, and how does a Shard Key determine data distribution?",
+    "ideal_answer": "Database Sharding partitions a large dataset horizontally across multiple distinct database server nodes (shards). A Shard Key is a designated table column (e.g. user_id) whose value is processed by a hashing or range function to determine which specific shard stores a given record. High cardinality shard keys ensure uniform data and query distribution across nodes.",
+    "key_points": [
+      "Horizontally partitions large database tables across multiple independent database server nodes",
+      "Shard Key value determines target partition node via hash or range routing functions",
+      "High cardinality shard keys prevent data hotspotting and uneven node resource utilization"
+    ],
+    "red_flags": [
+      "Selecting a low cardinality shard key like gender or country that causes massive data hotspots",
+      "Assuming cross-shard JOINs perform efficiently without application-level fan-out"
+    ],
+    "follow_ups": [
+      "What problems occur when performing cross-shard queries or cross-shard transactions?",
+      "How does consistent hashing assist when adding new database shard nodes?"
+    ],
+    "tags": [
+      "basic-system-design",
+      "sharding",
+      "database",
+      "shard-key"
+    ]
+  },
+  {
+    "id": "SWE-039",
+    "track": "swe",
+    "topic": "basic system design",
+    "difficulty": "hard",
+    "stretch": false,
+    "question": "What is the CAP Theorem in distributed system design, and why must systems choose between Consistency and Availability during network partitions?",
+    "ideal_answer": "The CAP Theorem states that a distributed datastore can simultaneously guarantee at most two of three properties: Consistency (all nodes see identical data at the same time), Availability (every non-failing node returns a response), and Partition Tolerance (system operates despite network message loss). Because network partitions (P) are inevitable in real networks, distributed systems must trade off CP (sacrificing availability to guarantee consistency) or AP (sacrificing consistency for availability).",
+    "key_points": [
+      "CAP = Consistency, Availability, Partition Tolerance in distributed data stores",
+      "Network partitions (P) are unavoidable; systems must choose between CP or AP during network faults",
+      "CP systems reject requests or wait to ensure consistency; AP systems return stale local data to remain available"
+    ],
+    "red_flags": [
+      "Claiming a distributed system can guarantee CA (Consistency and Availability) while ignoring Partitions in real networks",
+      "Confusing ACID database consistency with CAP Theorem distributed read consistency"
+    ],
+    "follow_ups": [
+      "How does the PACELC theorem extend CAP by addressing latency trade-offs during normal operation?",
+      "What is Eventual Consistency in AP systems like Cassandra or DynamoDB?"
+    ],
+    "tags": [
+      "basic-system-design",
+      "cap-theorem",
+      "distributed-systems"
+    ]
+  },
+  {
+    "id": "SWE-040",
+    "track": "swe",
+    "topic": "basic system design",
+    "difficulty": "hard",
+    "stretch": false,
+    "question": "How does Consistent Hashing minimize key redistribution when scaling distributed caching clusters?",
+    "ideal_answer": "Standard modulo hashing hash(key) % N maps keys to N cache servers, but changing server count N forces remapping of nearly 100% of keys, causing massive cache stampedes. Consistent Hashing maps both servers and keys to positions on a virtual 360-degree hash ring using uniform hash functions. When adding or removing a server node, only k/N keys are remapped to adjacent neighbors, minimizing cache invalidation.",
+    "key_points": [
+      "Standard hash(key) % N invalidates ~100% of cached keys whenever node count N changes",
+      "Consistent Hashing maps servers and keys onto a circular 2^32 hash ring space",
+      "Adding or removing a server node remaps only k/N keys to adjacent ring nodes, preventing cluster stampedes"
+    ],
+    "red_flags": [
+      "Claiming Consistent Hashing eliminates all key lookups entirely",
+      "Omitting virtual nodes (vnodes) which prevent hotspots and ensure uniform load distribution"
+    ],
+    "follow_ups": [
+      "How do virtual nodes (vnodes) prevent hotspots when physical server capacities differ?",
+      "How is Consistent Hashing applied in distributed systems like Amazon Dynamo or Cassandra?"
+    ],
+    "tags": [
+      "basic-system-design",
+      "consistent-hashing",
+      "caching",
+      "distributed-systems"
+    ]
+  },
+  {
+    "id": "SWE-041",
+    "track": "swe",
+    "topic": "DSA",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What is the difference between a stack and a queue, and where is each used?",
+    "ideal_answer": "A stack is LIFO: push and pop happen at one end, used for function calls, undo, and expression evaluation. A queue is FIFO: elements enter at the rear and leave from the front, used for scheduling, BFS, and buffering. Both support O(1) insert and remove when implemented with a linked list or circular array.",
+    "key_points": [
+      "Stack is LIFO; queue is FIFO",
+      "Stack: call stack, undo, parsing; queue: scheduling, BFS",
+      "Both achieve O(1) core operations with proper implementation"
+    ],
+    "red_flags": [
+      "Mixing up LIFO and FIFO",
+      "Implementing a queue with an array and O(n) shifting on every dequeue"
+    ],
+    "follow_ups": [
+      "How can you implement a queue using two stacks?",
+      "What is a deque?"
+    ],
+    "tags": [
+      "stack",
+      "queue",
+      "data-structures"
+    ]
+  },
+  {
+    "id": "SWE-042",
+    "track": "swe",
+    "topic": "DSA",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "How does recursion use the call stack, and what causes a stack overflow?",
+    "ideal_answer": "Each recursive call pushes a new frame with its parameters and local variables onto the call stack, and frames are popped as calls return. A correct recursion needs a base case and progress toward it. Missing base cases or very deep recursion exhaust the stack and cause a stack overflow, which can be fixed with iteration, memoization, or tail-call techniques where supported.",
+    "key_points": [
+      "Each call adds a stack frame; returns pop it",
+      "Base case plus progress toward it is required",
+      "Too-deep or unbounded recursion causes stack overflow"
+    ],
+    "red_flags": [
+      "Writing recursion without a base case",
+      "Claiming recursion never uses extra memory"
+    ],
+    "follow_ups": [
+      "How would you convert a recursive DFS into an iterative one?",
+      "What is tail recursion?"
+    ],
+    "tags": [
+      "recursion",
+      "call-stack",
+      "stack-overflow"
+    ]
+  },
+  {
+    "id": "SWE-043",
+    "track": "swe",
+    "topic": "DSA",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "How do BFS and DFS differ, and when do you use each?",
+    "ideal_answer": "BFS explores a graph level by level using a queue and finds the shortest path in unweighted graphs. DFS goes as deep as possible using a stack or recursion and suits cycle detection, topological sort, and exploring all paths. Both run in O(V+E) time, but BFS can use more memory on wide graphs while DFS depth can be large on deep graphs.",
+    "key_points": [
+      "BFS: queue, level order, shortest path in unweighted graphs",
+      "DFS: stack/recursion, cycle detection, topological sort",
+      "Both O(V+E); memory profile differs"
+    ],
+    "red_flags": [
+      "Using DFS to claim shortest paths in unweighted graphs",
+      "Forgetting a visited set and looping forever on cycles"
+    ],
+    "follow_ups": [
+      "How do you detect a cycle in a directed graph?",
+      "How would you find the shortest path in a grid with obstacles?"
+    ],
+    "tags": [
+      "bfs",
+      "dfs",
+      "graphs"
+    ]
+  },
+  {
+    "id": "SWE-044",
+    "track": "swe",
+    "topic": "DSA",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "How do you detect a cycle in a linked list?",
+    "ideal_answer": "Use Floyd's tortoise and hare: move a slow pointer one step and a fast pointer two steps at a time. If they ever meet, the list has a cycle; if the fast pointer reaches null, it does not. This runs in O(n) time and O(1) space, unlike the hash-set approach that needs O(n) extra space.",
+    "key_points": [
+      "Slow and fast pointers meet if a cycle exists",
+      "O(n) time and O(1) space",
+      "Hash set of visited nodes also works but uses O(n) space"
+    ],
+    "red_flags": [
+      "Modifying node values permanently without noting it",
+      "Looping with a single pointer and no termination condition"
+    ],
+    "follow_ups": [
+      "How do you find the node where the cycle begins?",
+      "How would you find the middle of a linked list?"
+    ],
+    "tags": [
+      "linked-list",
+      "floyd-cycle",
+      "two-pointers"
+    ]
+  },
+  {
+    "id": "SWE-045",
+    "track": "swe",
+    "topic": "DSA",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "Explain the two-pointer and sliding window techniques with an example problem.",
+    "ideal_answer": "Two pointers walk through an array from both ends or at different speeds to avoid nested loops, for example finding a pair with a target sum in a sorted array in O(n). A sliding window maintains a contiguous range and moves its edges, for example finding the longest substring without repeating characters by tracking characters in a set or map. Both usually reduce O(n^2) brute force to O(n).",
+    "key_points": [
+      "Two pointers: sorted arrays, pairs, partitioning, O(n)",
+      "Sliding window: contiguous subarray or substring problems",
+      "Replaces nested loops, typically O(n^2) to O(n)"
+    ],
+    "red_flags": [
+      "Using the technique on unsorted data where order matters, without sorting first",
+      "Shrinking the window without updating tracked state"
+    ],
+    "follow_ups": [
+      "How do you find the maximum sum of a subarray of size k?",
+      "What invariant does your window maintain?"
+    ],
+    "tags": [
+      "two-pointers",
+      "sliding-window",
+      "arrays"
+    ]
+  },
+  {
+    "id": "SWE-046",
+    "track": "swe",
+    "topic": "DSA",
+    "difficulty": "hard",
+    "stretch": false,
+    "question": "What is dynamic programming, and how do memoization and tabulation differ? Use an example.",
+    "ideal_answer": "Dynamic programming solves problems with overlapping subproblems and optimal substructure by storing results instead of recomputing them. Memoization is top-down: recursion plus a cache. Tabulation is bottom-up: fill a table iteratively from base cases. For Fibonacci, naive recursion is exponential, while either DP approach is O(n), and tabulation can cut space to O(1).",
+    "key_points": [
+      "Needs overlapping subproblems and optimal substructure",
+      "Memoization is top-down with a cache; tabulation is bottom-up",
+      "Fibonacci goes from exponential to O(n)"
+    ],
+    "red_flags": [
+      "Calling any recursion 'dynamic programming'",
+      "Ignoring the state definition and recurrence"
+    ],
+    "follow_ups": [
+      "How would you solve the 0/1 knapsack problem?",
+      "How do you reduce the space of a 2D DP table?"
+    ],
+    "tags": [
+      "dynamic-programming",
+      "memoization",
+      "tabulation"
+    ]
+  },
+  {
+    "id": "SWE-047",
+    "track": "swe",
+    "topic": "DSA",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "How does Dijkstra's algorithm work, and why does it fail with negative edge weights?",
+    "ideal_answer": "Dijkstra keeps the best known distance to each node and repeatedly picks the unvisited node with the smallest distance, using a min-heap, relaxing its outgoing edges. It relies on the assumption that once a node is finalized, no shorter path can exist, which negative edges break. With a binary heap it runs in O((V+E) log V). Use Bellman-Ford when negative weights exist.",
+    "key_points": [
+      "Greedy: always finalize the closest unvisited node",
+      "Min-heap gives O((V+E) log V)",
+      "Negative edges break the finalized-node assumption; use Bellman-Ford"
+    ],
+    "red_flags": [
+      "Using Dijkstra on graphs with negative edges",
+      "Using BFS for weighted shortest paths"
+    ],
+    "follow_ups": [
+      "How does A* differ from Dijkstra?",
+      "What is the time complexity of Bellman-Ford?"
+    ],
+    "tags": [
+      "dijkstra",
+      "shortest-path",
+      "graphs"
+    ]
+  },
+  {
+    "id": "SWE-048",
+    "track": "swe",
+    "topic": "DSA",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "How can a graph be represented, and when is an adjacency list better than an adjacency matrix?",
+    "ideal_answer": "An adjacency matrix is a V x V grid giving O(1) edge lookup but O(V^2) space. An adjacency list stores each node's neighbors, using O(V+E) space and iterating neighbors efficiently. Lists are better for sparse graphs, while matrices suit dense graphs or frequent edge-existence checks.",
+    "key_points": [
+      "Matrix: O(V^2) space, O(1) edge lookup",
+      "List: O(V+E) space, efficient neighbor traversal",
+      "List for sparse graphs, matrix for dense graphs"
+    ],
+    "red_flags": [
+      "Using a matrix for a huge sparse graph",
+      "Claiming the list gives O(1) edge lookup"
+    ],
+    "follow_ups": [
+      "How do you represent a weighted graph?",
+      "What is the cost of adding a vertex in each representation?"
+    ],
+    "tags": [
+      "graphs",
+      "adjacency-list",
+      "adjacency-matrix"
+    ]
+  },
+  {
+    "id": "SWE-049",
+    "track": "swe",
+    "topic": "DSA",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "How do you reverse a singly linked list, and what is the time and space complexity?",
+    "ideal_answer": "Iterate through the list while keeping prev, current, and next pointers: save next, point current.next to prev, then advance prev and current. When current is null, prev is the new head. This takes O(n) time and O(1) extra space, while the recursive version uses O(n) stack space.",
+    "key_points": [
+      "Iterative pointer reversal with prev, current, next",
+      "O(n) time, O(1) extra space",
+      "Recursive version costs O(n) call-stack space"
+    ],
+    "red_flags": [
+      "Losing the rest of the list by overwriting next before saving it",
+      "Returning the old head instead of the new head"
+    ],
+    "follow_ups": [
+      "How would you reverse only a sublist between positions m and n?",
+      "How would you check whether a linked list is a palindrome?"
+    ],
+    "tags": [
+      "linked-list",
+      "reversal",
+      "pointers"
+    ]
+  },
+  {
+    "id": "SWE-050",
+    "track": "swe",
+    "topic": "DSA",
+    "difficulty": "hard",
+    "stretch": false,
+    "question": "How would you find the k-th largest element in an unsorted array, and what are the tradeoffs between approaches?",
+    "ideal_answer": "Sorting works in O(n log n). A min-heap of size k gives O(n log k) time and O(k) space and also works on streams. Quickselect partitions around a pivot and averages O(n) time with O(1) extra space, but its worst case is O(n^2) without randomized pivots. Choose by input size, memory, and whether data arrives as a stream.",
+    "key_points": [
+      "Sort: O(n log n); min-heap of size k: O(n log k)",
+      "Quickselect: average O(n), worst O(n^2)",
+      "Heap approach suits streaming data"
+    ],
+    "red_flags": [
+      "Using a max-heap of all n elements and ignoring the cheaper size-k heap",
+      "Claiming quickselect is always O(n)"
+    ],
+    "follow_ups": [
+      "How do you reduce quickselect's worst-case risk?",
+      "How would you find the median of a data stream?"
+    ],
+    "tags": [
+      "heap",
+      "quickselect",
+      "selection"
+    ]
+  },
+  {
+    "id": "SWE-051",
+    "track": "swe",
+    "topic": "Memory and languages",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What is the difference between stack memory and heap memory?",
+    "ideal_answer": "Stack memory stores function call frames and local variables, is managed automatically in LIFO order, and is very fast but small. Heap memory holds dynamically allocated objects that live until freed or garbage collected, is larger but slower, and can fragment or leak. Overusing the stack causes overflow while mismanaging the heap causes leaks.",
+    "key_points": [
+      "Stack: automatic, LIFO, fast, limited size",
+      "Heap: dynamic, larger, manual or garbage-collected",
+      "Stack overflow vs memory leak as typical failures"
+    ],
+    "red_flags": [
+      "Saying objects always live on the stack in every language",
+      "Believing heap memory is freed automatically at function return"
+    ],
+    "follow_ups": [
+      "Where do primitives and objects live in Java or Python?",
+      "What is a memory leak in a garbage-collected language?"
+    ],
+    "tags": [
+      "stack-memory",
+      "heap-memory",
+      "memory-management"
+    ]
+  },
+  {
+    "id": "SWE-052",
+    "track": "swe",
+    "topic": "OOP",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "Compare inheritance and composition. When do you prefer composition?",
+    "ideal_answer": "Inheritance models an is-a relationship and reuses behavior from a parent class, but it tightly couples subclasses to the parent and can create fragile hierarchies. Composition models has-a by holding other objects and delegating to them, giving looser coupling and runtime flexibility. The common guideline is to favor composition over inheritance unless there is a true is-a relationship.",
+    "key_points": [
+      "Inheritance: is-a, tight coupling, fragile base class risk",
+      "Composition: has-a, delegation, flexible and testable",
+      "Prefer composition unless the subtype relationship is genuine"
+    ],
+    "red_flags": [
+      "Using inheritance only to reuse code",
+      "Claiming inheritance is always bad"
+    ],
+    "follow_ups": [
+      "Give an example where inheritance is the right choice.",
+      "How does composition make unit testing easier?"
+    ],
+    "tags": [
+      "inheritance",
+      "composition",
+      "oop"
+    ]
+  },
+  {
+    "id": "SWE-053",
+    "track": "swe",
+    "topic": "OOP",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What is the difference between an abstract class and an interface?",
+    "ideal_answer": "An abstract class can hold state, constructors, and a mix of implemented and abstract methods, and a class typically extends only one. An interface defines a contract of method signatures without state, and a class can implement many. Use an abstract class for shared base behavior in a related family, and an interface to define a capability across unrelated classes.",
+    "key_points": [
+      "Abstract class: shared state and partial implementation, single inheritance",
+      "Interface: contract only, multiple implementation",
+      "Abstract class for a family, interface for a capability"
+    ],
+    "red_flags": [
+      "Saying a class can extend multiple abstract classes in Java",
+      "Claiming interfaces can never contain any implementation in any language"
+    ],
+    "follow_ups": [
+      "How do default methods change interfaces in Java?",
+      "Can an abstract class be instantiated?"
+    ],
+    "tags": [
+      "abstract-class",
+      "interface",
+      "oop"
+    ]
+  },
+  {
+    "id": "SWE-054",
+    "track": "swe",
+    "topic": "OS",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "Compare the CPU scheduling algorithms FCFS, SJF, and Round Robin.",
+    "ideal_answer": "FCFS runs processes in arrival order; it is simple but short jobs can wait behind long ones (convoy effect). SJF runs the shortest job next and minimizes average waiting time, but needs burst-time knowledge and can starve long jobs. Round Robin gives each process a fixed time quantum, which suits interactive systems, with the quantum size trading responsiveness against context-switch overhead.",
+    "key_points": [
+      "FCFS: simple, convoy effect",
+      "SJF: minimal average wait, starvation risk, needs burst estimates",
+      "Round Robin: time quantum, fair, context-switch overhead"
+    ],
+    "red_flags": [
+      "Claiming SJF can be implemented exactly without knowing burst times",
+      "Setting the Round Robin quantum to extremes without discussing tradeoffs"
+    ],
+    "follow_ups": [
+      "What is starvation and how does aging fix it?",
+      "What happens if the time quantum is too large or too small?"
+    ],
+    "tags": [
+      "scheduling",
+      "round-robin",
+      "sjf"
+    ]
+  },
+  {
+    "id": "SWE-055",
+    "track": "swe",
+    "topic": "Networks",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "What happens, step by step, when you type a URL into a browser and press Enter?",
+    "ideal_answer": "The browser checks caches, resolves the domain through DNS to an IP, and opens a TCP connection (plus a TLS handshake for HTTPS). It sends an HTTP request, the server processes it and returns a response, and the browser parses the HTML, fetches CSS, JS, and images, builds the DOM and render tree, and paints the page.",
+    "key_points": [
+      "DNS resolution, then TCP connection and TLS handshake",
+      "HTTP request and server response",
+      "Browser parses HTML/CSS/JS, builds the DOM, and renders"
+    ],
+    "red_flags": [
+      "Skipping DNS or the connection setup entirely",
+      "Saying the browser downloads everything before rendering anything"
+    ],
+    "follow_ups": [
+      "Where can caching happen in this flow?",
+      "What changes with HTTP/2 or HTTP/3?"
+    ],
+    "tags": [
+      "browser",
+      "dns",
+      "http"
+    ]
+  },
+  {
+    "id": "SWE-056",
+    "track": "swe",
+    "topic": "Networks",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What is the difference between HTTP and HTTPS?",
+    "ideal_answer": "HTTP sends data in plain text, so anyone on the network path can read or alter it. HTTPS is HTTP over TLS, which encrypts the traffic, authenticates the server through a certificate, and protects integrity. It is essential for logins and payments, and it also enables features like HTTP/2 in browsers.",
+    "key_points": [
+      "HTTPS = HTTP over TLS",
+      "Provides encryption, server authentication, and integrity",
+      "Required for sensitive data and modern browser features"
+    ],
+    "red_flags": [
+      "Saying HTTPS makes a website itself secure from all attacks",
+      "Confusing HTTPS with a different port-only change"
+    ],
+    "follow_ups": [
+      "What is a TLS certificate and who issues it?",
+      "What is a man-in-the-middle attack?"
+    ],
+    "tags": [
+      "http",
+      "https",
+      "tls"
+    ]
+  },
+  {
+    "id": "SWE-057",
+    "track": "swe",
+    "topic": "Tools",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What is the difference between git merge and git rebase?",
+    "ideal_answer": "Merge combines two branches by creating a merge commit and preserves the full history as it happened. Rebase replays your commits on top of another branch, producing a linear history but rewriting commit hashes. Do not rebase commits that others have already pulled; use merge for shared branches and rebase to tidy local work.",
+    "key_points": [
+      "Merge keeps history and adds a merge commit",
+      "Rebase rewrites commits for a linear history",
+      "Never rebase shared, already-pushed history"
+    ],
+    "red_flags": [
+      "Force-pushing a rebased shared branch without coordination",
+      "Saying rebase and merge give an identical commit graph"
+    ],
+    "follow_ups": [
+      "How do you resolve a merge conflict?",
+      "What does git cherry-pick do?"
+    ],
+    "tags": [
+      "git",
+      "merge",
+      "rebase"
+    ]
+  },
+  {
+    "id": "SWE-058",
+    "track": "swe",
+    "topic": "DBMS",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What is the difference between WHERE and HAVING in SQL?",
+    "ideal_answer": "WHERE filters individual rows before grouping and aggregation, so it cannot use aggregate functions. HAVING filters groups after GROUP BY and can use aggregates such as COUNT or SUM. Filtering with WHERE first is usually more efficient because it reduces the rows to be grouped.",
+    "key_points": [
+      "WHERE filters rows before GROUP BY",
+      "HAVING filters aggregated groups after GROUP BY",
+      "Prefer WHERE for row filters for performance"
+    ],
+    "red_flags": [
+      "Using aggregate functions inside WHERE",
+      "Moving row-level filters into HAVING unnecessarily"
+    ],
+    "follow_ups": [
+      "Write a query for departments with more than 5 employees.",
+      "What is the logical order of SQL clause execution?"
+    ],
+    "tags": [
+      "sql",
+      "where",
+      "having"
+    ]
+  },
+  {
+    "id": "SWE-059",
+    "track": "swe",
+    "topic": "System design",
+    "difficulty": "hard",
+    "stretch": false,
+    "question": "Design a URL shortener like bit.ly. What are the main components and tradeoffs?",
+    "ideal_answer": "Clarify requirements: create short links, redirect fast, high read-to-write ratio. Generate a unique short code, for example a base62 encoding of a counter or ID, store the mapping in a database, and serve redirects with a cache in front for hot links. Scale with a load balancer, database sharding or replication, and handle collisions, expiry, analytics, and abuse.",
+    "key_points": [
+      "Requirements first: read-heavy, low-latency redirects",
+      "Short code via base62 of a unique ID; store code-to-URL mapping",
+      "Cache hot links; scale reads with replicas/sharding"
+    ],
+    "red_flags": [
+      "Jumping straight to technology without clarifying requirements",
+      "Using random codes with no collision handling"
+    ],
+    "follow_ups": [
+      "How would you generate unique IDs across multiple servers?",
+      "How would you add click analytics without slowing redirects?"
+    ],
+    "tags": [
+      "system-design",
+      "url-shortener",
+      "caching"
+    ]
+  },
+  {
+    "id": "SWE-060",
+    "track": "swe",
+    "topic": "DSA",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "How do hash tables handle collisions, and how does the load factor affect performance?",
+    "ideal_answer": "A collision happens when two keys map to the same bucket. Chaining stores colliding entries in a list per bucket, while open addressing probes for another free slot using linear probing, quadratic probing, or double hashing. As the load factor (entries divided by buckets) rises, collisions increase, so tables resize and rehash at a threshold to keep operations near O(1) on average.",
+    "key_points": [
+      "Chaining vs open addressing (linear, quadratic, double hashing)",
+      "High load factor increases collisions and slows lookups",
+      "Resize and rehash to restore average O(1)"
+    ],
+    "red_flags": [
+      "Claiming hash tables never have collisions",
+      "Ignoring worst-case O(n) with a poor hash function"
+    ],
+    "follow_ups": [
+      "Why does resizing cost O(n) but stay amortized O(1)?",
+      "What makes a good hash function?"
+    ],
+    "tags": [
+      "hash-table",
+      "collisions",
+      "load-factor"
+    ]
+  }
+]

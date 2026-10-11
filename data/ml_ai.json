@@ -1,0 +1,1659 @@
+[
+  {
+    "id": "ML-001",
+    "track": "ml_ai",
+    "topic": "ML fundamentals",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What is the primary operational difference between supervised and unsupervised machine learning?",
+    "ideal_answer": "Supervised learning algorithms train on labeled datasets where each input instance is paired with a target ground-truth output label. Unsupervised learning algorithms analyze unlabeled data to discover inherent underlying structures, patterns, or clusters without explicit ground-truth guidance. Common examples include regression and classification for supervised tasks, and K-Means clustering or PCA for unsupervised tasks.",
+    "key_points": [
+      "Supervised learning requires explicit input-output ground truth labels",
+      "Unsupervised learning discovers latent patterns, groupings, or clusters in unlabeled data",
+      "Supervised tasks include regression and classification; unsupervised tasks include clustering and dimension reduction"
+    ],
+    "red_flags": [
+      "Claiming unsupervised learning never uses data or features",
+      "Confusing validation loss with unsupervised objective functions"
+    ],
+    "follow_ups": [
+      "How does semi-supervised learning bridge these two paradigms?",
+      "What loss functions are typically evaluated in supervised regression versus classification?"
+    ],
+    "tags": [
+      "supervised",
+      "unsupervised",
+      "fundamentals"
+    ]
+  },
+  {
+    "id": "ML-002",
+    "track": "ml_ai",
+    "topic": "ML fundamentals",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "Why is it critical to split a dataset into separate training, validation, and test subsets?",
+    "ideal_answer": "Splitting datasets prevents data leakage and provides an unbiased evaluation of model generalization on unseen data. The training set updates model parameters, the validation set tunes hyper-parameters and guides early stopping, and the test set serves as a final evaluation benchmark. Evaluating performance solely on training data leads to severe overfitting and unreliable real-world performance estimates.",
+    "key_points": [
+      "Training set optimizes model parameters during backpropagation",
+      "Validation set enables hyperparameter tuning and model selection without exposing test data",
+      "Test set provides an unbiased estimate of generalization error on completely held-out data"
+    ],
+    "red_flags": [
+      "Tuning hyperparameters directly on the test dataset",
+      "Performing feature scaling before splitting the dataset into train and test sets"
+    ],
+    "follow_ups": [
+      "What is k-fold cross-validation, and when is it preferred over a fixed validation split?",
+      "How does data leakage occur during preprocessing before dataset splitting?"
+    ],
+    "tags": [
+      "validation",
+      "test-set",
+      "overfitting"
+    ]
+  },
+  {
+    "id": "ML-003",
+    "track": "ml_ai",
+    "topic": "ML fundamentals",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "How do parametric machine learning models differ from non-parametric models?",
+    "ideal_answer": "Parametric models summarize data using a fixed number of parameters that do not grow as the dataset size increases, making assumptions about the underlying distribution. Non-parametric models do not make strong distributional assumptions and their parameter count or model complexity scales dynamically with the amount of training data. Linear regression and logistic regression are parametric, whereas k-Nearest Neighbors and Decision Trees are non-parametric.",
+    "key_points": [
+      "Parametric models have a fixed number of parameters independent of dataset size",
+      "Non-parametric models scale parameter capacity or instance storage as dataset size grows",
+      "Parametric models make strong functional form assumptions; non-parametric models offer higher distribution flexibility"
+    ],
+    "red_flags": [
+      "Believing non-parametric models have zero parameters",
+      "Assuming parametric models always outperform non-parametric models on small data"
+    ],
+    "follow_ups": [
+      "Why are Decision Trees classified as non-parametric despite learning fixed node split conditions?",
+      "What are the computational trade-offs during inference for non-parametric models like KNN?"
+    ],
+    "tags": [
+      "parametric",
+      "non-parametric",
+      "model-capacity"
+    ]
+  },
+  {
+    "id": "ML-004",
+    "track": "ml_ai",
+    "topic": "ML fundamentals",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "What is the mathematical distinction between generative models and discriminative models?",
+    "ideal_answer": "Discriminative models directly learn the conditional probability distribution P(Y|X) to model the decision boundary between classes given input features. Generative models learn the joint probability distribution P(X, Y) or marginal distribution P(X) to model how the data was produced. Discriminative models (like Logistic Regression or SVMs) focus on classification accuracy, while generative models (like Naive Bayes or VAEs) can synthesize new data samples.",
+    "key_points": [
+      "Discriminative models model conditional probability P(Y|X)",
+      "Generative models model joint probability P(X, Y) or marginal P(X)",
+      "Generative models can generate synthetic samples; discriminative models excel at class boundaries"
+    ],
+    "red_flags": [
+      "Claiming discriminative models learn the underlying data distribution P(X)",
+      "Classifying Naive Bayes as a discriminative algorithm"
+    ],
+    "follow_ups": [
+      "How does Bayes' Theorem allow a generative model to compute P(Y|X)?",
+      "Which model class typically yields lower asymptotic error when training data is abundant?"
+    ],
+    "tags": [
+      "generative",
+      "discriminative",
+      "probability"
+    ]
+  },
+  {
+    "id": "ML-005",
+    "track": "ml_ai",
+    "topic": "bias-variance",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What is the bias-variance tradeoff in machine learning prediction error?",
+    "ideal_answer": "Total expected generalization error decomposes into squared bias, variance, and irreducible noise error. High bias occurs when a model makes overly simplistic assumptions, causing systematic underfitting on both training and test data. High variance occurs when a model is overly complex and memorizes noise in the training set, causing poor generalization to unseen test data.",
+    "key_points": [
+      "Expected prediction error decomposes into squared bias, variance, and irreducible error",
+      "High bias corresponds to model underfitting due to overly restrictive assumptions",
+      "High variance corresponds to overfitting where the model fits training noise"
+    ],
+    "red_flags": [
+      "Claiming that increasing model complexity always decreases total prediction error",
+      "Confusing irreducible noise with model variance"
+    ],
+    "follow_ups": [
+      "How does increasing training dataset size affect bias versus variance?",
+      "How do regularization techniques alter the bias-variance balance?"
+    ],
+    "tags": [
+      "bias-variance",
+      "underfitting",
+      "overfitting"
+    ]
+  },
+  {
+    "id": "ML-006",
+    "track": "ml_ai",
+    "topic": "bias-variance",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "How do L1 (Lasso) and L2 (Ridge) regularization penalty terms constrain model parameters?",
+    "ideal_answer": "Regularization penalizes large weight magnitudes in the objective function to reduce model variance and prevent overfitting. L1 regularization adds the sum of absolute weight values, driving unimportant weights strictly to zero to perform feature selection. L2 regularization adds the sum of squared weight values, shrinking weights continuously toward zero without setting them exactly to zero.",
+    "key_points": [
+      "L1 adds absolute weight sum penalty, encouraging sparse solutions and feature selection",
+      "L2 adds squared weight sum penalty, shrinking weights smoothly toward zero",
+      "Both methods decrease variance at the cost of introducing small bias"
+    ],
+    "red_flags": [
+      "Claiming L2 regularization produces sparse feature representations with exact zeros",
+      "Confusing L1 and L2 penalty formulas"
+    ],
+    "follow_ups": [
+      "What is ElasticNet regularization, and when is it preferred over pure L1 or L2?",
+      "How is weight decay in deep learning frameworks mathematically related to L2 regularization?"
+    ],
+    "tags": [
+      "l1-l2",
+      "regularization",
+      "lasso",
+      "ridge"
+    ]
+  },
+  {
+    "id": "ML-007",
+    "track": "ml_ai",
+    "topic": "bias-variance",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "Why do unconstrained decision trees suffer from high variance, and how do Random Forests mitigate this issue?",
+    "ideal_answer": "Unconstrained decision trees recursively partition feature space until leaf nodes become pure, fitting training data noise and creating high variance. Random Forests aggregate predictions across an ensemble of decorrelated decision trees built on bootstrap samples of the dataset. By selecting a random subset of features at each split, Random Forests decorrelate individual trees and significantly reduce overall variance without increasing bias.",
+    "key_points": [
+      "Deep single decision trees overfit training noise leading to high variance",
+      "Bagging averages predictions across trees trained on bootstrap samples",
+      "Feature randomization at splits decorrelates trees, maximizing variance reduction"
+    ],
+    "red_flags": [
+      "Claiming Random Forests reduce variance by making individual trees shallower",
+      "Confusing bagging in Random Forests with boosting algorithms"
+    ],
+    "follow_ups": [
+      "How does Gradient Boosting differ from Random Forests in addressing bias versus variance?",
+      "What is out-of-bag (OOB) error estimation in Random Forests?"
+    ],
+    "tags": [
+      "decision-trees",
+      "random-forest",
+      "bias-variance",
+      "ensemble"
+    ]
+  },
+  {
+    "id": "ML-008",
+    "track": "ml_ai",
+    "topic": "bias-variance",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "What is catastrophic forgetting during model fine-tuning, and how can parameter-efficient techniques prevent it?",
+    "ideal_answer": "Catastrophic forgetting occurs when a neural network fine-tuned on a specific task severely degrades or overwrites previously learned general capabilities. Parameter-Efficient Fine-Tuning (PEFT) methods like LoRA avoid this by freezing the base model's pretrained weights entirely. PEFT only updates small auxiliary adapter modules or low-rank matrices, preserving general foundational knowledge while adapting to the target domain.",
+    "key_points": [
+      "Catastrophic forgetting overwrites pretrained representations during full fine-tuning",
+      "PEFT methods like LoRA freeze base weights and train lightweight parameter deltas",
+      "Preserves general pretrained capabilities while minimizing target domain variance and training cost"
+    ],
+    "red_flags": [
+      "Believing full parameter fine-tuning is required for specialized task adaptation",
+      "Thinking LoRA modifies base model parameter values in-place during training"
+    ],
+    "follow_ups": [
+      "How does experience replay mitigate catastrophic forgetting during continual pre-training?",
+      "How does KL-divergence penalty in RLHF prevent model drift from base representations?"
+    ],
+    "tags": [
+      "catastrophic-forgetting",
+      "peft",
+      "lora",
+      "fine-tuning"
+    ]
+  },
+  {
+    "id": "ML-009",
+    "track": "ml_ai",
+    "topic": "metrics",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What is the difference between Precision and Recall in binary classification?",
+    "ideal_answer": "Precision measures the proportion of true positive predictions out of all instances predicted as positive: TP / (TP + FP). Recall measures the proportion of true positive predictions out of all actual positive ground-truth instances: TP / (TP + FN). Precision highlights avoiding false alarms, while Recall highlights capturing all positive cases.",
+    "key_points": [
+      "Precision = TP / (TP + FP); focuses on prediction accuracy among positive classifications",
+      "Recall = TP / (TP + FN); focuses on capturing all true positive instances",
+      "An inherent tradeoff exists: increasing classification threshold raises precision but reduces recall"
+    ],
+    "red_flags": [
+      "Swapping the denominators for precision and recall",
+      "Claiming high recall guarantees low false positive rate"
+    ],
+    "follow_ups": [
+      "In medical diagnosis, why is recall prioritized over precision?",
+      "How does adjusting the probability classification threshold impact the PR curve?"
+    ],
+    "tags": [
+      "metrics",
+      "precision",
+      "recall",
+      "classification"
+    ]
+  },
+  {
+    "id": "ML-010",
+    "track": "ml_ai",
+    "topic": "metrics",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "Why is accuracy a misleading performance metric for highly imbalanced datasets?",
+    "ideal_answer": "Accuracy calculates total correct predictions divided by total samples: (TP + TN) / Total. In imbalanced datasets where 99% of samples belong to the majority negative class, a naive model that predicts 'negative' for every sample achieves 99% accuracy. However, it completely fails to detect the minority positive class, rendering accuracy useless for identifying rare events.",
+    "key_points": [
+      "Accuracy measures total correct predictions over total instances",
+      "In imbalanced classes, a trivial majority classifier yields high accuracy despite zero utility",
+      "Metrics like F1-score, Precision-Recall AUC, or Balanced Accuracy reflect true class performance"
+    ],
+    "red_flags": [
+      "Recommending accuracy as the main evaluation metric for fraud detection datasets",
+      "Confusing balanced accuracy with raw accuracy"
+    ],
+    "follow_ups": [
+      "What resampling techniques (e.g. SMOTE) help balance training distributions?",
+      "How does focal loss address class imbalance during neural network optimization?"
+    ],
+    "tags": [
+      "metrics",
+      "accuracy",
+      "imbalanced-data"
+    ]
+  },
+  {
+    "id": "ML-011",
+    "track": "ml_ai",
+    "topic": "metrics",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "What does the Area Under the Receiver Operating Characteristic curve (ROC-AUC) quantify?",
+    "ideal_answer": "ROC-AUC quantifies a classifier's ability to rank positive instances higher than negative instances across all possible classification decision thresholds. The ROC curve plots True Positive Rate (Sensitivity) against False Positive Rate (1 - Specificity). An AUC score of 1.0 indicates perfect class separation, while 0.5 represents performance equivalent to random guessing.",
+    "key_points": [
+      "ROC curve plots True Positive Rate against False Positive Rate across decision thresholds",
+      "AUC measures probabilistic ranking capability independent of a single fixed threshold",
+      "AUC of 0.5 corresponds to random chance; AUC of 1.0 indicates flawless class separation"
+    ],
+    "red_flags": [
+      "Claiming ROC-AUC depends on selecting a specific 0.5 probability cutoff",
+      "Assuming ROC-AUC is unaffected by severe class imbalance compared to Precision-Recall AUC"
+    ],
+    "follow_ups": [
+      "Why is Precision-Recall AUC preferred over ROC-AUC for severe class imbalance?",
+      "How is ROC-AUC mathematically related to the Wilcoxon-Mann-Whitney statistic?"
+    ],
+    "tags": [
+      "metrics",
+      "roc-auc",
+      "classification"
+    ]
+  },
+  {
+    "id": "ML-012",
+    "track": "ml_ai",
+    "topic": "metrics",
+    "difficulty": "hard",
+    "stretch": false,
+    "question": "How do BLEU, ROUGE, and BERTScore evaluate generated text outputs differently?",
+    "ideal_answer": "BLEU calculates precision for n-gram overlaps between generated text and reference text with a brevity penalty, commonly used for translation. ROUGE measures n-gram recall and longest common subsequences, widely applied in text summarization evals. BERTScore uses contextual embeddings from pre-trained language models to compute semantic cosine similarity between tokens, evaluating meaning rather than exact surface-level word matching.",
+    "key_points": [
+      "BLEU evaluates n-gram precision with brevity penalty for exact lexical overlap",
+      "ROUGE evaluates n-gram and subsequence recall between reference and generated text",
+      "BERTScore uses contextual embeddings to measure semantic similarity beyond surface exact matches"
+    ],
+    "red_flags": [
+      "Claiming BLEU captures deep semantic similarity when paraphrasing occurs",
+      "Confusing ROUGE-N recall metrics with BLEU precision metrics"
+    ],
+    "follow_ups": [
+      "What is LLM-as-a-Judge evaluation, and what biases (e.g. position bias) affect it?",
+      "Why does exact string matching fail when evaluating generative LLM responses?"
+    ],
+    "tags": [
+      "metrics",
+      "bleu",
+      "rouge",
+      "bertscore",
+      "nlp-eval"
+    ]
+  },
+  {
+    "id": "ML-013",
+    "track": "ml_ai",
+    "topic": "optimization",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "How does Gradient Descent update parameter weights during model training?",
+    "ideal_answer": "Gradient Descent iteratively optimizes model parameters by calculating the gradient (partial derivatives) of the loss function with respect to each weight. Weights are updated in the opposite direction of the gradient scaled by a learning rate hyperparameter: W = W - lr * grad. This process steps down the loss surface toward a local or global minimum.",
+    "key_points": [
+      "Calculates gradient of loss function with respect to model parameters",
+      "Updates weights iteratively in opposite direction of gradient: W = W - lr * grad",
+      "Learning rate controls step size taken along the loss gradient surface"
+    ],
+    "red_flags": [
+      "Updating weights in the same direction as the gradient",
+      "Confusing gradient calculation with forward propagation"
+    ],
+    "follow_ups": [
+      "What happens if the learning rate is set too high or too low?",
+      "What is the difference between batch, mini-batch, and stochastic gradient descent?"
+    ],
+    "tags": [
+      "optimization",
+      "gradient-descent",
+      "backpropagation"
+    ]
+  },
+  {
+    "id": "ML-014",
+    "track": "ml_ai",
+    "topic": "optimization",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "How does the Adam optimizer combine momentum and adaptive learning rates?",
+    "ideal_answer": "Adam (Adaptive Moment Estimation) computes exponentially decaying average of past gradients (first moment, momentum) and past squared gradients (second moment, RMSProp). It includes bias-correction terms to adjust for zero initialization of moments in early iterations. This allows Adam to adapt individual learning rates per parameter, maintaining robust updates across sparse gradients and complex loss landscapes.",
+    "key_points": [
+      "First moment (m_t) tracks exponential moving average of gradients for momentum",
+      "Second moment (v_t) tracks exponential moving average of squared gradients for adaptive scaling",
+      "Bias-correction adjusts moment estimates during initial training iterations"
+    ],
+    "red_flags": [
+      "Claiming Adam uses constant uniform learning rates across all parameters",
+      "Confusing Adam's momentum term with SGD learning rate decay"
+    ],
+    "follow_ups": [
+      "How does AdamW fix decoupled weight decay compared to original Adam L2 regularization?",
+      "Why are beta1 and beta2 hyperparameter defaults typically set to 0.9 and 0.999?"
+    ],
+    "tags": [
+      "optimization",
+      "adam",
+      "adamw",
+      "momentum"
+    ]
+  },
+  {
+    "id": "ML-015",
+    "track": "ml_ai",
+    "topic": "optimization",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "Why is a learning rate warmup schedule applied when training Transformer models?",
+    "ideal_answer": "At the start of training, model weights are initialized randomly and gradient magnitudes can be extremely large or volatile. A learning rate warmup linearly increases the learning rate from near-zero to its peak value over initial steps. This stabilizes gradient updates and prevents early divergence or destruction of initialized representations before switching to decay schedules.",
+    "key_points": [
+      "Linearly increases learning rate from zero to peak value during early training steps",
+      "Prevents early training instability and gradient explosion caused by random weight initialization",
+      "Allows model parameters to settle into stable optimization trajectories before applying peak learning rates"
+    ],
+    "red_flags": [
+      "Assuming warmup is used to accelerate convergence speed during final epochs",
+      "Thinking warmup replaces learning rate decay schedules"
+    ],
+    "follow_ups": [
+      "What cosine decay schedules are typically combined with linear learning rate warmup?",
+      "How does Layer Normalization interact with optimization stability during training?"
+    ],
+    "tags": [
+      "optimization",
+      "warmup",
+      "learning-rate",
+      "transformers"
+    ]
+  },
+  {
+    "id": "ML-016",
+    "track": "ml_ai",
+    "topic": "optimization",
+    "difficulty": "hard",
+    "stretch": false,
+    "question": "Why is Cross-Entropy Loss preferred over Mean Squared Error (MSE) for multi-class classification?",
+    "ideal_answer": "When paired with Softmax activation, MSE creates a non-convex loss landscape with multiple local minima and flat regions where gradients saturate near zero. Cross-Entropy Loss mathematically measures divergence between predicted probability distribution and true one-hot distribution: Loss = -sum(y * log(p)). Taking its derivative with respect to pre-softmax logits yields a simple error delta (p - y), avoiding gradient saturation and ensuring steep, convex optimization steps when predictions are wrong.",
+    "key_points": [
+      "MSE combined with Softmax results in non-convex loss surfaces with saturated zero gradients",
+      "Cross-entropy loss gradient with respect to logits is linear error (p - y), preventing vanishing updates",
+      "Strictly penalizes confident wrong predictions with logarithmic cost escalation"
+    ],
+    "red_flags": [
+      "Claiming MSE is always faster to compute and convex for Softmax outputs",
+      "Failing to recognize gradient saturation in sigmoid/softmax under MSE loss"
+    ],
+    "follow_ups": [
+      "How does label smoothing in cross-entropy loss prevent model overconfidence?",
+      "What is the KL-divergence relationship to cross-entropy loss?"
+    ],
+    "tags": [
+      "optimization",
+      "cross-entropy",
+      "loss-functions",
+      "softmax"
+    ]
+  },
+  {
+    "id": "ML-017",
+    "track": "ml_ai",
+    "topic": "CNN/RNN/Transformers",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "Why are Convolutional Neural Networks (CNNs) effective for grid-structured image data?",
+    "ideal_answer": "CNNs utilize localized spatial kernels (filters) that slide across grid inputs, enforcing parameter sharing and translation equivariance. Parameter sharing drastically reduces the total weight count compared to fully-connected dense layers. Stacking convolutional layers creates hierarchical feature representations, detecting edges in early layers and complex semantic shapes in deeper layers.",
+    "key_points": [
+      "Local receptive fields capture spatial grid relationships between neighboring pixels",
+      "Parameter sharing uses identical filter weights across spatial positions, reducing parameter count",
+      "Learns hierarchical feature representations from low-level edges to high-level semantic objects"
+    ],
+    "red_flags": [
+      "Claiming CNNs require fully-connected weights for every pixel pair in image inputs",
+      "Confusing convolution stride with pooling operations"
+    ],
+    "follow_ups": [
+      "What is the function of max-pooling layers in CNN architectures?",
+      "How do Vision Transformers (ViT) process image patches without convolution kernels?"
+    ],
+    "tags": [
+      "cnn",
+      "deep-learning",
+      "computer-vision"
+    ]
+  },
+  {
+    "id": "ML-018",
+    "track": "ml_ai",
+    "topic": "CNN/RNN/Transformers",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "Why do standard Recurrent Neural Networks (RNNs) struggle with long-range sequence dependencies?",
+    "ideal_answer": "Standard RNNs process sequences sequentially by repeatedly multiplying hidden states by weight matrix W_hh at each timestep. During Backpropagation Through Time (BPTT) over long sequences, gradients are multiplied repeatedly by W_hh. If the dominant eigenvalue of W_hh is less than 1, gradients vanish exponentially to zero; if greater than 1, gradients explode. This prevents standard RNNs from retaining dependencies over extended time steps.",
+    "key_points": [
+      "Sequential state processing causes repeated matrix multiplications during BPTT",
+      "Vanishing gradients occur when dominant eigenvalues are under 1, erasing long-term memory",
+      "Exploding gradients occur when eigenvalues exceed 1, corrupting weight updates"
+    ],
+    "red_flags": [
+      "Claiming RNNs process all sequence tokens simultaneously in parallel",
+      "Assuming increasing hidden state size completely eliminates vanishing gradients"
+    ],
+    "follow_ups": [
+      "How do LSTM gating mechanisms (forget, input, output gates) preserve constant error flow?",
+      "How does gradient clipping solve exploding gradients in recurrent networks?"
+    ],
+    "tags": [
+      "rnn",
+      "bptt",
+      "vanishing-gradient",
+      "deep-learning"
+    ]
+  },
+  {
+    "id": "ML-019",
+    "track": "ml_ai",
+    "topic": "CNN/RNN/Transformers",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "How does the Self-Attention mechanism compute contextual token representations in Transformers?",
+    "ideal_answer": "Self-attention maps input embeddings into Query (Q), Key (K), and Value (V) projections using learned linear transformations. Attention weights are computed by taking the dot product of Queries and Keys, scaled by sqrt(d_k), and passing them through a Softmax function: Softmax(Q * K_T / sqrt(d_k)). These attention weights are multiplied by Values to aggregate global contextual information across all tokens in parallel.",
+    "key_points": [
+      "Linear projections generate Query (Q), Key (K), and Value (V) matrices for input tokens",
+      "Attention scores = Softmax(Q * K_T / sqrt(d_k)) quantify pairwise token relationships",
+      "Output representations are weighted sums of Values based on calculated attention scores"
+    ],
+    "red_flags": [
+      "Claiming self-attention requires sequential token processing like RNNs",
+      "Omitting the scaling factor sqrt(d_k) and its role in softmax gradient stability"
+    ],
+    "follow_ups": [
+      "Why is causal masking applied to attention matrices in decoder-only LLMs?",
+      "What is the computational and memory complexity of standard self-attention relative to sequence length?"
+    ],
+    "tags": [
+      "transformers",
+      "self-attention",
+      "qkv",
+      "deep-learning"
+    ]
+  },
+  {
+    "id": "ML-020",
+    "track": "ml_ai",
+    "topic": "CNN/RNN/Transformers",
+    "difficulty": "hard",
+    "stretch": true,
+    "question": "How does Grouped-Query Attention (GQA) reduce KV cache memory consumption compared to Multi-Head Attention (MHA)?",
+    "ideal_answer": "Multi-Head Attention (MHA) maintains independent Key and Value heads for every Query head, producing significant KV cache VRAM overhead during autoregressive decoding. Multi-Query Attention (MQA) shares a single Key and Value head across all Query heads, drastically cutting KV cache size but risking model quality. Grouped-Query Attention (GQA) partitions Query heads into groups, sharing one Key and Value head per group to strike an optimal trade-off between memory bandwidth efficiency and model quality.",
+    "key_points": [
+      "MHA allocates separate Key/Value heads per Query head, creating KV cache bottlenecks at scale",
+      "MQA shares a single KV head across all Query heads, maximizing memory savings but hurting accuracy",
+      "GQA groups Query heads to share intermediate KV heads, achieving high throughput with minimal quality loss"
+    ],
+    "red_flags": [
+      "Confusing GQA with sparse attention or sliding window attention",
+      "Claiming GQA changes model embedding dimensions during pre-training"
+    ],
+    "follow_ups": [
+      "How does GQA impact inference throughput on memory-bandwidth bound GPUs?",
+      "What is FlashAttention, and how does it optimize GPU SRAM memory tiling?"
+    ],
+    "tags": [
+      "gqa",
+      "mha",
+      "kv-cache",
+      "transformers",
+      "llm-inference"
+    ]
+  },
+  {
+    "id": "ML-021",
+    "track": "ml_ai",
+    "topic": "NLP",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What is tokenization, and why is it a necessary preprocessing step in Natural Language Processing?",
+    "ideal_answer": "Tokenization converts raw text strings into discrete atomic tokens (words, subwords, or characters) mapped to numerical integer IDs in a fixed vocabulary dictionary. Neural networks operate on mathematical tensors rather than raw text strings. Subword tokenization balances vocabulary size and out-of-vocabulary handling.",
+    "key_points": [
+      "Converts raw string text into discrete numerical token IDs from a fixed vocabulary",
+      "Required because neural network layers compute matrix operations on numerical vectors",
+      "Subword approaches balance fixed vocabulary capacity with expressive token coverage"
+    ],
+    "red_flags": [
+      "Assuming neural networks directly read ASCII string characters without numerical mapping",
+      "Claiming character tokenization is always superior due to tiny vocabulary"
+    ],
+    "follow_ups": [
+      "What are the downsides of character-level versus word-level tokenization?",
+      "How do special tokens like [CLS], [SEP], or <|endoftext|> function in model inputs?"
+    ],
+    "tags": [
+      "nlp",
+      "tokenization",
+      "preprocessing"
+    ]
+  },
+  {
+    "id": "ML-022",
+    "track": "ml_ai",
+    "topic": "NLP",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "How do static word embeddings differ from contextual word embeddings?",
+    "ideal_answer": "Static word embeddings (like Word2Vec or GloVe) assign a single fixed vector representation to a given word regardless of its surrounding context, causing polysemous words ('bank' river vs 'bank' financial) to share identical vectors. Contextual embeddings (like BERT or Transformer outputs) dynamically compute token vector representations based on full surrounding context, allowing identical words to hold distinct vector meanings.",
+    "key_points": [
+      "Static embeddings (Word2Vec) map each vocabulary word to a fixed static vector",
+      "Static embeddings cannot distinguish word meaning across different contextual uses",
+      "Contextual embeddings (BERT) compute dynamic vector states based on surrounding tokens"
+    ],
+    "red_flags": [
+      "Claiming Word2Vec dynamically alters its weights during downstream inference",
+      "Thinking GloVe embeddings require Transformer self-attention blocks"
+    ],
+    "follow_ups": [
+      "What pre-training objective did Word2Vec use (CBOW vs Skip-gram)?",
+      "How do cosine similarity calculations differ between static and contextual embeddings?"
+    ],
+    "tags": [
+      "nlp",
+      "embeddings",
+      "word2vec",
+      "bert"
+    ]
+  },
+  {
+    "id": "ML-023",
+    "track": "ml_ai",
+    "topic": "NLP",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "How does Byte Pair Encoding (BPE) construct subword vocabularies and handle Out-Of-Vocabulary (OOV) tokens?",
+    "ideal_answer": "Byte Pair Encoding (BPE) starts with a base vocabulary of individual characters or bytes. It iteratively counts adjacent token pairs in a training corpus and merges the most frequent pair into a new subword token until reaching a predefined vocabulary limit. During inference, unseen words are decomposed into constituent subword pieces or byte tokens, completely eliminating Out-Of-Vocabulary (OOV) errors.",
+    "key_points": [
+      "Iteratively merges the most frequent adjacent character/token pairs in training data",
+      "Builds a compact subword vocabulary bounded by a target size limit",
+      "Handles rare or unseen words by splitting them into known subwords or byte fallbacks"
+    ],
+    "red_flags": [
+      "Claiming BPE drops unknown words entirely from sequence inputs",
+      "Confusing BPE training merging with WordPiece probability scoring"
+    ],
+    "follow_ups": [
+      "How does Tiktoken/BPE byte-level fallback handle non-English multilingual text?",
+      "Why can tokenization artifacts cause arithmetic or spelling weaknesses in LLMs?"
+    ],
+    "tags": [
+      "nlp",
+      "bpe",
+      "tokenization",
+      "subwords"
+    ]
+  },
+  {
+    "id": "ML-024",
+    "track": "ml_ai",
+    "topic": "NLP",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "How do Masked Language Modeling (MLM) and Causal Language Modeling (CLM) objectives differ?",
+    "ideal_answer": "Masked Language Modeling (e.g. BERT) replaces a random percentage of input tokens with [MASK] tags and trains the encoder bidirectionally to predict original tokens from both left and right context. Causal Language Modeling (e.g. GPT) uses triangular masking to restrict attention to left-side past tokens, training the model autoregressively to predict the next token. MLM excels at representation learning for search/embeddings, while CLM excels at open-ended generation.",
+    "key_points": [
+      "MLM uses bidirectional context to predict masked tokens (encoder models like BERT)",
+      "CLM uses unidirectional left-to-right context to predict the next token (decoder models like GPT)",
+      "MLM produces rich embeddings for search/classification; CLM powers generative chat"
+    ],
+    "red_flags": [
+      "Claiming GPT models use bidirectional attention during token generation",
+      "Assuming BERT can efficiently generate long open-ended text"
+    ],
+    "follow_ups": [
+      "What is Prefix-LM architecture, and how does it combine MLM and CLM characteristics?",
+      "Why are encoder models preferred over decoder models for dense vector embeddings?"
+    ],
+    "tags": [
+      "nlp",
+      "mlm",
+      "clm",
+      "bert",
+      "gpt"
+    ]
+  },
+  {
+    "id": "ML-025",
+    "track": "ml_ai",
+    "topic": "LLMs",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "How does the Temperature parameter influence probability distributions during LLM token sampling?",
+    "ideal_answer": "Temperature divides logit scores by scalar T before applying the Softmax function: p_i = exp(z_i / T) / sum(exp(z_j / T)). Higher temperatures (T > 1.0) flatten the probability distribution, making lower-probability tokens more likely and increasing output randomness and creativity. Lower temperatures (T < 1.0) sharpen distribution peaks, concentrating probability on top tokens for deterministic outputs.",
+    "key_points": [
+      "Divides output logits by temperature T prior to Softmax probability calculation",
+      "T < 1.0 sharpens distribution peaks for deterministic, focused responses",
+      "T > 1.0 flattens distribution for diverse, creative, and random token sampling"
+    ],
+    "red_flags": [
+      "Claiming temperature modifies pretrained model weight values",
+      "Believing temperature 0 leads to completely uniform random token selection"
+    ],
+    "follow_ups": [
+      "What sampling behavior occurs when Temperature is set strictly to 0?",
+      "Why is low temperature recommended when requesting structured JSON outputs?"
+    ],
+    "tags": [
+      "llm",
+      "temperature",
+      "sampling",
+      "logits"
+    ]
+  },
+  {
+    "id": "ML-026",
+    "track": "ml_ai",
+    "topic": "LLMs",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What is the operational difference between Top-k and Top-p (Nucleus) sampling in LLMs?",
+    "ideal_answer": "Top-k sampling truncates the token candidate pool to fixed K highest-probability tokens before redistributing probabilities. Top-p (nucleus) sampling dynamically accumulates tokens ordered by probability until their cumulative sum reaches threshold p (e.g. 0.9). Top-p adapts candidate pool size dynamically based on model confidence, expanding choices when uncertain and narrowing them when confident.",
+    "key_points": [
+      "Top-k filters candidate pool to a static fixed count of top K tokens",
+      "Top-p accumulates sorted tokens until cumulative probability sum reaches target p",
+      "Top-p adjusts candidate pool size dynamically according to distribution confidence"
+    ],
+    "red_flags": [
+      "Confusing cumulative probability in Top-p with fixed candidate count in Top-k",
+      "Claiming Top-k sampling evaluates all tokens in vocabulary equally"
+    ],
+    "follow_ups": [
+      "What happens during Top-p sampling when the top token alone has 0.95 probability?",
+      "How do repetition penalties combine with Top-p sampling to stop looping text?"
+    ],
+    "tags": [
+      "llm",
+      "top-k",
+      "top-p",
+      "nucleus-sampling"
+    ]
+  },
+  {
+    "id": "ML-027",
+    "track": "ml_ai",
+    "topic": "LLMs",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "How does Low-Rank Adaptation (LoRA) enable parameter-efficient fine-tuning of Large Language Models?",
+    "ideal_answer": "LoRA freezes base model weights W_0 and injects trainable rank-decomposition matrices A and B into attention projections, where W = W_0 + (alpha / r) * (A * B). For weight matrix d x k, rank r is chosen significantly smaller than dimensions (e.g. r=8). This reduces trainable parameter counts by 99%+, substantially lowering VRAM requirements while enabling low-latency weight merging during inference.",
+    "key_points": [
+      "Freezes pretrained base weights W_0 and adds low-rank decomposition matrices A and B",
+      "Rank r << min(d, k) dramatically reduces trainable parameters and optimizer memory",
+      "Adapter weights can be merged directly into base weights for zero inference latency overhead"
+    ],
+    "red_flags": [
+      "Claiming LoRA increases parameter count during deployed inference after weight merging",
+      "Assuming LoRA requires re-training the entire base model from scratch"
+    ],
+    "follow_ups": [
+      "How does QLoRA combine 4-bit NormalFloat quantization with LoRA adapters?",
+      "How are multiple task-specific LoRA adapters dynamically swapped at runtime?"
+    ],
+    "tags": [
+      "llm",
+      "lora",
+      "peft",
+      "fine-tuning"
+    ]
+  },
+  {
+    "id": "ML-028",
+    "track": "ml_ai",
+    "topic": "LLMs",
+    "difficulty": "hard",
+    "stretch": true,
+    "question": "How does Key-Value (KV) Caching optimize autoregressive LLM decoding, and what is its VRAM memory cost?",
+    "ideal_answer": "Autoregressive decoding generates tokens sequentially, requiring attention computations across all preceding context tokens at each step. KV Caching stores computed Key and Value tensors in GPU VRAM during the prompt prefill phase, turning decoding attention steps from O(N^2) redundant computations into O(1) steps per token. However, KV cache memory footprint grows linearly with batch size, context length, layer count, and hidden dimensions, constraining max concurrency.",
+    "key_points": [
+      "Stores Key and Value projection states in VRAM during prefill to avoid recomputing past tokens",
+      "Reduces autoregressive token generation computational complexity from O(N^2) to O(1) per step",
+      "VRAM consumption scales linearly with batch size, context length, layers, and hidden dimensions"
+    ],
+    "red_flags": [
+      "Believing KV cache stores generated string tokens instead of floating-point activation tensors",
+      "Claiming KV cache reduces VRAM usage compared to running inference without cache"
+    ],
+    "follow_ups": [
+      "How does PagedAttention (vLLM) solve VRAM fragmentation in KV cache management?",
+      "How do you estimate KV cache VRAM footprint for a 70B model with 8k context length?"
+    ],
+    "tags": [
+      "llm",
+      "kv-cache",
+      "inference",
+      "vram",
+      "paged-attention"
+    ]
+  },
+  {
+    "id": "ML-029",
+    "track": "ml_ai",
+    "topic": "RAG",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What is Retrieval-Augmented Generation (RAG), and what primary problem in LLMs does it address?",
+    "ideal_answer": "Retrieval-Augmented Generation (RAG) grounds LLM generation by retrieving relevant context chunks from external non-parametric datastores (like vector databases) and inserting them into the prompt payload. It mitigates model hallucinations, solves knowledge cutoff limits, and allows private enterprise domain data access without expensive model re-training.",
+    "key_points": [
+      "Retrieves relevant document context from external datastores to condition LLM generation",
+      "Mitigates hallucinations by providing verifiable factual grounding context",
+      "Enables dynamic data freshness and enterprise access control without full model fine-tuning"
+    ],
+    "red_flags": [
+      "Claiming RAG permanently modifies model weights inside neural layers",
+      "Assuming RAG eliminates the need for prompt engineering or context window limits"
+    ],
+    "follow_ups": [
+      "What are the main components of a basic RAG pipeline?",
+      "When should you choose fine-tuning over RAG?"
+    ],
+    "tags": [
+      "rag",
+      "retrieval",
+      "llm",
+      "hallucination"
+    ]
+  },
+  {
+    "id": "ML-030",
+    "track": "ml_ai",
+    "topic": "RAG",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "Why is recursive character chunking preferred over naive fixed-length character chunking in RAG pipelines?",
+    "ideal_answer": "Naive fixed-length character chunking splits text at arbitrary character boundaries, frequently severing sentences, code blocks, or semantic contexts mid-word. Recursive character chunking attempts splits using a hierarchy of natural structural delimiters (e.g. double line breaks, single line breaks, spaces). This preserves paragraph and sentence continuity, maintaining embedding quality and retrieval precision.",
+    "key_points": [
+      "Naive fixed chunking splits arbitrarily across words and sentences, severing semantic context",
+      "Recursive chunking uses structural delimiters (paragraphs, sentences) to preserve context bounds",
+      "Maintains coherent semantic units for embedding vector generation and LLM prompt context"
+    ],
+    "red_flags": [
+      "Believing larger chunk size always improves retrieval accuracy regardless of document structure",
+      "Thinking chunk overlap is unnecessary when using recursive chunking"
+    ],
+    "follow_ups": [
+      "What is Semantic Chunking based on embedding distance shifts?",
+      "How does Parent-Child (Small-to-Big) chunking improve vector search matching?"
+    ],
+    "tags": [
+      "rag",
+      "chunking",
+      "text-processing",
+      "embeddings"
+    ]
+  },
+  {
+    "id": "ML-031",
+    "track": "ml_ai",
+    "topic": "RAG",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "What is Hybrid Search in RAG retrieval systems, and why is it superior to pure vector search?",
+    "ideal_answer": "Hybrid Search combines dense vector search (semantic similarity) with sparse lexical keyword search (BM25 / TF-IDF). Dense vector search excels at conceptual matching but struggles with exact alphanumeric identifiers, domain acronyms, or specific product codes. Lexical search matches exact keyword strings reliably. Combining rankings via Reciprocal Rank Fusion (RRF) yields higher retrieval recall and precision across diverse query types.",
+    "key_points": [
+      "Combines dense vector search (semantic concepts) with sparse lexical search (exact BM25 keywords)",
+      "Solves vector search weaknesses on acronyms, part numbers, and unique proper nouns",
+      "Merges result candidate sets using Reciprocal Rank Fusion (RRF) or weighted scoring"
+    ],
+    "red_flags": [
+      "Assuming vector search alone handles exact serial number matching perfectly",
+      "Claiming sparse search captures abstract semantic intent without keyword matches"
+    ],
+    "follow_ups": [
+      "How does Reciprocal Rank Fusion (RRF) combine score ranks without normalizing raw distances?",
+      "What is Contextual Retrieval, and how does appending document context to chunks aid search?"
+    ],
+    "tags": [
+      "rag",
+      "hybrid-search",
+      "bm25",
+      "vector-search",
+      "rrf"
+    ]
+  },
+  {
+    "id": "ML-032",
+    "track": "ml_ai",
+    "topic": "RAG",
+    "difficulty": "hard",
+    "stretch": false,
+    "question": "How does a Cross-Encoder Re-ranker improve context retrieval quality in production RAG systems?",
+    "ideal_answer": "Bi-encoder embedding models process query and document chunks independently to compute fast vector cosine similarity during initial retrieval, but miss fine-grained token interactions. A Cross-Encoder re-ranker passes the query and retrieved candidate chunks together through full attention layers, computing deep cross-attention similarity scores. Re-ranking the top 20-50 retrieved candidates filters out irrelevant noise, ensuring only highest-relevance contexts enter the LLM context window.",
+    "key_points": [
+      "Bi-encoders calculate fast independent embeddings for initial candidate retrieval",
+      "Cross-encoders compute full cross-attention between query and candidate text simultaneously",
+      "Re-ranking drastically improves context precision while controlling LLM prompt window clutter"
+    ],
+    "red_flags": [
+      "Claiming Cross-Encoders should be used to scan millions of documents directly from storage",
+      "Confusing bi-encoder cosine similarity with cross-encoder joint scoring"
+    ],
+    "follow_ups": [
+      "How does ColBERT (Late Interaction) balance Bi-encoder speed with Cross-encoder accuracy?",
+      "How do you evaluate RAG systems using Faithfulness, Answer Relevance, and Context Recall?"
+    ],
+    "tags": [
+      "rag",
+      "reranker",
+      "cross-encoder",
+      "bi-encoder",
+      "retrieval"
+    ]
+  },
+  {
+    "id": "ML-033",
+    "track": "ml_ai",
+    "topic": "agents",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What is an AI Agent, and how does it differ from a single stateless LLM API completion?",
+    "ideal_answer": "A stateless LLM API completion takes a prompt input and returns a single text response in one forward pass. An AI Agent wraps an LLM in an autonomous loop with memory, decision-making logic, and external tool access (APIs, databases, web search). The agent plans multi-step actions, evaluates environment feedback, and iteratively executes tools to accomplish goal objectives.",
+    "key_points": [
+      "Stateless LLM calls execute a single prompt-to-text transformation",
+      "AI Agents integrate reasoning loops, memory state, planning, and external tool access",
+      "Agents autonomously execute multi-step workflows based on environmental observation feedback"
+    ],
+    "red_flags": [
+      "Claiming any system using an LLM prompt automatically constitutes an AI Agent",
+      "Assuming agents modify underlying LLM neural network weights dynamically at runtime"
+    ],
+    "follow_ups": [
+      "What is the difference between single-agent and multi-agent system architectures?",
+      "What are tool call schemas, and how are JSON parameters enforced?"
+    ],
+    "tags": [
+      "agents",
+      "llm",
+      "tool-use",
+      "agentic-ai"
+    ]
+  },
+  {
+    "id": "ML-034",
+    "track": "ml_ai",
+    "topic": "agents",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "How does the ReAct (Reasoning + Acting) pattern structure agent execution loops?",
+    "ideal_answer": "The ReAct pattern prompts the LLM to explicitly alternate between Thought, Action, and Observation steps. In the Thought step, the model reasons about its current progress toward the goal. In the Action step, it selects a tool and generates structured invocation parameters. In the Observation step, the environment executes the tool and returns output results back into context for the next reasoning loop.",
+    "key_points": [
+      "Combines reasoning traces (Thought) with task-specific actions (Action)",
+      "Executes environment tools and feeds execution output back into prompt context (Observation)",
+      "Improves plan interpretability, error recovery, and tool selection accuracy"
+    ],
+    "red_flags": [
+      "Thinking ReAct requires fine-tuning model weights rather than structured prompt loops",
+      "Omitting the Observation step from the feedback cycle"
+    ],
+    "follow_ups": [
+      "How does Plan-and-Execute prompting differ from iterative ReAct loops?",
+      "How do structured outputs (e.g. Pydantic) make tool action parsing robust?"
+    ],
+    "tags": [
+      "agents",
+      "react",
+      "prompting",
+      "reasoning"
+    ]
+  },
+  {
+    "id": "ML-035",
+    "track": "ml_ai",
+    "topic": "agents",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "How does Function Calling (Tool Use) operate in modern LLM API architectures?",
+    "ideal_answer": "Function calling allows developers to provide the LLM with JSON Schema definitions describing external functions, arguments, and parameter types. Rather than outputting freeform natural language, the model detects when a tool is needed and emits structured JSON containing function names and argument values. The application code receives this JSON, executes the local function, and returns results back to the LLM.",
+    "key_points": [
+      "Developers supply JSON Schema definitions specifying function names, descriptions, and argument types",
+      "LLM outputs structured JSON payloads containing selected function name and parsed arguments",
+      "Client application executes the real code locally and passes output data back to the LLM context"
+    ],
+    "red_flags": [
+      "Assuming the LLM model executes API calls or python scripts directly inside its neural network",
+      "Confusing natural language generation with constrained JSON schema parsing"
+    ],
+    "follow_ups": [
+      "How does constrained decoding (Grammar-based sampling) enforce valid JSON schema generation?",
+      "What security precautions prevent prompt injection via untrusted tool output?"
+    ],
+    "tags": [
+      "agents",
+      "function-calling",
+      "tool-use",
+      "json-schema"
+    ]
+  },
+  {
+    "id": "ML-036",
+    "track": "ml_ai",
+    "topic": "agents",
+    "difficulty": "hard",
+    "stretch": false,
+    "question": "How do you prevent infinite execution loops and runaway token costs in autonomous agent workflows?",
+    "ideal_answer": "Preventing infinite agent loops requires strict guardrails: hard step limits (max_iterations), total token budget caps, and execution time timeouts. Additionally, implementing repetitive state detection flags when an agent repeats identical tool calls with identical arguments. Guardrail validation checks must terminate loops gracefully and trigger human-in-the-loop fallback when progress stalls.",
+    "key_points": [
+      "Enforce hard caps on max iterations, maximum token usage, and total runtime timeout",
+      "Detect loop traps by tracking repeated tool call signatures and duplicate parameter hashes",
+      "Implement graceful degradation or Human-in-the-Loop approval triggers upon threshold breach"
+    ],
+    "red_flags": [
+      "Relying entirely on the LLM to self-terminate without system-level step bounds",
+      "Omitting error handling when tool invocation fails repeatedly"
+    ],
+    "follow_ups": [
+      "How does context compaction / sliding window history prevent context window explosion?",
+      "What is Human-in-the-Loop (HITL) approval for destructive tool execution?"
+    ],
+    "tags": [
+      "agents",
+      "agent-loops",
+      "guardrails",
+      "production-ai"
+    ]
+  },
+  {
+    "id": "ML-037",
+    "track": "ml_ai",
+    "topic": "MLOps basics",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What is Model Drift, and why is continuous production monitoring essential?",
+    "ideal_answer": "Model drift occurs when a production machine learning model's predictive performance degrades over time due to shifts in real-world environments. Concept drift happens when the statistical relationship between input features and target labels changes. Data drift occurs when input feature distributions shift relative to training baseline distributions. Continuous monitoring detects performance drops and triggers automated retraining.",
+    "key_points": [
+      "Data drift represents shifts in input feature statistical distributions over time",
+      "Concept drift represents shifts in mathematical mapping between features and target labels",
+      "Continuous monitoring alerts on feature distribution changes and triggers model retraining"
+    ],
+    "red_flags": [
+      "Assuming a deployed model maintains static accuracy indefinitely without retraining",
+      "Confusing software infrastructure latency metrics with machine learning statistical drift"
+    ],
+    "follow_ups": [
+      "What statistical tests (e.g. KS-test, Population Stability Index) detect data drift?",
+      "How do shadow deployments and A/B tests validate retrained models before full rollout?"
+    ],
+    "tags": [
+      "mlops",
+      "model-drift",
+      "monitoring",
+      "data-drift"
+    ]
+  },
+  {
+    "id": "ML-038",
+    "track": "ml_ai",
+    "topic": "MLOps basics",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What is Model Quantization, and how does converting FP32 weights to INT8 benefit deployment?",
+    "ideal_answer": "Model quantization reduces numerical precision of model parameters and activations (e.g., converting 32-bit floating-point FP32 weights to 8-bit integers INT8). This reduces model VRAM memory footprint by up to 75% and significantly accelerates inference throughput on hardware with specialized integer tensor cores. While quantization introduces minor precision loss, modern Post-Training Quantization (PTQ) techniques minimize quality impact.",
+    "key_points": [
+      "Converts weight and activation data types from high-precision FP32 to lower precision (INT8/INT4)",
+      "Reduces memory/VRAM footprint by 4x and speeds up matrix multiplication hardware throughput",
+      "Enables deploying large deep learning models on resource-constrained or edge hardware"
+    ],
+    "red_flags": [
+      "Believing quantization increases model parameter counts",
+      "Claiming INT8 quantization always severely degrades model task performance"
+    ],
+    "follow_ups": [
+      "What is the difference between Post-Training Quantization (PTQ) and Quantization-Aware Training (QAT)?",
+      "How do AWQ and GPTQ quantize LLM weights to 4-bit precision without losing reasoning ability?"
+    ],
+    "tags": [
+      "mlops",
+      "quantization",
+      "int8",
+      "inference-optimization"
+    ]
+  },
+  {
+    "id": "ML-039",
+    "track": "ml_ai",
+    "topic": "MLOps basics",
+    "difficulty": "hard",
+    "stretch": true,
+    "question": "How does Continuous Batching (In-Flight Batching) maximize GPU throughput during LLM serving?",
+    "ideal_answer": "Traditional static batching processes a batch of requests together and waits until the longest sequence completes generation before releasing GPU resources, causing severe GPU idle time. Continuous batching operates at the iteration (token) level. As soon as a request finishes emitting its end token, it is immediately evicted from the batch and a new incoming request is inserted into the next decoding step, maximizing GPU utilization.",
+    "key_points": [
+      "Static batching locks GPU resources until the slowest sequence in a batch completes",
+      "Continuous batching operates at token-level decoding iterations rather than request-level completion",
+      "Immediately replaces finished requests with new incoming requests, dramatically raising GPU throughput"
+    ],
+    "red_flags": [
+      "Assuming continuous batching requires pre-padding all sequences to equal fixed length",
+      "Confusing continuous batching with offline static dataset batching"
+    ],
+    "follow_ups": [
+      "How do Chunked Prefill algorithms balance TTFT and TPOT under heavy mixed traffic?",
+      "What is the difference between Time-To-First-Token (TTFT) and Time-Per-Output-Token (TPOT)?"
+    ],
+    "tags": [
+      "mlops",
+      "continuous-batching",
+      "vllm",
+      "llm-serving",
+      "throughput"
+    ]
+  },
+  {
+    "id": "ML-040",
+    "track": "ml_ai",
+    "topic": "MLOps basics",
+    "difficulty": "hard",
+    "stretch": true,
+    "question": "What is a Feature Store in enterprise MLOps, and how does it prevent online/offline training-serving skew?",
+    "ideal_answer": "A Feature Store is a centralized repository for managing, engineering, and serving machine learning features across offline training and online real-time inference pipelines. Training-serving skew occurs when offline training features are computed differently than online inference features. A Feature Store provides a dual storage layer: a low-latency key-value store (e.g. Redis) for real-time online serving and a batch data warehouse (e.g. Snowflake) for offline point-in-time correct training generation.",
+    "key_points": [
+      "Centralizes feature definition and feature engineering pipelines across organization teams",
+      "Eliminates training-serving skew by maintaining unified calculation logic for training and inference",
+      "Provides dual storage: low-latency online key-value lookup and offline batch point-in-time historical joins"
+    ],
+    "red_flags": [
+      "Confusing a Feature Store with a standard SQL database or model weights repository",
+      "Ignoring point-in-time correctness during historical feature joins"
+    ],
+    "follow_ups": [
+      "What is time-travel join / point-in-time correctness in feature calculation?",
+      "How do open-source feature stores (like Feast) integrate with real-time stream processing?"
+    ],
+    "tags": [
+      "mlops",
+      "feature-store",
+      "training-skew",
+      "data-engineering"
+    ]
+  },
+  {
+    "id": "ML-041",
+    "track": "ml_ai",
+    "topic": "ML fundamentals",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What is overfitting, how do you detect it, and what are the common ways to reduce it?",
+    "ideal_answer": "Overfitting happens when a model memorizes training noise, giving low training error but high validation error. You detect it by comparing training and validation curves. Remedies include more data, data augmentation, a simpler model, L1/L2 regularization, dropout, early stopping, and tuning with cross-validation.",
+    "key_points": [
+      "Detected by a gap between training and validation performance",
+      "Fixes: more data, regularization, simpler model, dropout, early stopping",
+      "Uses a held-out validation set, never the test set, to judge"
+    ],
+    "red_flags": [
+      "Tuning hyperparameters on the test set",
+      "Saying more training epochs always improve generalization"
+    ],
+    "follow_ups": [
+      "How does early stopping decide when to stop?",
+      "How would you tell overfitting from a data leak when validation scores look too good?"
+    ],
+    "tags": [
+      "overfitting",
+      "regularization",
+      "generalization"
+    ]
+  },
+  {
+    "id": "ML-042",
+    "track": "ml_ai",
+    "topic": "ML fundamentals",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "How do linear regression and logistic regression differ in output, loss, and use case?",
+    "ideal_answer": "Linear regression predicts a continuous value by fitting a line that minimizes squared error. Logistic regression passes a linear combination through a sigmoid to output a probability and is trained with log loss (cross-entropy), so it is used for classification, typically with a 0.5 default threshold.",
+    "key_points": [
+      "Linear regression: continuous target, MSE loss",
+      "Logistic regression: sigmoid probability, log loss, classification",
+      "Despite the name, logistic regression is a classifier"
+    ],
+    "red_flags": [
+      "Calling logistic regression a regression model for continuous targets",
+      "Using MSE as the standard loss for logistic regression"
+    ],
+    "follow_ups": [
+      "Why is the decision boundary of logistic regression linear?",
+      "How do you extend logistic regression to more than two classes?"
+    ],
+    "tags": [
+      "linear-regression",
+      "logistic-regression",
+      "classification"
+    ]
+  },
+  {
+    "id": "ML-043",
+    "track": "ml_ai",
+    "topic": "ML fundamentals",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "What is k-fold cross-validation, and why is it better than a single train/validation split?",
+    "ideal_answer": "K-fold splits the data into k parts, trains on k-1 parts and validates on the remaining one, rotating until every fold has been the validation set. Averaging the scores gives a more stable estimate of generalization, which matters most on small datasets. The cost is training the model k times.",
+    "key_points": [
+      "Every sample is used for both training and validation across folds",
+      "Averaged score has lower variance than a single split",
+      "Costs k training runs; use stratified folds for imbalanced classes"
+    ],
+    "red_flags": [
+      "Shuffling time-series data randomly across folds",
+      "Fitting preprocessing on all data before splitting"
+    ],
+    "follow_ups": [
+      "How do you cross-validate a time-series model?",
+      "When would you use stratified k-fold?"
+    ],
+    "tags": [
+      "cross-validation",
+      "evaluation",
+      "model-selection"
+    ]
+  },
+  {
+    "id": "ML-044",
+    "track": "ml_ai",
+    "topic": "ML fundamentals",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "What is data leakage in machine learning, and what are common examples?",
+    "ideal_answer": "Data leakage is when information unavailable at prediction time influences training, so metrics look great but production performance collapses. Common cases include fitting a scaler or imputer on the full dataset before splitting, features derived from the target, duplicate rows across train and test, and using future data in time-series problems.",
+    "key_points": [
+      "Training sees information not available at inference time",
+      "Examples: scaling before split, target-derived features, duplicates, future data",
+      "Prevent by splitting first and fitting preprocessing only on training data"
+    ],
+    "red_flags": [
+      "Normalizing the whole dataset before the train/test split",
+      "Ignoring suspiciously high validation scores"
+    ],
+    "follow_ups": [
+      "How would you structure a scikit-learn pipeline to avoid leakage?",
+      "Give an example of target leakage in a churn model."
+    ],
+    "tags": [
+      "data-leakage",
+      "preprocessing",
+      "evaluation"
+    ]
+  },
+  {
+    "id": "ML-045",
+    "track": "ml_ai",
+    "topic": "ML fundamentals",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "Why is feature scaling needed, and which algorithms are sensitive to it?",
+    "ideal_answer": "Scaling puts features on comparable ranges so no feature dominates just because of its units. Distance-based models (KNN, K-Means, SVM) and gradient-descent-based models (linear/logistic regression, neural networks) are sensitive to scale, while tree-based models are largely unaffected. Common choices are standardization and min-max scaling.",
+    "key_points": [
+      "Distance and gradient-based models need scaled features",
+      "Tree-based models are mostly scale-invariant",
+      "Standardization (z-score) vs min-max scaling; fit on training data only"
+    ],
+    "red_flags": [
+      "Fitting the scaler on test data",
+      "Claiming Random Forests require feature scaling"
+    ],
+    "follow_ups": [
+      "When is min-max scaling a poor choice?",
+      "Does scaling help gradient descent converge faster? Why?"
+    ],
+    "tags": [
+      "feature-scaling",
+      "standardization",
+      "preprocessing"
+    ]
+  },
+  {
+    "id": "ML-046",
+    "track": "ml_ai",
+    "topic": "ML fundamentals",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "How do you handle a highly imbalanced classification dataset?",
+    "ideal_answer": "Start by using the right metrics (precision, recall, F1, PR-AUC) instead of accuracy. Then try class weights, resampling such as oversampling the minority or SMOTE, undersampling the majority, and tuning the decision threshold. Resampling must be applied only to the training split to avoid leakage.",
+    "key_points": [
+      "Use PR-AUC, recall, F1 rather than accuracy",
+      "Class weights, SMOTE/oversampling, undersampling, threshold tuning",
+      "Resample only the training data, never validation or test"
+    ],
+    "red_flags": [
+      "Reporting accuracy as the main metric",
+      "Applying SMOTE before the train/test split"
+    ],
+    "follow_ups": [
+      "Why can SMOTE hurt on noisy data?",
+      "How does moving the threshold change precision and recall?"
+    ],
+    "tags": [
+      "imbalanced-data",
+      "smote",
+      "class-weights"
+    ]
+  },
+  {
+    "id": "ML-047",
+    "track": "ml_ai",
+    "topic": "ML fundamentals",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "How does the K-Nearest Neighbors algorithm work, and how do you choose k?",
+    "ideal_answer": "KNN is a lazy learner: it stores the training data and, for a new point, finds the k closest points by a distance metric and takes a majority vote (classification) or average (regression). Small k gives low bias but high variance and noise sensitivity, large k smooths too much. Choose k with cross-validation, and scale features first.",
+    "key_points": [
+      "Lazy, instance-based: no training phase, prediction is expensive",
+      "Small k: high variance; large k: high bias",
+      "Needs feature scaling; suffers from the curse of dimensionality"
+    ],
+    "red_flags": [
+      "Skipping feature scaling with KNN",
+      "Claiming KNN has a heavy training phase"
+    ],
+    "follow_ups": [
+      "Why does KNN degrade in very high dimensions?",
+      "How can you speed up KNN prediction on large data?"
+    ],
+    "tags": [
+      "knn",
+      "distance-metrics",
+      "lazy-learning"
+    ]
+  },
+  {
+    "id": "ML-048",
+    "track": "ml_ai",
+    "topic": "ML fundamentals",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "How does K-Means clustering work, and how do you choose the number of clusters?",
+    "ideal_answer": "K-Means picks k centroids, assigns each point to the nearest centroid, recomputes centroids as cluster means, and repeats until assignments stop changing. It minimizes within-cluster variance and is sensitive to initialization, scale, and outliers. The elbow method and silhouette score help choose k.",
+    "key_points": [
+      "Iterates assign-to-nearest-centroid and update-centroid steps",
+      "Choose k via elbow method or silhouette score",
+      "Assumes roughly spherical clusters; sensitive to init, scale, outliers"
+    ],
+    "red_flags": [
+      "Claiming K-Means always finds the global optimum",
+      "Ignoring feature scaling before clustering"
+    ],
+    "follow_ups": [
+      "What does K-Means++ change?",
+      "When would DBSCAN be a better choice?"
+    ],
+    "tags": [
+      "k-means",
+      "clustering",
+      "unsupervised"
+    ]
+  },
+  {
+    "id": "ML-049",
+    "track": "ml_ai",
+    "topic": "ML fundamentals",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "What does Principal Component Analysis (PCA) do, and when would you use it?",
+    "ideal_answer": "PCA is a linear dimensionality reduction technique that finds orthogonal directions (principal components) capturing maximum variance, then projects the data onto the top components. It is used for noise reduction, visualization, and speeding up models. Features should be standardized first, and the components are less interpretable than the original features.",
+    "key_points": [
+      "Projects data onto orthogonal directions of maximum variance",
+      "Retain components by explained variance ratio",
+      "Requires standardized features; reduces interpretability"
+    ],
+    "red_flags": [
+      "Applying PCA without scaling features",
+      "Saying PCA uses the target labels"
+    ],
+    "follow_ups": [
+      "How do you decide how many components to keep?",
+      "How does PCA differ from t-SNE for visualization?"
+    ],
+    "tags": [
+      "pca",
+      "dimensionality-reduction",
+      "unsupervised"
+    ]
+  },
+  {
+    "id": "ML-050",
+    "track": "ml_ai",
+    "topic": "ML fundamentals",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "How do decision trees choose splits, and what are Gini impurity and entropy?",
+    "ideal_answer": "At each node a tree picks the feature and threshold that best reduce impurity in the child nodes. Gini impurity measures the chance of misclassifying a random sample, and entropy measures disorder, with information gain being the entropy reduction after a split. Both usually give similar trees, and Gini is slightly cheaper to compute.",
+    "key_points": [
+      "Greedy split chosen to maximize impurity reduction",
+      "Gini impurity vs entropy and information gain",
+      "Unpruned trees overfit; control depth and min samples"
+    ],
+    "red_flags": [
+      "Believing trees find the globally optimal tree",
+      "Ignoring pruning or depth limits"
+    ],
+    "follow_ups": [
+      "How do you prune a decision tree?",
+      "How does a tree handle numerical vs categorical features?"
+    ],
+    "tags": [
+      "decision-tree",
+      "gini",
+      "entropy"
+    ]
+  },
+  {
+    "id": "ML-051",
+    "track": "ml_ai",
+    "topic": "ML fundamentals",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "How do bagging and boosting differ, and when would you prefer each?",
+    "ideal_answer": "Bagging trains many models in parallel on bootstrap samples and averages them, mainly reducing variance (Random Forest). Boosting trains models sequentially, each correcting the errors of the previous ones, mainly reducing bias (Gradient Boosting, XGBoost). Bagging is more robust to noise, while boosting often gets higher accuracy but overfits more easily and needs careful tuning.",
+    "key_points": [
+      "Bagging: parallel, bootstrap samples, reduces variance",
+      "Boosting: sequential, focuses on previous errors, reduces bias",
+      "Boosting needs tuning (learning rate, depth) to avoid overfitting"
+    ],
+    "red_flags": [
+      "Saying boosting trains its models in parallel",
+      "Claiming Random Forest is a boosting method"
+    ],
+    "follow_ups": [
+      "Why does a smaller learning rate help gradient boosting?",
+      "What does the max_depth parameter control in boosted trees?"
+    ],
+    "tags": [
+      "bagging",
+      "boosting",
+      "ensemble"
+    ]
+  },
+  {
+    "id": "ML-052",
+    "track": "ml_ai",
+    "topic": "Deep learning",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "Why do neural networks need non-linear activation functions, and how do ReLU and sigmoid compare?",
+    "ideal_answer": "Without non-linear activations, stacked linear layers collapse into a single linear transformation, so the network could not learn complex patterns. Sigmoid squashes values to (0,1) but saturates, causing vanishing gradients. ReLU outputs max(0, x), is cheap and avoids saturation for positive inputs, but neurons can die if they only receive negative inputs.",
+    "key_points": [
+      "Non-linearity lets deep networks model complex functions",
+      "Sigmoid saturates and causes vanishing gradients",
+      "ReLU is simple and fast but can cause dead neurons"
+    ],
+    "red_flags": [
+      "Claiming a deep network of linear layers can learn non-linear patterns",
+      "Using sigmoid for all hidden layers in deep networks"
+    ],
+    "follow_ups": [
+      "What is Leaky ReLU and why does it exist?",
+      "Which activation suits the output layer of a multi-class classifier?"
+    ],
+    "tags": [
+      "activation-functions",
+      "relu",
+      "sigmoid"
+    ]
+  },
+  {
+    "id": "ML-053",
+    "track": "ml_ai",
+    "topic": "Deep learning",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "What is backpropagation, and what is the vanishing gradient problem?",
+    "ideal_answer": "Backpropagation applies the chain rule to compute the gradient of the loss with respect to every weight, moving from the output layer backward, and gradient descent then updates the weights. In deep networks with saturating activations, gradients get multiplied by small numbers layer after layer and shrink toward zero, so early layers barely learn. ReLU, residual connections, and careful initialization help.",
+    "key_points": [
+      "Chain rule gives gradients layer by layer from output to input",
+      "Vanishing gradients: early layers receive near-zero updates",
+      "Mitigations: ReLU, residual connections, normalization, good initialization"
+    ],
+    "red_flags": [
+      "Saying backpropagation is the weight-update rule rather than the gradient computation",
+      "Blaming vanishing gradients on too large a learning rate"
+    ],
+    "follow_ups": [
+      "What is the exploding gradient problem and how does gradient clipping help?",
+      "How do residual connections ease gradient flow?"
+    ],
+    "tags": [
+      "backpropagation",
+      "vanishing-gradient",
+      "deep-learning"
+    ]
+  },
+  {
+    "id": "ML-054",
+    "track": "ml_ai",
+    "topic": "Deep learning",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What is transfer learning, and why is it useful when you have limited data?",
+    "ideal_answer": "Transfer learning reuses a model pre-trained on a large dataset and adapts it to a new task, either by using it as a frozen feature extractor or by fine-tuning some or all layers. Early layers learn general features such as edges or language structure, so you need less data, compute, and training time than training from scratch.",
+    "key_points": [
+      "Reuse a pre-trained model; freeze or fine-tune layers",
+      "Early layers learn general features that transfer well",
+      "Needs less data and compute than training from scratch"
+    ],
+    "red_flags": [
+      "Fine-tuning all layers with a very high learning rate on tiny data",
+      "Assuming transfer learning works regardless of domain similarity"
+    ],
+    "follow_ups": [
+      "When would you freeze layers versus fine-tune everything?",
+      "How do you adapt a pre-trained image model to a new number of classes?"
+    ],
+    "tags": [
+      "transfer-learning",
+      "fine-tuning",
+      "pretrained-models"
+    ]
+  },
+  {
+    "id": "ML-055",
+    "track": "ml_ai",
+    "topic": "Metrics",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "What is the F1 score, and when would you prefer it over accuracy or plain precision?",
+    "ideal_answer": "F1 is the harmonic mean of precision and recall, so it is high only when both are high. It is preferred on imbalanced data where accuracy is misleading and when both false positives and false negatives matter. If one error type is far costlier, use the F-beta score or optimize that metric directly.",
+    "key_points": [
+      "F1 = 2PR/(P+R), harmonic mean of precision and recall",
+      "Better than accuracy on imbalanced classes",
+      "Use F-beta when recall and precision have unequal importance"
+    ],
+    "red_flags": [
+      "Using the arithmetic mean of precision and recall",
+      "Treating F1 as the right metric when error costs are very unequal"
+    ],
+    "follow_ups": [
+      "What is the difference between macro and micro F1?",
+      "How does the harmonic mean penalize a weak precision or recall?"
+    ],
+    "tags": [
+      "f1-score",
+      "precision-recall",
+      "evaluation"
+    ]
+  },
+  {
+    "id": "ML-056",
+    "track": "ml_ai",
+    "topic": "LLMs",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "When would you choose prompt engineering, RAG, or fine-tuning to customize an LLM?",
+    "ideal_answer": "Start with prompt engineering because it is cheapest and fastest. Use RAG when the model needs fresh or private knowledge that changes often, since facts live in the retrieval index and can be cited. Fine-tune when you need consistent style, format, or domain behavior that prompting cannot reliably produce. They can be combined.",
+    "key_points": [
+      "Prompting first: cheapest, fastest iteration",
+      "RAG for fresh, private, or frequently changing knowledge with citations",
+      "Fine-tuning for style, format, or skill, not for injecting facts"
+    ],
+    "red_flags": [
+      "Fine-tuning as the default way to add new facts",
+      "Using RAG when the problem is output format or tone"
+    ],
+    "follow_ups": [
+      "Why is fine-tuning a poor way to keep knowledge up to date?",
+      "How would you combine RAG with a fine-tuned model?"
+    ],
+    "tags": [
+      "rag",
+      "fine-tuning",
+      "prompt-engineering"
+    ]
+  },
+  {
+    "id": "ML-057",
+    "track": "ml_ai",
+    "topic": "LLMs",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "What are LLM hallucinations, and what techniques reduce them?",
+    "ideal_answer": "Hallucinations are fluent but factually wrong or unsupported outputs, because LLMs predict plausible tokens rather than verify facts. Mitigations include grounding answers with RAG and citations, instructing the model to say when it does not know, lowering temperature, constraining output with structured formats, and adding verification or self-check steps and human review for high-stakes cases.",
+    "key_points": [
+      "Models generate plausible text, not verified facts",
+      "Ground with retrieval and require citations",
+      "Lower temperature, allow 'I don't know', add verification steps"
+    ],
+    "red_flags": [
+      "Claiming hallucinations can be fully eliminated by prompting",
+      "Trusting model-generated citations without checking them"
+    ],
+    "follow_ups": [
+      "How would you measure hallucination rate in a RAG system?",
+      "Does lowering temperature to zero remove hallucinations?"
+    ],
+    "tags": [
+      "hallucination",
+      "grounding",
+      "reliability"
+    ]
+  },
+  {
+    "id": "ML-058",
+    "track": "ml_ai",
+    "topic": "RAG",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "Why do RAG systems use approximate nearest neighbor search such as HNSW instead of brute-force similarity search?",
+    "ideal_answer": "Brute-force search compares the query to every vector, costing O(N) per query, which is too slow for millions of vectors. ANN indexes like HNSW build a layered graph for navigating to near neighbors quickly, trading a small loss in recall for large speedups. Parameters such as ef_search and M tune the recall-latency tradeoff.",
+    "key_points": [
+      "Exact search is O(N) per query and does not scale",
+      "HNSW navigates a multi-layer proximity graph",
+      "ANN trades a little recall for much lower latency; parameters tune the tradeoff"
+    ],
+    "red_flags": [
+      "Believing ANN search always returns the exact nearest neighbors",
+      "Using a vector index without measuring recall"
+    ],
+    "follow_ups": [
+      "How does cosine similarity differ from Euclidean distance for embeddings?",
+      "What is the memory cost of an HNSW index?"
+    ],
+    "tags": [
+      "vector-search",
+      "hnsw",
+      "ann"
+    ]
+  },
+  {
+    "id": "ML-059",
+    "track": "ml_ai",
+    "topic": "RAG",
+    "difficulty": "hard",
+    "stretch": false,
+    "question": "How would you evaluate the quality of a RAG system end to end?",
+    "ideal_answer": "Evaluate retrieval and generation separately. For retrieval, build a labeled question set and measure hit rate, recall@k, and MRR. For generation, measure faithfulness (is the answer supported by the retrieved context), answer relevance, and context precision, using human review or an LLM judge calibrated against humans. Track latency and cost, and rerun the suite after every change.",
+    "key_points": [
+      "Separate retrieval metrics (recall@k, MRR) from generation metrics",
+      "Faithfulness and answer relevance for generated output",
+      "Use a fixed golden set and rerun on every pipeline change"
+    ],
+    "red_flags": [
+      "Judging quality by a few manual demo queries",
+      "Trusting an uncalibrated LLM judge as ground truth"
+    ],
+    "follow_ups": [
+      "How do you build a golden dataset when you have no labels?",
+      "What do you check when recall@k is high but answers are still wrong?"
+    ],
+    "tags": [
+      "rag-evaluation",
+      "faithfulness",
+      "retrieval-metrics"
+    ]
+  },
+  {
+    "id": "ML-060",
+    "track": "ml_ai",
+    "topic": "MLOps basics",
+    "difficulty": "hard",
+    "stretch": false,
+    "question": "Walk through how you would build and ship a spam classifier from problem definition to production.",
+    "ideal_answer": "Define the goal and cost of errors, since a false positive on real mail is usually worse than a missed spam. Collect and label data, split it carefully, build a simple baseline such as TF-IDF with logistic regression, evaluate with precision, recall, and PR-AUC, then iterate on features or models. Package it behind an API, monitor drift and false positives in production, and retrain on fresh data.",
+    "key_points": [
+      "Start with a clear objective, error costs, and a simple baseline",
+      "Evaluate with precision/recall/PR-AUC on a leak-free split",
+      "Deploy behind an API, monitor drift, and retrain on new data"
+    ],
+    "red_flags": [
+      "Starting with a complex model before a baseline",
+      "Treating deployment as the end with no monitoring"
+    ],
+    "follow_ups": [
+      "How would you handle spammers adapting to your model?",
+      "How do you pick the decision threshold for the final system?"
+    ],
+    "tags": [
+      "ml-system",
+      "baseline",
+      "deployment"
+    ]
+  }
+]

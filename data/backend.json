@@ -1,0 +1,1664 @@
+[
+  {
+    "id": "BE-001",
+    "track": "backend",
+    "topic": "REST design",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What are standard HTTP verbs in RESTful API design, and which ones are classified as idempotent?",
+    "ideal_answer": "Standard HTTP verbs represent CRUD resource operations: GET (read), POST (create), PUT (replace), PATCH (partial update), and DELETE (remove). An idempotent operation produces the exact same server state regardless of how many times it is executed consecutively. GET, PUT, and DELETE are strictly idempotent, whereas POST is non-idempotent because multiple identical requests create duplicate resources.",
+    "key_points": [
+      "HTTP verbs map to resource operations: GET (read), POST (create), PUT (replace), DELETE (remove)",
+      "Idempotency means multiple identical requests produce identical server state results",
+      "GET, PUT, and DELETE are idempotent; POST is non-idempotent"
+    ],
+    "red_flags": [
+      "Claiming POST requests are idempotent by default",
+      "Using HTTP verbs in URI resource paths (e.g. /api/v1/createUser instead of POST /api/v1/users)"
+    ],
+    "follow_ups": [
+      "How can you make a POST endpoint idempotent using idempotency keys?",
+      "What is the difference between safe and idempotent HTTP methods?"
+    ],
+    "tags": [
+      "rest",
+      "http-methods",
+      "idempotency",
+      "api-design"
+    ]
+  },
+  {
+    "id": "BE-002",
+    "track": "backend",
+    "topic": "REST design",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What are the standard HTTP status code categories (2xx, 3xx, 4xx, 5xx), and when should 401 vs 403 be returned?",
+    "ideal_answer": "HTTP status codes categorize server responses: 2xx indicates success, 3xx signals redirection, 4xx indicates client-side errors, and 5xx signals server-side failures. A 401 Unauthorized status indicates missing or invalid authentication credentials (user identity unknown). A 403 Forbidden status indicates the user's identity is authenticated, but they lack authorization rights to access the resource.",
+    "key_points": [
+      "2xx = Success, 3xx = Redirection, 4xx = Client Error, 5xx = Server Error",
+      "401 Unauthorized: Unauthenticated (missing/invalid credentials or token)",
+      "403 Forbidden: Authenticated user lacks authorized permissions for target resource"
+    ],
+    "red_flags": [
+      "Returning 200 OK status codes with error payloads in JSON bodies for API failures",
+      "Confusing 401 Unauthenticated with 403 Unauthorized"
+    ],
+    "follow_ups": [
+      "When should an API return 422 Unprocessable Entity versus 400 Bad Request?",
+      "What is the purpose of the 409 Conflict status code during resource updates?"
+    ],
+    "tags": [
+      "rest",
+      "http-status-codes",
+      "authentication",
+      "api-design"
+    ]
+  },
+  {
+    "id": "BE-003",
+    "track": "backend",
+    "topic": "REST design",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "How do you design idempotent RESTful payment creation endpoints to prevent double-charging on network retries?",
+    "ideal_answer": "To make payment creation idempotent, the API requires clients to generate a unique Idempotency Key (e.g., UUID) passed in HTTP headers (Idempotency-Key). On receiving a request, the backend checks Redis or database for that key. If present, it returns the cached response immediately without re-processing. If absent, it acquires an atomic lock, executes payment processing, stores the key and result, and completes the transaction.",
+    "key_points": [
+      "Client sends a unique Idempotency-Key header with POST payment requests",
+      "Backend verifies idempotency key in cache/database before executing payment logic",
+      "Returns cached response for duplicate keys, preventing double charge on network retries"
+    ],
+    "red_flags": [
+      "Relying on clients not to retry failed network requests",
+      "Checking idempotency without atomic locking, causing concurrent race conditions"
+    ],
+    "follow_ups": [
+      "How long should idempotency keys be retained in cache/database stores?",
+      "How do you handle concurrent requests arriving with the exact same idempotency key simultaneously?"
+    ],
+    "tags": [
+      "rest",
+      "idempotency-key",
+      "payments",
+      "api-design"
+    ]
+  },
+  {
+    "id": "BE-004",
+    "track": "backend",
+    "topic": "REST design",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "What is the difference between PUT and PATCH in RESTful resource manipulation?",
+    "ideal_answer": "PUT performs a full resource replacement where the request body contains the complete updated representation of the entity; omitted fields are wiped or set to null/default. PATCH performs a partial update, modifying only the fields explicitly provided in the request body while leaving unspecified fields intact. PUT is idempotent, whereas PATCH can be non-idempotent depending on payload instructions (e.g. increment patches).",
+    "key_points": [
+      "PUT replaces the target entity entirely with the request payload",
+      "PATCH updates only specified fields while leaving unmentioned entity attributes unchanged",
+      "PUT is strictly idempotent; PATCH is usually implemented idempotently but can support delta operations"
+    ],
+    "red_flags": [
+      "Using PUT for partial updates where missing fields unintentionally overwrite existing database values",
+      "Thinking PUT and PATCH are completely interchangeable without behavioral difference"
+    ],
+    "follow_ups": [
+      "What is JSON Patch (RFC 6902) versus JSON Merge Patch (RFC 7396)?",
+      "How does API schema validation ensure PATCH payloads do not violate database constraints?"
+    ],
+    "tags": [
+      "rest",
+      "put",
+      "patch",
+      "api-design"
+    ]
+  },
+  {
+    "id": "BE-005",
+    "track": "backend",
+    "topic": "SQL/NoSQL",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What is the fundamental architectural difference between SQL relational databases and NoSQL document stores?",
+    "ideal_answer": "SQL databases (e.g. PostgreSQL) enforce structured tabular schemas, ACID transaction guarantees, and relational integrity via foreign keys and SQL queries. NoSQL document stores (e.g. MongoDB) store dynamic JSON/BSON documents without strict pre-defined table schemas, optimizing for horizontal sharding and flexible data structures at the expense of complex relational join capabilities.",
+    "key_points": [
+      "SQL databases use structured tables, normalized schemas, foreign keys, and strong ACID guarantees",
+      "NoSQL document stores use flexible schema-less JSON/BSON documents and scale horizontally",
+      "SQL excels at complex relational queries and joins; NoSQL excels at unstructured, rapidly-evolving entities"
+    ],
+    "red_flags": [
+      "Claiming SQL databases cannot scale beyond a single CPU core",
+      "Believing NoSQL document stores completely lack index support"
+    ],
+    "follow_ups": [
+      "What is the BASE consistency model in NoSQL databases?",
+      "When should a backend system embed child documents versus referencing foreign ObjectIDs in MongoDB?"
+    ],
+    "tags": [
+      "sql",
+      "nosql",
+      "database-architecture"
+    ]
+  },
+  {
+    "id": "BE-006",
+    "track": "backend",
+    "topic": "SQL/NoSQL",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "When should a backend engineering team choose PostgreSQL over MongoDB for a primary application database?",
+    "ideal_answer": "PostgreSQL is the optimal choice when the domain model requires strict ACID transaction guarantees, complex multi-table relational schema integrity (like financial, order management, or inventory systems), and complex SQL joins. MongoDB is preferred for unstructured or rapidly evolving data schemas where data reads require single-document aggregate retrieval without relational joins.",
+    "key_points": [
+      "Choose PostgreSQL for financial data, transactional workflows, and strict relational schemas",
+      "PostgreSQL provides strong multi-table ACID guarantees and robust indexing (B-Tree, GIN, GiST)",
+      "Choose MongoDB for high-throughput, schema-flexible document entities without cross-table relations"
+    ],
+    "red_flags": [
+      "Choosing MongoDB for financial ledger systems requiring multi-entity ACID consistency",
+      "Choosing PostgreSQL solely because developers dislike JSON data structures"
+    ],
+    "follow_ups": [
+      "How does PostgreSQL's JSONB column type bridge relational and document storage?",
+      "How do MongoDB multi-document ACID transactions perform compared to relational SQL?"
+    ],
+    "tags": [
+      "sql",
+      "nosql",
+      "postgresql",
+      "mongodb"
+    ]
+  },
+  {
+    "id": "BE-007",
+    "track": "backend",
+    "topic": "SQL/NoSQL",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "How do JOIN operations execute in SQL databases, and why do unindexed JOINs cause severe performance degradation?",
+    "ideal_answer": "SQL JOINs combine rows from two or more tables based on a related join column condition using algorithms like Nested Loop, Hash Join, or Merge Join. If join columns lack database indexes, the query engine is forced to perform full table scans (O(M * N) in nested loops), reading every disk page. Proper indexes on foreign key join columns enable fast index lookups, turning full table scans into logarithmic O(M log N) index searches.",
+    "key_points": [
+      "JOIN algorithms combine matching rows across tables using join conditions",
+      "Unindexed JOINs force nested loop full table scans (O(M * N)), driving heavy disk I/O and CPU bottlenecks",
+      "Indexing foreign key join columns enables fast B-Tree lookups, reducing query cost"
+    ],
+    "red_flags": [
+      "Omitting indexes on foreign key columns in highly-joined relational tables",
+      "Assuming database query planners automatically optimize unindexed JOINs without disk cost"
+    ],
+    "follow_ups": [
+      "How does PostgreSQL decide between Hash Join, Merge Join, and Nested Loop Join in EXPLAIN ANALYZE?",
+      "What is an Inner Join versus Left Outer Join performance trade-off?"
+    ],
+    "tags": [
+      "sql",
+      "joins",
+      "indexing",
+      "query-performance"
+    ]
+  },
+  {
+    "id": "BE-008",
+    "track": "backend",
+    "topic": "SQL/NoSQL",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "What is Eventual Consistency in distributed NoSQL databases, and how does it affect backend application logic?",
+    "ideal_answer": "Eventual Consistency is a consistency model in distributed datastores where writes to one node are asynchronously replicated to peer nodes. In the short term, reads from different replica nodes may return stale or inconsistent data. However, if no new updates occur, all replicas will eventually converge to identical state. Backend developers must design idempotent workflows or use quorum reads (R + W > N) when absolute consistency is needed.",
+    "key_points": [
+      "Asynchronous replication across distributed nodes allows temporary stale read gaps",
+      "Guarantees that given enough time without updates, all cluster nodes converge to identical data",
+      "Backend logic must tolerate reading slightly stale data or configure Quorum Read/Write consistency"
+    ],
+    "red_flags": [
+      "Assuming an eventually consistent database guarantees instant cross-region read freshness",
+      "Failing to handle out-of-order asynchronous updates in application state"
+    ],
+    "follow_ups": [
+      "What is Quorum Consistency (R + W > N), and how does it enforce strong consistency in Cassandra?",
+      "How do Conflict-Free Replicated Data Types (CRDTs) resolve concurrent write conflicts?"
+    ],
+    "tags": [
+      "nosql",
+      "eventual-consistency",
+      "distributed-databases"
+    ]
+  },
+  {
+    "id": "BE-009",
+    "track": "backend",
+    "topic": "SQL/NoSQL",
+    "difficulty": "hard",
+    "stretch": true,
+    "question": "How does a Log-Structured Merge-tree (LSM-Tree) storage engine differ from a B-Tree for write-heavy database workloads?",
+    "ideal_answer": "B-Trees perform random in-place writes to disk pages, causing heavy random disk I/O and page splitting under high write volumes. LSM-Tree engines (used in RocksDB, Cassandra) buffer incoming writes sequentially in an in-memory MemTable and append to an on-disk Write-Ahead Log (WAL) in O(1) time. Periodically, MemTables flush to disk as immutable SSTables, which are consolidated in the background via Compaction, converting random writes into efficient sequential I/O.",
+    "key_points": [
+      "B-Trees perform random in-place page writes on disk, hitting I/O bottlenecks during heavy write traffic",
+      "LSM-Trees append sequential writes to in-memory MemTables and WAL logs, maximizing write throughput",
+      "Background Compaction merges immutable SSTable files, trading read amplification for superior write speed"
+    ],
+    "red_flags": [
+      "Believing LSM-Trees provide faster random point reads than B-Trees without Bloom filters",
+      "Confusing LSM compaction with database vacuuming"
+    ],
+    "follow_ups": [
+      "What role do Bloom Filters play in reducing unnecessary SSTable disk reads in LSM engines?",
+      "What is Read Amplification and Write Amplification in LSM-Tree databases?"
+    ],
+    "tags": [
+      "nosql",
+      "lsm-tree",
+      "b-tree",
+      "storage-engines"
+    ]
+  },
+  {
+    "id": "BE-010",
+    "track": "backend",
+    "topic": "indexing",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What is a Database Index, and why does adding indexes speed up SELECT queries while slowing down INSERTs?",
+    "ideal_answer": "A database index is an auxiliary data structure (typically a B+ Tree) that maintains an ordered reference to table rows based on specific column values. It turns O(N) full table scans into O(log N) search lookups for SELECT queries. However, whenever an INSERT, UPDATE, or DELETE modifies indexed columns, the database must write to the main table AND update all associated B+ Tree index structures, increasing write latency.",
+    "key_points": [
+      "Indexes transform O(N) sequential table scans into logarithmic O(log N) tree lookups for reads",
+      "Every INSERT, UPDATE, or DELETE must update table data AND all associated index trees",
+      "Over-indexing tables degrades write throughput and increases disk storage footprint"
+    ],
+    "red_flags": [
+      "Adding redundant indexes to every single table column without evaluating write impact",
+      "Believing indexes automatically accelerate queries containing unindexed function transformations (WHERE LOWER(email) = ...)"
+    ],
+    "follow_ups": [
+      "What is a Expression/Functional Index in PostgreSQL?",
+      "How do you identify unused indexes using database performance statistics?"
+    ],
+    "tags": [
+      "indexing",
+      "database",
+      "b-tree",
+      "query-optimization"
+    ]
+  },
+  {
+    "id": "BE-011",
+    "track": "backend",
+    "topic": "indexing",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "What is a Composite Index, and how does the Leftmost Prefix Rule govern its usage?",
+    "ideal_answer": "A Composite Index is an index built over multiple table columns simultaneously, e.g. (tenant_id, status, created_at). The Leftmost Prefix Rule states that the query planner can only use the index if the query filtering conditions include columns matching a contiguous sequence starting from the leftmost column. A query filtering by tenant_id or (tenant_id, status) will use the index, but a query filtering only by status or created_at cannot.",
+    "key_points": [
+      "Composite index indexes multiple columns together in a single multi-column B+ Tree structure",
+      "Leftmost Prefix Rule: Queries must filter by the leading left columns to leverage the index",
+      "Column order matters: place high-cardinality or frequently filtered equality columns first"
+    ],
+    "red_flags": [
+      "Expecting an index on (A, B, C) to speed up queries filtering exclusively on column C",
+      "Creating separate single-column indexes on A, B, and C instead of a targeted composite index"
+    ],
+    "follow_ups": [
+      "How does column order in composite indexes impact range queries (> or <)?",
+      "What is Index Skip Scan in modern query optimizers?"
+    ],
+    "tags": [
+      "indexing",
+      "composite-index",
+      "leftmost-prefix",
+      "sql"
+    ]
+  },
+  {
+    "id": "BE-012",
+    "track": "backend",
+    "topic": "indexing",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "What is a Covering Index, and how does it prevent expensive main table lookup steps?",
+    "ideal_answer": "A Covering Index is an index that contains all the columns requested by a SQL query (both in WHERE filtering and SELECT projection clauses). Because the index B+ Tree contains all required column data, the database query engine retrieves the complete result set directly from the index leaf nodes—executing an 'Index Only Scan'—without fetching underlying table heap pages from disk.",
+    "key_points": [
+      "Index contains all required columns specified in SELECT, WHERE, and JOIN clauses",
+      "Executes an Index-Only Scan, bypassing main table heap page disk reads entirely",
+      "Dramatically lowers query execution latency and disk buffer pool memory usage"
+    ],
+    "red_flags": [
+      "Executing SELECT * which invalidates covering index optimizations by requesting unindexed columns",
+      "Assuming secondary non-clustered indexes always avoid table heap lookups"
+    ],
+    "follow_ups": [
+      "How does PostgreSQL's Visibility Map enable Index-Only Scans without checking heap pages?",
+      "What is the INCLUDE clause in SQL CREATE INDEX statements?"
+    ],
+    "tags": [
+      "indexing",
+      "covering-index",
+      "index-only-scan",
+      "sql"
+    ]
+  },
+  {
+    "id": "BE-013",
+    "track": "backend",
+    "topic": "indexing",
+    "difficulty": "hard",
+    "stretch": true,
+    "question": "What is the difference between Index Scan, Bitmap Index Scan, and Sequential Scan in PostgreSQL EXPLAIN execution plans?",
+    "ideal_answer": "A Sequential Scan reads every page of a table sequentially; it is chosen for small tables or queries fetching a large fraction of total rows. An Index Scan traverses a B+ Tree to find matching rows and immediately fetches each heap page individually; it is fastest when returning very few rows but incurs random I/O. A Bitmap Index Scan scans the index to build an in-memory bitmap of matching heap pages, sorts page locations, and reads disk pages sequentially, efficiently handling moderate row counts.",
+    "key_points": [
+      "Sequential Scan: Reads entire table sequentially from disk; optimal for small tables or large result fractions",
+      "Index Scan: Traverses B+ Tree for target row pointers; best for highly selective queries returning few rows",
+      "Bitmap Index Scan: Converts index hits into a page bitmap, sorting disk addresses to turn random I/O into sequential I/O"
+    ],
+    "red_flags": [
+      "Assuming the query planner is broken if it chooses a Sequential Scan over an Index Scan on small tables",
+      "Confusing Bitmap Index Scan with physical bitmap indexes"
+    ],
+    "follow_ups": [
+      "How does PostgreSQL random_page_cost setting influence the query planner's scan choice?",
+      "How do you interpret EXPLAIN ANALYZE execution cost numbers (startup cost..total cost)?"
+    ],
+    "tags": [
+      "indexing",
+      "explain-plan",
+      "postgresql",
+      "index-scan"
+    ]
+  },
+  {
+    "id": "BE-014",
+    "track": "backend",
+    "topic": "caching/Redis",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What is the Cache-Aside (Lazy Loading) caching pattern, and how does application code interact with the cache?",
+    "ideal_answer": "In Cache-Aside caching, application code directly manages reads and writes to the cache. On a read request, the application queries the cache first. If a cache hit occurs, it returns the cached data. If a cache miss occurs, the application queries the primary database, stores the retrieved result in the cache with a TTL, and returns the response. On data updates, the application writes to the database and invalidates the cache.",
+    "key_points": [
+      "Application code directly coordinates reads, misses, and writes between cache and database",
+      "On cache miss: queries primary DB, populates cache with TTL, and returns data",
+      "On database update: invalidates or updates the cached key to maintain freshness"
+    ],
+    "red_flags": [
+      "Assuming the database automatically updates Cache-Aside Redis keys without application code logic",
+      "Omitting Time-To-Live (TTL) expiration on cached items"
+    ],
+    "follow_ups": [
+      "How does Write-Through caching differ from Cache-Aside?",
+      "What is Write-Behind (Write-Back) caching, and what risk does it introduce?"
+    ],
+    "tags": [
+      "caching",
+      "cache-aside",
+      "redis",
+      "architecture"
+    ]
+  },
+  {
+    "id": "BE-015",
+    "track": "backend",
+    "topic": "caching/Redis",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What in-memory data structures does Redis support beyond simple Key-Value Strings?",
+    "ideal_answer": "Redis supports rich in-memory data structures beyond plain Strings: Hashes (field-value maps within a key), Lists (ordered linked sequences for queues), Sets (unordered unique string collections), Sorted Sets / ZSets (sets ordered by floating-point scores for leaderboards), Bitmaps, HyperLogLogs (probabilistic cardinality counts), and Streams (append-only event logs).",
+    "key_points": [
+      "Strings: basic key-value data, counters, and serialized JSON",
+      "Hashes: field-value maps ideal for object representations; Lists & Sets: collections and queues",
+      "Sorted Sets (ZSets): priority queues and real-time score leaderboards using skip-lists"
+    ],
+    "red_flags": [
+      "Storing complex nested objects as raw string blobs when Redis Hashes or JSON modules are better suited",
+      "Using Redis Lists for random element lookups by value (O(N) operation)"
+    ],
+    "follow_ups": [
+      "How does a Redis Sorted Set (ZSet) implement O(log N) score insertion using Skip Lists?",
+      "How do Redis Hashes save memory using ziplist encoding for small object counts?"
+    ],
+    "tags": [
+      "caching",
+      "redis",
+      "data-structures"
+    ]
+  },
+  {
+    "id": "BE-016",
+    "track": "backend",
+    "topic": "caching/Redis",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "What is a Cache Stampede (Thundering Herd), and how do Distributed Mutex Locks mitigate it?",
+    "ideal_answer": "A Cache Stampede occurs when a heavily accessed key expires, causing thousands of concurrent requests to experience a cache miss simultaneously. Every request attempts to re-query the primary database and rebuild the cache item, overwhelming the database and causing system collapse. A Distributed Mutex Lock (e.g. Redis SET key val NX EX 10) mitigates this by allowing only the first thread to query the DB and update the cache while other requests wait or retry.",
+    "key_points": [
+      "Occurs when a popular key expires, causing concurrent cache misses that overwhelm the primary DB",
+      "Mitigated using a Distributed Mutex Lock so only one thread re-queries the database",
+      "Subsequent requests wait briefly or use probabilistic early expiration (XFetch) to re-read the populated cache"
+    ],
+    "red_flags": [
+      "Allowing all concurrent cache miss requests to hit the database directly without synchronization",
+      "Setting static cache expiration timestamps for thousands of keys simultaneously"
+    ],
+    "follow_ups": [
+      "What is Probabilistic Early Expiration (XFetch algorithm) for proactive cache refreshes?",
+      "How does setting random jitter on TTL expiration prevent simultaneous multi-key cache stampedes?"
+    ],
+    "tags": [
+      "caching",
+      "cache-stampede",
+      "redis",
+      "mutex-lock"
+    ]
+  },
+  {
+    "id": "BE-017",
+    "track": "backend",
+    "topic": "caching/Redis",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "What are Cache Penetration, Cache Avalanche, and Cache Breakdown in high-throughput backend services?",
+    "ideal_answer": "Cache Penetration occurs when queries request non-existent keys, causing requests to bypass the cache and hit the DB every time (mitigated by caching null values or Bloom Filters). Cache Avalanche happens when numerous keys expire simultaneously or the cache crashes, swamping the database with traffic (mitigated by TTL jitter and cache clusters). Cache Breakdown happens when a single ultra-hot key expires (mitigated by mutex locks or permanent keys refreshed asynchronously).",
+    "key_points": [
+      "Cache Penetration: Non-existent keys bypass cache repeatedly; fixed via Bloom Filters or caching nulls",
+      "Cache Avalanche: Mass simultaneous key expiration crashes DB; fixed via randomized TTL jitter",
+      "Cache Breakdown: Single ultra-popular key expires; fixed via distributed locking or background async refresh"
+    ],
+    "red_flags": [
+      "Failing to cache null or negative query results when checking non-existent database IDs",
+      "Configuring identical hardcoded TTLs across millions of database cache items"
+    ],
+    "follow_ups": [
+      "How does a Bloom Filter prevent Cache Penetration with zero false negatives?",
+      "How do circuit breakers safeguard primary databases during a Cache Avalanche?"
+    ],
+    "tags": [
+      "caching",
+      "cache-penetration",
+      "cache-avalanche",
+      "redis"
+    ]
+  },
+  {
+    "id": "BE-018",
+    "track": "backend",
+    "topic": "caching/Redis",
+    "difficulty": "hard",
+    "stretch": false,
+    "question": "How do LRU and LFU eviction policies manage memory in Redis when reaching maxmemory capacity?",
+    "ideal_answer": "When Redis reaches its maxmemory limit, eviction policies remove keys to free memory for new writes. Least Recently Used (LRU) evicts keys that have not been accessed for the longest time, tracking last-access timestamps. Least Frequently Used (LFU) evicts keys with the fewest access frequency counts over time using an 8-bit logarithmic counter with decay. Redis uses randomized sampling (e.g. testing 5 candidate keys) to approximate exact global LRU/LFU with minimal CPU overhead.",
+    "key_points": [
+      "LRU (Least Recently Used): Evicts keys with oldest last-access timestamps; ideal for temporal locality",
+      "LFU (Least Frequently Used): Evicts keys with lowest access counts; ideal for hot versus cold key patterns",
+      "Redis uses probabilistic sample-based approximations (e.g. maxmemory-samples 5) rather than expensive exact global lists"
+    ],
+    "red_flags": [
+      "Assuming Redis maintains a fully sorted global linked list for LRU eviction across millions of keys",
+      "Selecting noeviction policy on a cache cluster, causing writes to crash when memory is full"
+    ],
+    "follow_ups": [
+      "What is the difference between allkeys-lru and volatile-lru in Redis config?",
+      "How does Redis RDB snapshotting and AOF persistence interact with maxmemory limits?"
+    ],
+    "tags": [
+      "caching",
+      "redis",
+      "lru",
+      "lfu",
+      "eviction-policy"
+    ]
+  },
+  {
+    "id": "BE-019",
+    "track": "backend",
+    "topic": "auth/JWT",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What is a JSON Web Token (JWT), and what are its three Base64Url-encoded sections?",
+    "ideal_answer": "A JSON Web Token (JWT) is a compact, self-contained URL-safe string used for digitally signed identity assertion between parties. It consists of three Base64Url-encoded sections separated by dots (.): Header (defines token type and signature algorithm), Payload (contains user claims, permissions, and expiration timestamps), and Signature (cryptographic hash verifying header and payload integrity using a secret or private key).",
+    "key_points": [
+      "Structure: Header.Payload.Signature separated by period dots",
+      "Header specifies token type and algorithm; Payload contains claims and expiration (exp)",
+      "Cryptographic signature prevents client tampering without requiring backend session database lookups"
+    ],
+    "red_flags": [
+      "Believing Base64Url encoding in JWT payload provides data encryption or secrecy",
+      "Storing sensitive data like passwords or credit card numbers inside JWT payloads"
+    ],
+    "follow_ups": [
+      "Why must backend services strictly validate the alg header to prevent alg: none attacks?",
+      "What is symmetric HMAC-SHA256 vs asymmetric RSA/ECDSA signing in JWTs?"
+    ],
+    "tags": [
+      "auth",
+      "jwt",
+      "token-structure",
+      "security"
+    ]
+  },
+  {
+    "id": "BE-020",
+    "track": "backend",
+    "topic": "auth/JWT",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What is the core difference between Authentication and Authorization in backend security?",
+    "ideal_answer": "Authentication is the process of verifying WHO a user or entity is (identity verification via credentials, passwords, or tokens). Authorization is the process of verifying WHAT permissions or resources an authenticated user is allowed to access (access control rules). Authentication precedes authorization in the API request security lifecycle.",
+    "key_points": [
+      "Authentication verifies identity ('Who are you?'); executed via passwords, MFA, OAuth tokens",
+      "Authorization verifies permissions ('What are you allowed to do?'); executed via RBAC or ABAC rules",
+      "Authentication happens first; successful authentication is required before evaluating authorization rights"
+    ],
+    "red_flags": [
+      "Using 401 Unauthorized when an authenticated user attempts an unauthorized administrative action (should be 403 Forbidden)",
+      "Assuming authentication automatically grants access to all system endpoints"
+    ],
+    "follow_ups": [
+      "What is Role-Based Access Control (RBAC) versus Attribute-Based Access Control (ABAC)?",
+      "How does API Gateway middleware separate authentication checking from microservice authorization?"
+    ],
+    "tags": [
+      "auth",
+      "authentication",
+      "authorization",
+      "security"
+    ]
+  },
+  {
+    "id": "BE-021",
+    "track": "backend",
+    "topic": "auth/JWT",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "Why is stateless JWT session management vulnerable to immediate token revocation, and how do short-lived access tokens mitigate this?",
+    "ideal_answer": "Because valid JWTs are verified statelessly via signature matching without checking a central database, a stolen or compromised JWT remains valid until its expiration timestamp passed. Immediate revocation cannot be enforced statelessly. Backend systems mitigate this by making access tokens short-lived (e.g., 15 minutes) and using a Redis denylist/blocklist for revoked token identifiers (jti) during forced logouts.",
+    "key_points": [
+      "Stateless JWT verification accepts any unexpired, cryptographically valid token without database checks",
+      "Immediate revocation requires checking a Redis denylist of revoked token IDs (jti) or database sessions",
+      "Short access token lifespans (15 min) bound the vulnerability window of stolen tokens"
+    ],
+    "red_flags": [
+      "Issuing 30-day stateless access tokens without any revocation mechanism",
+      "Querying the main database on every request to verify stateless JWTs, defeating stateless performance gains"
+    ],
+    "follow_ups": [
+      "How does a Redis denylist of token IDs (jti) with TTL matching remaining expiration balance security?",
+      "What is token binding or IP/User-Agent fingerprint validation in JWT verification?"
+    ],
+    "tags": [
+      "auth",
+      "jwt",
+      "token-revocation",
+      "security"
+    ]
+  },
+  {
+    "id": "BE-022",
+    "track": "backend",
+    "topic": "auth/JWT",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "How does storing Refresh Tokens in HTTP-Only, Secure, SameSite cookies protect against XSS and CSRF attacks?",
+    "ideal_answer": "Storing tokens in browser localStorage or sessionStorage leaves them vulnerable to Cross-Site Scripting (XSS) attacks, where malicious client scripts read and exfiltrate tokens. Storing Refresh Tokens in HTTP-Only cookies prevents JavaScript access entirely, neutralizing XSS exfiltration. Setting Secure enforces HTTPS-only transit, and SameSite=Strict/Lax blocks unauthorized cross-site request forgery (CSRF) transmissions.",
+    "key_points": [
+      "HttpOnly flag prevents client-side JavaScript scripts from reading cookie content, stopping XSS exfiltration",
+      "Secure flag ensures cookies are only transmitted across encrypted HTTPS connections",
+      "SameSite=Strict/Lax restricts cross-site cookie transmission, protecting endpoints against CSRF"
+    ],
+    "red_flags": [
+      "Storing refresh tokens in localStorage where third-party XSS scripts can access them",
+      "Omitting HttpOnly or SameSite flags when setting authentication cookies"
+    ],
+    "follow_ups": [
+      "How does Refresh Token Rotation detect and invalidate stolen refresh token families?",
+      "What is the Dual-Token (short Access Token + HTTP-Only Refresh Token) architecture flow?"
+    ],
+    "tags": [
+      "auth",
+      "jwt",
+      "httponly-cookies",
+      "xss",
+      "csrf"
+    ]
+  },
+  {
+    "id": "BE-023",
+    "track": "backend",
+    "topic": "queues",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What is a Message Queue, and why are asynchronous message queues used in backend microservice architectures?",
+    "ideal_answer": "A Message Queue (e.g., RabbitMQ, AWS SQS) is an asynchronous communication component that buffers messages between producer and consumer services. In microservices, queues decouple synchronous REST dependencies, allowing heavy background tasks (email sending, image processing, report generation) to execute asynchronously. This prevents user-facing HTTP request timeouts, absorbs traffic spikes, and provides system fault tolerance.",
+    "key_points": [
+      "Buffers messages to decouple producer and consumer microservice execution",
+      "Offloads time-consuming background tasks from synchronous user HTTP request paths",
+      "Improves system resilience and absorbs traffic spikes via consumer worker pool buffering"
+    ],
+    "red_flags": [
+      "Executing heavy 10-second image processing tasks synchronously inside HTTP request handlers",
+      "Assuming message queue consumers process messages in the exact order producers sent them across parallel threads"
+    ],
+    "follow_ups": [
+      "What is the difference between Point-to-Point queues and Publish-Subscribe (Pub/Sub) topics?",
+      "How does consumer worker pool auto-scaling respond to message queue depth growth?"
+    ],
+    "tags": [
+      "queues",
+      "message-queue",
+      "asynchronous",
+      "microservices"
+    ]
+  },
+  {
+    "id": "BE-024",
+    "track": "backend",
+    "topic": "queues",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "What is a Dead Letter Queue (DLQ), and how does it handle unprocessable background messages?",
+    "ideal_answer": "A Dead Letter Queue (DLQ) is a dedicated queue holding messages that cannot be processed successfully by consumer workers after hitting a maximum retry threshold. When a message repeatedly fails or triggers an unhandled exception, the queue broker moves it to the DLQ instead of looping infinitely. DLQs isolate problematic 'poison pill' payload messages for developer debugging while keeping main queues running.",
+    "key_points": [
+      "Stores unprocessable or repeatedly failing messages after max retry attempts are exhausted",
+      "Prevents malformed 'poison pill' messages from clogging main queue processing loops indefinitely",
+      "Enables isolated alert monitoring, manual inspection, bug fixing, and message re-driving"
+    ],
+    "red_flags": [
+      "Retrying failing messages indefinitely in an infinite loop without a retry cap or DLQ",
+      "Silently discarding failing messages without logging or routing to a DLQ"
+    ],
+    "follow_ups": [
+      "Why should message retries incorporate exponential backoff with random jitter?",
+      "How do you re-drive / replay messages from a Dead Letter Queue back to the main queue after fixing a bug?"
+    ],
+    "tags": [
+      "queues",
+      "dlq",
+      "dead-letter-queue",
+      "error-handling"
+    ]
+  },
+  {
+    "id": "BE-025",
+    "track": "backend",
+    "topic": "queues",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "How do traditional Message Queues (e.g. RabbitMQ) differ from Distributed Commit Logs (e.g. Apache Kafka)?",
+    "ideal_answer": "Traditional Message Queues (RabbitMQ) push messages to connected consumers, track message ACK state in broker memory, and delete messages immediately upon successful processing. Distributed Commit Logs (Apache Kafka) append messages to immutable, partition-ordered disk logs where consumers pull messages independently and track their own log offsets. Kafka retains data after consumption, allowing historic event replay across multiple distinct consumer groups.",
+    "key_points": [
+      "RabbitMQ: Push-based, broker deletes message after consumer ACK; ideal for task distribution worker pools",
+      "Kafka: Pull-based append-only commit log, data retained on disk; ideal for event streaming and historic replay",
+      "Kafka consumers track offsets independently; RabbitMQ broker manages message deletion state"
+    ],
+    "red_flags": [
+      "Assuming RabbitMQ allows new consumer groups to replay 30 days of past deleted messages",
+      "Choosing Kafka purely as a simple task queue for 5 background email jobs"
+    ],
+    "follow_ups": [
+      "How does partition key routing maintain message ordering per entity in Apache Kafka?",
+      "What is a Kafka Consumer Group and how does partition rebalancing operate?"
+    ],
+    "tags": [
+      "queues",
+      "rabbitmq",
+      "kafka",
+      "event-streaming"
+    ]
+  },
+  {
+    "id": "BE-026",
+    "track": "backend",
+    "topic": "queues",
+    "difficulty": "hard",
+    "stretch": false,
+    "question": "How do you achieve At-Least-Once delivery and build Idempotent Consumers to handle duplicate messages?",
+    "ideal_answer": "At-Least-Once delivery guarantees messages are delivered to consumers but admits duplicates due to network ACK timeouts or consumer restarts. To prevent duplicate processing errors (e.g. double shipments), consumers must be idempotent. Consumers extract a unique Message ID from the payload, check a deduplication table/cache inside a database transaction, execute processing, record the Message ID, and commit atomically before acknowledging the broker.",
+    "key_points": [
+      "At-Least-Once delivery guarantees message arrival but risks duplicate message delivery on network blips",
+      "Consumers must track unique Message IDs in a transactional database or Redis deduplication store",
+      "Message processing and deduplication ID recording execute atomically before sending consumer ACK"
+    ],
+    "red_flags": [
+      "Assuming network delivery will always be Exactly-Once without consumer deduplication logic",
+      "Sending message ACK to the broker BEFORE completing database processing steps"
+    ],
+    "follow_ups": [
+      "What is the Transactional Outbox Pattern for atomic database writes and message publishing?",
+      "Why is Exactly-Once processing impossible in distributed systems without two-phase commit or idempotency?"
+    ],
+    "tags": [
+      "queues",
+      "at-least-once",
+      "idempotent-consumer",
+      "distributed-systems"
+    ]
+  },
+  {
+    "id": "BE-027",
+    "track": "backend",
+    "topic": "concurrency",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What is a Race Condition in backend web applications, and what problem does it cause?",
+    "ideal_answer": "A Race Condition occurs when concurrent request threads read and update shared data simultaneously, and the final state depends unexpectedly on the execution timing order of threads. In web apps, if two requests read an account balance of $100 concurrently and both subtract $80 without locking, both checks pass, leaving the balance at $20 instead of rejecting the second payment due to insufficient funds.",
+    "key_points": [
+      "Occurs when multiple concurrent threads/requests read and modify shared state simultaneously",
+      "Final state outcome depends unexpectedly on arbitrary execution timing order",
+      "Causes data corruption, lost updates, and inventory or balance discrepancies"
+    ],
+    "red_flags": [
+      "Assuming single-threaded event loops (like Node.js) are completely immune to database race conditions across async queries",
+      "Relying on in-memory application variables to track state across multiple load-balanced web server instances"
+    ],
+    "follow_ups": [
+      "How do database atomic UPDATE statements (UPDATE balance = balance - 80 WHERE balance >= 80) prevent race conditions?",
+      "What is a Lost Update anomaly in concurrent transactions?"
+    ],
+    "tags": [
+      "concurrency",
+      "race-condition",
+      "data-integrity"
+    ]
+  },
+  {
+    "id": "BE-028",
+    "track": "backend",
+    "topic": "concurrency",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What is a Database Connection Pool, and why is it required in high-throughput backend services?",
+    "ideal_answer": "A Database Connection Pool maintains a warm, reusable pool of open database network connections. Opening a new database TCP connection for every incoming HTTP request carries heavy overhead (TCP handshakes, TLS negotiation, authentication, backend process allocation). A connection pool allows web worker threads to check out an existing connection, execute queries, and return it to the pool immediately, minimizing latency and bounding database connection load.",
+    "key_points": [
+      "Maintains a warm, configured pool of reusable database connections",
+      "Eliminates TCP, TLS, and auth setup overhead per HTTP request",
+      "Limits maximum active database connections, protecting the database from thread exhaustion"
+    ],
+    "red_flags": [
+      "Opening and closing a brand-new database connection for every single incoming API request",
+      "Setting max connection pool size to 10,000, overwhelming database CPU and RAM limits"
+    ],
+    "follow_ups": [
+      "How do you determine optimal connection pool sizing using HikariCP benchmarks?",
+      "What is Connection Pool Exhaustion, and how do connection timeouts handle it?"
+    ],
+    "tags": [
+      "concurrency",
+      "connection-pool",
+      "database",
+      "hikaricp"
+    ]
+  },
+  {
+    "id": "BE-029",
+    "track": "backend",
+    "topic": "concurrency",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "How does Optimistic Locking using version numbers prevent dirty writes in backend services?",
+    "ideal_answer": "Optimistic Locking adds a version integer column to the database table. When a user reads a record, they fetch the current version (e.g. version=1). During updates, the SQL query explicitly asserts the version condition: UPDATE items SET stock=10, version=version+1 WHERE id=123 AND version=1. If another transaction updated the row first, the version increments to 2, causing the query to match 0 rows and fail, preventing overwrites.",
+    "key_points": [
+      "Adds an integer version or timestamp column to target table schemas",
+      "Includes version in UPDATE WHERE clause: WHERE id = X AND version = current_version",
+      "If 0 rows are updated, a concurrent modification occurred; the application aborts and retries"
+    ],
+    "red_flags": [
+      "Executing unconditional UPDATE statements based on stale data read earlier in application memory",
+      "Using Optimistic Locking for extreme write-contention hotspots where 99% of updates fail and retry"
+    ],
+    "follow_ups": [
+      "How do ORMs like Hibernate or Prisma support automatic version checking?",
+      "When should you switch from Optimistic Locking to Pessimistic Locking (SELECT FOR UPDATE)?"
+    ],
+    "tags": [
+      "concurrency",
+      "optimistic-locking",
+      "database",
+      "versioning"
+    ]
+  },
+  {
+    "id": "BE-030",
+    "track": "backend",
+    "topic": "concurrency",
+    "difficulty": "hard",
+    "stretch": true,
+    "question": "How does the Distributed Redlock Algorithm in Redis ensure lock safety across multiple master nodes?",
+    "ideal_answer": "Redlock acquires a distributed lock across N independent, un-replicated Redis master nodes (typically 5). A client attempts to acquire the lock on all instances sequentially using identical random values and short TTLs. A lock is successfully secured if the client acquires the lock on a majority of nodes (N/2 + 1, e.g. 3 out of 5) within a time window smaller than the lock validity duration. If it fails, it releases acquired locks on all nodes.",
+    "key_points": [
+      "Attempts lock acquisition across N independent master Redis nodes with a unique random token and short TTL",
+      "Considers lock valid only if acquired on majority (N/2 + 1) nodes within defined timeout window",
+      "If acquisition fails or times out, immediately unlocks all nodes to prevent partial lock leaks"
+    ],
+    "red_flags": [
+      "Relying on a single master-slave Redis node for critical distributed locking where failover causes dual lock ownership",
+      "Ignoring wall-clock drift issues or GC pauses when computing lock validity windows"
+    ],
+    "follow_ups": [
+      "What criticism did Martin Kleppmann raise regarding Redlock and process pauses?",
+      "What is a Fencing Token, and how does it safeguard storage systems against stale lock holders?"
+    ],
+    "tags": [
+      "concurrency",
+      "redlock",
+      "redis",
+      "distributed-locks"
+    ]
+  },
+  {
+    "id": "BE-031",
+    "track": "backend",
+    "topic": "concurrency",
+    "difficulty": "hard",
+    "stretch": false,
+    "question": "How does Asynchronous Non-Blocking I/O (Event Loop) compare to Thread-per-Request models under high concurrent traffic?",
+    "ideal_answer": "Thread-per-Request (e.g. traditional Tomcat) allocates a dedicated OS thread to each incoming HTTP request, blocking the thread during I/O operations (DB queries, network calls). High concurrency exhausts thread pools and RAM due to stack memory and context switching overhead. Asynchronous Non-Blocking I/O (e.g. Node.js, Netty) uses a small single/fixed event loop thread pool that delegates I/O to kernel epoll/kqueue, handling tens of thousands of concurrent connections efficiently.",
+    "key_points": [
+      "Thread-per-Request blocks dedicated OS threads during I/O, leading to high memory and context-switch bottlenecks",
+      "Asynchronous Event Loops use OS non-blocking primitives (epoll/kqueue) to handle thousands of concurrent sockets",
+      "Event Loop architectures require non-blocking code; heavy CPU-bound tasks block the loop for all connections"
+    ],
+    "red_flags": [
+      "Running long CPU-intensive synchronous calculations directly inside a Node.js single-threaded event loop",
+      "Assuming thread-per-request models can scale to 100k concurrent open connections without high RAM requirements"
+    ],
+    "follow_ups": [
+      "How do Java Virtual Threads (Project Loom) combine thread-per-request programming styles with non-blocking continuation scheduling?",
+      "What is the OS epoll/kqueue system call mechanism?"
+    ],
+    "tags": [
+      "concurrency",
+      "event-loop",
+      "non-blocking-io",
+      "netty",
+      "nodejs"
+    ]
+  },
+  {
+    "id": "BE-032",
+    "track": "backend",
+    "topic": "scaling",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What is an API Gateway, and what cross-cutting concerns does it manage at the edge of backend microservices?",
+    "ideal_answer": "An API Gateway sits at the front door of a backend microservices system as a single entry point for client traffic. It routes incoming requests to appropriate internal microservices while managing edge concerns once at the front door: HTTPS termination, OAuth/JWT authentication, rate limiting, CORS headers, response caching, request logging, and load balancing. This removes duplicate infrastructure code from internal downstream services.",
+    "key_points": [
+      "Provides a single unified entry point for external client traffic into backend microservice networks",
+      "Handles edge concerns centrally: TLS termination, auth validation, rate limiting, CORS, routing",
+      "Shields internal microservice network topology and security VPC boundaries from public clients"
+    ],
+    "red_flags": [
+      "Duplicating rate limiting and JWT signature verification code independently inside 20 individual microservices",
+      "Placing heavy custom domain business logic directly inside API Gateway scripts"
+    ],
+    "follow_ups": [
+      "How does an API Gateway integrate with Service Discovery tools (like Consul or Kubernetes K8s DNS)?",
+      "What is Backend-for-Frontend (BFF) pattern versus a single monolithic API Gateway?"
+    ],
+    "tags": [
+      "scaling",
+      "api-gateway",
+      "microservices",
+      "architecture"
+    ]
+  },
+  {
+    "id": "BE-033",
+    "track": "backend",
+    "topic": "scaling",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What is Database Read Replication, and how does it separate read workloads from primary writes?",
+    "ideal_answer": "Database Read Replication creates one Primary (Leader) database instance that handles all write operations (INSERT, UPDATE, DELETE) and streams write logs asynchronously or synchronously to multiple Read Replicas (Followers). Read-heavy API traffic (e.g. SELECT queries) is routed across read replicas to scale read throughput horizontally and prevent read queries from impacting primary write performance.",
+    "key_points": [
+      "Primary node accepts all write operations and replicates write-ahead logs to replica nodes",
+      "Read Replicas handle SELECT queries, scaling read throughput horizontally",
+      "Asynchronous replication introduces replication lag; reads on replicas may temporarily observe stale data"
+    ],
+    "red_flags": [
+      "Routing user writes to read-only replica nodes",
+      "Assuming read replicas automatically solve primary write throughput bottlenecks"
+    ],
+    "follow_ups": [
+      "How do you handle 'Read-Your-Own-Writes' consistency right after a user updates their profile?",
+      "What happens when a primary database crashes during replication failover?"
+    ],
+    "tags": [
+      "scaling",
+      "read-replication",
+      "database",
+      "replication-lag"
+    ]
+  },
+  {
+    "id": "BE-034",
+    "track": "backend",
+    "topic": "scaling",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "How does the Token Bucket algorithm implement rate limiting in distributed backend APIs?",
+    "ideal_answer": "The Token Bucket algorithm maintains a virtual bucket of fixed capacity (b) that fills with tokens at a constant rate (r tokens/sec). Each incoming API request requires consuming one token from the bucket. If tokens are available, the token is decremented and the request proceeds. If the bucket is empty, the request is rejected with 429 Too Many Requests. In distributed systems, Redis manages bucket token counts using Lua scripts for atomicity.",
+    "key_points": [
+      "Bucket holds max capacity b tokens and refills at a steady rate r tokens per second",
+      "Incoming requests consume a token; if empty, returns HTTP 429 Too Many Requests",
+      "Allows short bursty traffic up to bucket capacity b while enforcing long-term rate r",
+      "Distributed implementations use atomic Redis Lua scripts"
+    ],
+    "red_flags": [
+      "Using non-atomic read-then-write Redis queries for distributed rate limiting, leading to race condition bypasses",
+      "Confusing Token Bucket (allows bursts) with Leaky Bucket (smooths output rate strictly)"
+    ],
+    "follow_ups": [
+      "What is Fixed Window versus Sliding Window Log rate limiting?",
+      "Why are atomic Lua scripts necessary when executing distributed Redis rate limiters?"
+    ],
+    "tags": [
+      "scaling",
+      "rate-limiting",
+      "token-bucket",
+      "redis"
+    ]
+  },
+  {
+    "id": "BE-035",
+    "track": "backend",
+    "topic": "scaling",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "How do Content Delivery Networks (CDNs) offload static and dynamic assets from backend origin servers?",
+    "ideal_answer": "A Content Delivery Network (CDN) is a globally distributed network of Edge Point of Presence (PoP) proxy servers. When a user requests assets (images, JS, CSS, or cached API responses), the request routes to the geographically nearest edge server. If cached at the edge, it returns data immediately with low latency, bypassing origin servers completely. On cache misses, the CDN fetches from origin, caches the item, and returns it.",
+    "key_points": [
+      "Globally distributed edge PoP servers serve cached assets near the end user, lowering latency",
+      "Offloads massive static and cacheable HTTP traffic away from backend origin servers",
+      "Uses Cache-Control headers (e.g. s-maxage, stale-while-revalidate) to govern edge caching behavior"
+    ],
+    "red_flags": [
+      "Omitting cache invalidation strategies when deploying updated frontend build assets to CDNs",
+      "Caching private user-specific API data on public CDN edge nodes"
+    ],
+    "follow_ups": [
+      "What is Cache-Control: stale-while-revalidate?",
+      "How does CDN Edge Compute (e.g. Cloudflare Workers / AWS CloudFront Functions) execute request logic at the edge?"
+    ],
+    "tags": [
+      "scaling",
+      "cdn",
+      "caching",
+      "edge-servers"
+    ]
+  },
+  {
+    "id": "BE-036",
+    "track": "backend",
+    "topic": "scaling",
+    "difficulty": "hard",
+    "stretch": false,
+    "question": "How do Circuit Breakers (e.g., Resilience4j) prevent cascading failures in backend microservice networks?",
+    "ideal_answer": "Circuit Breakers monitor remote service call failures. In normal Closed state, requests pass through. If failure rates cross a threshold (e.g. 50% timeouts), the breaker trips to Open state, immediately failing fast and returning fallbacks without attempting remote calls, giving the failing dependency time to recover. After a cooldown, it enters Half-Open state, allowing a limited probe trial. If probes succeed, it resets to Closed; otherwise, it opens again.",
+    "key_points": [
+      "Closed: Requests flow normally while monitoring failure rates and latency thresholds",
+      "Open: Tripped on high error rates; immediately fails fast with fallbacks, preventing downstream resource exhaustion",
+      "Half-Open: Tests dependency recovery with limited trial probe requests before fully resetting"
+    ],
+    "red_flags": [
+      "Allowing backend services to hang indefinitely waiting on failing downstream dependencies until thread pools starve",
+      "Setting circuit breaker timeout values higher than the user-facing HTTP gateway timeout"
+    ],
+    "follow_ups": [
+      "What fallback strategies (e.g. cached response, degraded functionality) should execute when a circuit breaker opens?",
+      "How do Bulkheads complement Circuit Breakers in isolating thread pool capacity?"
+    ],
+    "tags": [
+      "scaling",
+      "circuit-breaker",
+      "resilience4j",
+      "microservices",
+      "fault-tolerance"
+    ]
+  },
+  {
+    "id": "BE-037",
+    "track": "backend",
+    "topic": "Docker",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What is Docker, and how does a Container differ from a traditional Virtual Machine (VM)?",
+    "ideal_answer": "Docker is a containerization platform that packages application code, runtime, libraries, and dependencies into isolated container units. A Virtual Machine includes a full guest operating system running on top of a hypervisor, consuming significant RAM and boot time. A Docker container shares the host Linux kernel and isolates applications using kernel features (namespaces, cgroups), making containers lightweight, fast to start, and resource efficient.",
+    "key_points": [
+      "Docker packages code and dependencies into standardized, portable container images",
+      "Virtual Machines run full guest OS instances on hypervisors, consuming heavy CPU/RAM",
+      "Containers share host OS kernel, using namespaces and cgroups for lightweight isolation"
+    ],
+    "red_flags": [
+      "Claiming every Docker container runs its own dedicated virtualized guest OS kernel",
+      "Confusing Docker container images with running container instances"
+    ],
+    "follow_ups": [
+      "What is the difference between a Docker Image and a running Docker Container?",
+      "How does Docker Desktop execute Linux containers on macOS or Windows using lightweight hypervisors?"
+    ],
+    "tags": [
+      "docker",
+      "containers",
+      "virtual-machines",
+      "devops"
+    ]
+  },
+  {
+    "id": "BE-038",
+    "track": "backend",
+    "topic": "Docker",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What is a Dockerfile, and what is the difference between CMD and ENTRYPOINT directives?",
+    "ideal_answer": "A Dockerfile is a plain text configuration script containing sequential instructions used to build a Docker container image. ENTRYPOINT specifies the fixed primary command executable that will always run when the container starts (e.g. ENTRYPOINT [\"python3\"]). CMD provides default argument parameters passed to the ENTRYPOINT, which can be easily overridden by command line arguments passed during docker run.",
+    "key_points": [
+      "Dockerfile contains step-by-step instructions (FROM, COPY, RUN) to build container images",
+      "ENTRYPOINT sets the default immutable command executable invoked when container starts",
+      "CMD sets default arguments for ENTRYPOINT, easily overridden by trailing docker run arguments"
+    ],
+    "red_flags": [
+      "Confusing build-time RUN instructions with runtime CMD or ENTRYPOINT instructions",
+      "Using shell form instead of exec array form ([\"executable\", \"param\"]) causing signal handling bugs"
+    ],
+    "follow_ups": [
+      "Why is the exec array form ([\"node\", \"server.js\"]) required for proper PID 1 SIGTERM process termination?",
+      "How does Docker build layer caching work when executing sequential Dockerfile instructions?"
+    ],
+    "tags": [
+      "docker",
+      "dockerfile",
+      "cmd",
+      "entrypoint"
+    ]
+  },
+  {
+    "id": "BE-039",
+    "track": "backend",
+    "topic": "Docker",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "How do Multi-Stage Docker builds reduce production container image size and eliminate build-time tools?",
+    "ideal_answer": "Multi-Stage Docker builds use multiple FROM statements in a single Dockerfile. The first stage installs full build SDKs, compilers, and dependencies to compile application artifacts (e.g. Go binary or TypeScript build). The final stage starts from a minimal runtime image (e.g. alpine or distroless) and copies ONLY the compiled binary/assets from the build stage using COPY --from=builder. This eliminates heavy build compilers and source code from production images.",
+    "key_points": [
+      "Uses multiple FROM stages in one Dockerfile to separate build environment from runtime environment",
+      "Stage 1 compiles application using full SDKs/compilers; Stage 2 copies only compiled artifacts via COPY --from",
+      "Dramatically reduces image footprint (e.g. 1GB -> 20MB) and eliminates build tool security attack surfaces"
+    ],
+    "red_flags": [
+      "Shipping full C++/Go/Java compilers and source code inside production container deployment images",
+      "Creating separate multi-repo shell scripts instead of using clean multi-stage Dockerfiles"
+    ],
+    "follow_ups": [
+      "What is a Distroless base image, and why does it enhance production container security?",
+      "How do .dockerignore files prevent large node_modules or .git folders from bloating build contexts?"
+    ],
+    "tags": [
+      "docker",
+      "multi-stage-build",
+      "container-security",
+      "distroless"
+    ]
+  },
+  {
+    "id": "BE-040",
+    "track": "backend",
+    "topic": "Docker",
+    "difficulty": "hard",
+    "stretch": true,
+    "question": "How do Linux Kernel Namespaces and Control Groups (cgroups) implement container isolation and resource constraints?",
+    "ideal_answer": "Docker containers are isolated Linux processes governed by two kernel mechanisms: Namespaces isolate system resources per container (PID namespace isolates process IDs, NET isolates network interfaces, MNT isolates filesystem mounts, USER isolates user IDs). Control Groups (cgroups) enforce physical hardware resource limits (restricting CPU shares, memory allocation caps, and I/O bandwidth), preventing a single container from starving host kernel resources.",
+    "key_points": [
+      "Linux Namespaces provide workspace isolation (PID, NET, MNT, IPC, USER) so processes see only their container bounds",
+      "Control Groups (cgroups) monitor and enforce hardware resource boundaries (CPU, RAM, Disk I/O limits)",
+      "Together, namespaces and cgroups allow lightweight process isolation without hypervisor overhead"
+    ],
+    "red_flags": [
+      "Claiming Docker relies on hardware hypervisors (like ESXi or KVM) to isolate Linux containers on Linux hosts",
+      "Thinking a container process cannot be viewed from the host kernel's root PID namespace"
+    ],
+    "follow_ups": [
+      "What happens when a container exceeds its cgroup memory limit (OOMKilled)?",
+      "What are Linux Capability drops (cap-drop) and security profiles (seccomp) in Docker runtime security?"
+    ],
+    "tags": [
+      "docker",
+      "namespaces",
+      "cgroups",
+      "linux-kernel",
+      "container-runtime"
+    ]
+  },
+  {
+    "id": "BE-041",
+    "track": "backend",
+    "topic": "REST design",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What is middleware in a backend web framework, and what is it commonly used for?",
+    "ideal_answer": "Middleware is code that sits in the request/response pipeline and runs before or after the route handler. Each piece can inspect or modify the request, short-circuit with a response, or pass control onward. Typical uses include authentication, logging, CORS, rate limiting, request parsing, and centralized error handling, and their order matters.",
+    "key_points": [
+      "Runs in a chain between request and handler",
+      "Used for auth, logging, CORS, rate limiting, error handling",
+      "Execution order affects behavior"
+    ],
+    "red_flags": [
+      "Putting business logic in middleware instead of services",
+      "Registering auth middleware after the routes it should protect"
+    ],
+    "follow_ups": [
+      "How would you implement request logging as middleware?",
+      "What happens if a middleware forgets to call next()?"
+    ],
+    "tags": [
+      "middleware",
+      "web-framework",
+      "request-pipeline"
+    ]
+  },
+  {
+    "id": "BE-042",
+    "track": "backend",
+    "topic": "auth/JWT",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What is SQL injection, and how do you prevent it?",
+    "ideal_answer": "SQL injection happens when untrusted input is concatenated into a SQL string so an attacker can alter the query, for example to bypass login or dump data. The primary defense is parameterized queries or prepared statements, with ORMs doing this by default. Also validate input, use least-privilege database accounts, and avoid exposing raw database errors.",
+    "key_points": [
+      "Caused by building SQL from unsanitized input",
+      "Fix with parameterized queries or prepared statements",
+      "Least-privilege DB user and input validation as defense in depth"
+    ],
+    "red_flags": [
+      "Relying only on escaping quotes manually",
+      "Running the app with a database admin account"
+    ],
+    "follow_ups": [
+      "Why do parameterized queries stop injection?",
+      "Can an ORM still be vulnerable to injection?"
+    ],
+    "tags": [
+      "sql-injection",
+      "security",
+      "prepared-statements"
+    ]
+  },
+  {
+    "id": "BE-043",
+    "track": "backend",
+    "topic": "auth/JWT",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "How should passwords be stored in a backend database?",
+    "ideal_answer": "Never store plaintext or reversibly encrypted passwords. Store a salted hash produced by a slow password hashing function such as bcrypt, scrypt, or Argon2, so that each password gets a unique salt and brute force is expensive. On login, hash the submitted password with the stored salt and compare in constant time.",
+    "key_points": [
+      "Hash, do not encrypt or store plaintext",
+      "Unique salt per password defeats rainbow tables",
+      "Use slow algorithms: bcrypt, scrypt, or Argon2"
+    ],
+    "red_flags": [
+      "Using fast general hashes like plain MD5 or SHA-1 for passwords",
+      "Using one global salt or none at all"
+    ],
+    "follow_ups": [
+      "Why is a slow hash better than SHA-256 for passwords?",
+      "What is a pepper and how does it differ from a salt?"
+    ],
+    "tags": [
+      "password-hashing",
+      "bcrypt",
+      "security"
+    ]
+  },
+  {
+    "id": "BE-044",
+    "track": "backend",
+    "topic": "REST design",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "What are common API versioning strategies, and what are their tradeoffs?",
+    "ideal_answer": "Common approaches are URL versioning (/v1/users), header or media-type versioning, and query parameters. URL versioning is the most visible and easy to route and cache, while header versioning keeps URLs clean but is harder to test and discover. Whatever you choose, avoid breaking changes inside a version and deprecate old versions with a clear timeline.",
+    "key_points": [
+      "URL, header, and query-parameter versioning options",
+      "URL versioning: simple and cache-friendly; header versioning: cleaner URLs",
+      "Never break existing clients inside a version; publish deprecation policy"
+    ],
+    "red_flags": [
+      "Shipping breaking changes without a new version",
+      "Maintaining many old versions forever without a sunset plan"
+    ],
+    "follow_ups": [
+      "What counts as a breaking change in a REST API?",
+      "How would you deprecate an endpoint safely?"
+    ],
+    "tags": [
+      "api-versioning",
+      "rest",
+      "compatibility"
+    ]
+  },
+  {
+    "id": "BE-045",
+    "track": "backend",
+    "topic": "scaling",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What is the difference between a monolith and microservices, and when is a monolith the better choice?",
+    "ideal_answer": "A monolith is deployed as one unit and is simple to develop, test, and run, with in-process calls. Microservices split functionality into independently deployable services, enabling independent scaling and team autonomy but adding network latency, distributed failures, and operational complexity. For small teams and early products, a well-structured monolith is usually the better start.",
+    "key_points": [
+      "Monolith: single deployable, simple, in-process calls",
+      "Microservices: independent deploy and scaling, high operational cost",
+      "Start with a modular monolith unless scale or team size demands otherwise"
+    ],
+    "red_flags": [
+      "Choosing microservices only because they are fashionable",
+      "Ignoring network failure modes between services"
+    ],
+    "follow_ups": [
+      "How do you handle data consistency across microservices?",
+      "What is a modular monolith?"
+    ],
+    "tags": [
+      "monolith",
+      "microservices",
+      "architecture"
+    ]
+  },
+  {
+    "id": "BE-046",
+    "track": "backend",
+    "topic": "queues",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "When should work be moved to a background job instead of handled inside the request?",
+    "ideal_answer": "Move work to a background job when it is slow, can fail and need retries, or the user does not need the result immediately, such as sending email, generating reports, or processing uploads. The request enqueues a job and returns quickly, a worker processes it, and results are reported through status endpoints or notifications. Jobs should be idempotent and monitored.",
+    "key_points": [
+      "Slow, retry-prone, or non-urgent work belongs in a queue",
+      "Request returns fast; workers process asynchronously",
+      "Jobs must be idempotent with retries and monitoring"
+    ],
+    "red_flags": [
+      "Running long tasks inside the HTTP request thread",
+      "Jobs that are unsafe to retry"
+    ],
+    "follow_ups": [
+      "How does the client learn when a job has finished?",
+      "What happens if a worker crashes mid-job?"
+    ],
+    "tags": [
+      "background-jobs",
+      "celery",
+      "async"
+    ]
+  },
+  {
+    "id": "BE-047",
+    "track": "backend",
+    "topic": "scaling",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What are logs, metrics, and traces, and why do backend services need all three?",
+    "ideal_answer": "Logs are timestamped records of discrete events, metrics are numeric measurements over time such as latency and error rate, and traces follow a single request across services. Metrics tell you that something is wrong, traces show where in the call path it is slow or failing, and logs give the detail to explain why. Together they make a system observable.",
+    "key_points": [
+      "Logs: events; metrics: aggregated numbers; traces: request paths",
+      "Metrics detect, traces locate, logs explain",
+      "Use structured logs with correlation IDs"
+    ],
+    "red_flags": [
+      "Logging secrets or personal data",
+      "Relying only on unstructured print statements"
+    ],
+    "follow_ups": [
+      "What is a correlation ID and why add one?",
+      "Which metrics would you alert on for an API?"
+    ],
+    "tags": [
+      "observability",
+      "logging",
+      "metrics"
+    ]
+  },
+  {
+    "id": "BE-048",
+    "track": "backend",
+    "topic": "scaling",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "What are health check endpoints, and how do liveness and readiness checks differ?",
+    "ideal_answer": "A health endpoint lets orchestrators and load balancers know whether an instance should receive traffic. A liveness check answers whether the process is alive, and failing it restarts the container. A readiness check answers whether the instance can serve requests now, for example after dependencies are connected, and failing it removes the instance from rotation without restarting it.",
+    "key_points": [
+      "Liveness: restart if the process is stuck or dead",
+      "Readiness: remove from traffic until dependencies are ready",
+      "Used by load balancers and orchestrators such as Kubernetes"
+    ],
+    "red_flags": [
+      "Making liveness depend on a flaky external dependency, causing restart loops",
+      "Returning 200 before the app has finished starting"
+    ],
+    "follow_ups": [
+      "What should a readiness check actually verify?",
+      "Why can a deep health check be dangerous?"
+    ],
+    "tags": [
+      "health-check",
+      "kubernetes",
+      "readiness"
+    ]
+  },
+  {
+    "id": "BE-049",
+    "track": "backend",
+    "topic": "Docker",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "What does it mean to follow the twelve-factor approach to configuration, and why use environment variables for config?",
+    "ideal_answer": "The twelve-factor approach keeps configuration that varies between environments, such as database URLs and API keys, outside the code, typically in environment variables. This lets the same build run in dev, staging, and production, and keeps secrets out of version control. Secrets should come from a secrets manager or the platform, never committed to the repository.",
+    "key_points": [
+      "Config lives in the environment, not in code",
+      "Same artifact deploys to every environment",
+      "Secrets never committed; use a secrets manager"
+    ],
+    "red_flags": [
+      "Committing .env files or API keys to Git",
+      "Hard-coding environment-specific values"
+    ],
+    "follow_ups": [
+      "How do you manage secrets in production?",
+      "How does Docker pass environment variables to a container?"
+    ],
+    "tags": [
+      "twelve-factor",
+      "configuration",
+      "secrets"
+    ]
+  },
+  {
+    "id": "BE-050",
+    "track": "backend",
+    "topic": "SQL/NoSQL",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "What is the tradeoff between database normalization and denormalization?",
+    "ideal_answer": "Normalization splits data into related tables to remove redundancy and update anomalies, which keeps data consistent and writes simple, but reads may need many joins. Denormalization duplicates data to make reads faster, at the cost of extra storage and the risk of inconsistent copies. Typical practice is to normalize first and denormalize deliberately where measurements show read bottlenecks.",
+    "key_points": [
+      "Normalization reduces redundancy and update anomalies",
+      "Denormalization speeds reads but risks inconsistency",
+      "Normalize first; denormalize based on measured bottlenecks"
+    ],
+    "red_flags": [
+      "Denormalizing everything upfront without evidence",
+      "Ignoring how duplicated data will be kept in sync"
+    ],
+    "follow_ups": [
+      "Give an example where denormalization is justified.",
+      "How do you keep denormalized copies consistent?"
+    ],
+    "tags": [
+      "normalization",
+      "denormalization",
+      "schema-design"
+    ]
+  },
+  {
+    "id": "BE-051",
+    "track": "backend",
+    "topic": "caching/Redis",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What are Redis RDB snapshots and AOF, and how do they differ for persistence?",
+    "ideal_answer": "RDB writes point-in-time snapshots of the dataset at intervals, producing compact files and fast restarts, but a crash can lose data since the last snapshot. AOF logs every write command, giving better durability with configurable fsync policies, at the cost of larger files and slower recovery. Many setups enable both.",
+    "key_points": [
+      "RDB: periodic snapshots, compact, may lose recent writes",
+      "AOF: append-only write log, better durability, larger",
+      "Often combined; choose by durability needs"
+    ],
+    "red_flags": [
+      "Assuming Redis is always fully durable by default",
+      "Treating Redis as a primary store without a persistence plan"
+    ],
+    "follow_ups": [
+      "What does appendfsync everysec mean?",
+      "When is losing the cache acceptable?"
+    ],
+    "tags": [
+      "redis",
+      "persistence",
+      "aof"
+    ]
+  },
+  {
+    "id": "BE-052",
+    "track": "backend",
+    "topic": "caching/Redis",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "How does Redis Pub/Sub work, and what are its limitations compared with a message queue?",
+    "ideal_answer": "Publishers send messages to a channel and all currently connected subscribers receive them in real time. Messages are not stored, so a subscriber that is offline misses them, and there are no acknowledgments or retries. For reliable delivery or consumer groups, use Redis Streams or a real message broker.",
+    "key_points": [
+      "Fire-and-forget fan-out to connected subscribers",
+      "No persistence, acknowledgments, or replay",
+      "Use Streams or a broker for durable processing"
+    ],
+    "red_flags": [
+      "Using Pub/Sub for tasks that must never be lost",
+      "Expecting offline subscribers to receive earlier messages"
+    ],
+    "follow_ups": [
+      "How do Redis Streams add consumer groups?",
+      "What is a good use case for Pub/Sub?"
+    ],
+    "tags": [
+      "redis",
+      "pubsub",
+      "messaging"
+    ]
+  },
+  {
+    "id": "BE-053",
+    "track": "backend",
+    "topic": "SQL/NoSQL",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "Why do you use database transactions in application code? Explain with a money-transfer example.",
+    "ideal_answer": "A transaction groups several operations so they succeed or fail together. In a transfer, debiting one account and crediting another must both happen or neither, so the code begins a transaction, runs both updates, and commits, rolling back on any error. This preserves atomicity and consistency even if the server crashes midway.",
+    "key_points": [
+      "Atomic all-or-nothing group of operations",
+      "Begin, execute, commit; rollback on error",
+      "Prevents partial updates such as debit without credit"
+    ],
+    "red_flags": [
+      "Making the two updates in separate auto-committed statements",
+      "Swallowing the exception and committing anyway"
+    ],
+    "follow_ups": [
+      "What isolation level would you use and why?",
+      "How do you avoid deadlocks in concurrent transfers?"
+    ],
+    "tags": [
+      "transactions",
+      "acid",
+      "atomicity"
+    ]
+  },
+  {
+    "id": "BE-054",
+    "track": "backend",
+    "topic": "SQL/NoSQL",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What are the pros and cons of using an ORM compared with writing raw SQL?",
+    "ideal_answer": "An ORM maps tables to objects, speeds development, gives parameterized queries by default, and handles migrations and portability. The downsides are performance surprises such as N+1 queries, awkward complex queries, and hidden SQL that is harder to tune. Many teams use an ORM for routine work and raw SQL for performance-critical or complex reports.",
+    "key_points": [
+      "ORM: productivity, safety, portability",
+      "Risks: N+1 queries, inefficient generated SQL, leaky abstractions",
+      "Mix ORM with raw SQL where needed"
+    ],
+    "red_flags": [
+      "Never inspecting the SQL the ORM generates",
+      "Concatenating user input into raw SQL fragments"
+    ],
+    "follow_ups": [
+      "How do you see the SQL generated by your ORM?",
+      "What is lazy loading and why can it hurt performance?"
+    ],
+    "tags": [
+      "orm",
+      "raw-sql",
+      "performance"
+    ]
+  },
+  {
+    "id": "BE-055",
+    "track": "backend",
+    "topic": "Docker",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "What is the difference between Docker volumes and bind mounts, and why do containers need volumes?",
+    "ideal_answer": "A container's filesystem is ephemeral, so data written inside it is lost when the container is removed. A volume is storage managed by Docker that persists independently of the container, while a bind mount maps a specific host directory into the container. Volumes suit databases and production data, and bind mounts are convenient for local development such as live code reload.",
+    "key_points": [
+      "Container filesystem is lost on removal",
+      "Volumes are Docker-managed and portable",
+      "Bind mounts map host paths; handy in development"
+    ],
+    "red_flags": [
+      "Running a database container without any volume",
+      "Assuming data persists after docker rm"
+    ],
+    "follow_ups": [
+      "How do you back up a Docker volume?",
+      "Why avoid bind mounts in production?"
+    ],
+    "tags": [
+      "docker",
+      "volumes",
+      "persistence"
+    ]
+  },
+  {
+    "id": "BE-056",
+    "track": "backend",
+    "topic": "Docker",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What problem does Docker Compose solve?",
+    "ideal_answer": "Docker Compose defines and runs multi-container applications from a single YAML file, describing services, networks, volumes, and environment settings. With one command, a developer can start an app, database, and cache together with consistent configuration. It is great for local development and testing, while larger production deployments typically use an orchestrator.",
+    "key_points": [
+      "Declares multi-container apps in one YAML file",
+      "One command to start the whole stack",
+      "Best for local/dev; orchestrators for large production"
+    ],
+    "red_flags": [
+      "Calling Compose a production-grade cluster orchestrator",
+      "Hard-coding secrets directly into the compose file"
+    ],
+    "follow_ups": [
+      "How do services in Compose talk to each other?",
+      "What does depends_on guarantee and not guarantee?"
+    ],
+    "tags": [
+      "docker-compose",
+      "containers",
+      "local-development"
+    ]
+  },
+  {
+    "id": "BE-057",
+    "track": "backend",
+    "topic": "Docker",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "What are the basic Kubernetes concepts: pod, deployment, and service?",
+    "ideal_answer": "A pod is the smallest deployable unit, holding one or more containers that share network and storage. A deployment declares the desired number of pod replicas and handles rolling updates and self-healing. A service gives a stable network address and load balancing across the changing set of pods behind it.",
+    "key_points": [
+      "Pod: smallest unit running containers",
+      "Deployment: desired replicas, rolling updates, self-healing",
+      "Service: stable endpoint and load balancing over pods"
+    ],
+    "red_flags": [
+      "Treating pod IPs as stable addresses",
+      "Creating bare pods in production instead of deployments"
+    ],
+    "follow_ups": [
+      "How does a rolling update work?",
+      "What is the role of a Kubernetes Ingress?"
+    ],
+    "tags": [
+      "kubernetes",
+      "pod",
+      "deployment"
+    ]
+  },
+  {
+    "id": "BE-058",
+    "track": "backend",
+    "topic": "REST design",
+    "difficulty": "easy",
+    "stretch": false,
+    "question": "What is the difference between soft delete and hard delete, and when would you choose each?",
+    "ideal_answer": "A hard delete physically removes the row, freeing space and satisfying strict erasure needs. A soft delete marks the row with a flag or timestamp such as deleted_at and hides it from normal queries, allowing recovery, auditing, and referential integrity. Soft delete adds query complexity and must still honor legal data-removal requirements.",
+    "key_points": [
+      "Hard delete removes data permanently",
+      "Soft delete flags rows, enabling recovery and audit",
+      "Need filtering everywhere and a purge policy for compliance"
+    ],
+    "red_flags": [
+      "Forgetting to filter soft-deleted rows in queries",
+      "Keeping personal data forever under soft delete despite erasure requests"
+    ],
+    "follow_ups": [
+      "How do unique constraints interact with soft-deleted rows?",
+      "How would you schedule permanent purges?"
+    ],
+    "tags": [
+      "soft-delete",
+      "data-modeling",
+      "compliance"
+    ]
+  },
+  {
+    "id": "BE-059",
+    "track": "backend",
+    "topic": "scaling",
+    "difficulty": "medium",
+    "stretch": false,
+    "question": "What is graceful shutdown, and why does a backend service need it?",
+    "ideal_answer": "Graceful shutdown means that on a termination signal such as SIGTERM, the service stops accepting new requests, finishes in-flight work, closes database and queue connections, and then exits. Without it, deployments and autoscaling cause dropped requests and half-finished jobs. Orchestrators give a grace period before force-killing, so the shutdown logic must fit inside it.",
+    "key_points": [
+      "Stop taking new traffic, finish in-flight work, then exit",
+      "Release connections and flush buffers",
+      "Must complete within the platform's termination grace period"
+    ],
+    "red_flags": [
+      "Exiting immediately on SIGTERM and dropping active requests",
+      "Ignoring in-progress background jobs on shutdown"
+    ],
+    "follow_ups": [
+      "How does readiness interact with shutdown?",
+      "What happens if a job is interrupted by SIGKILL?"
+    ],
+    "tags": [
+      "graceful-shutdown",
+      "deployment",
+      "reliability"
+    ]
+  },
+  {
+    "id": "BE-060",
+    "track": "backend",
+    "topic": "scaling",
+    "difficulty": "hard",
+    "stretch": false,
+    "question": "A production API endpoint has suddenly become slow. How do you diagnose and fix it?",
+    "ideal_answer": "First confirm scope with metrics: which endpoint, since when, and p95/p99 latency versus errors, and check recent deployments or traffic changes. Use traces and logs to find where time is spent, such as the database, a downstream service, or CPU. Then inspect slow queries with EXPLAIN, locks, cache hit rates, and resource saturation, apply a targeted fix, and add monitoring or an alert to catch it earlier.",
+    "key_points": [
+      "Measure first: scope, timing, p95/p99, recent changes",
+      "Trace to locate the bottleneck: DB, downstream call, CPU, locks",
+      "Fix the root cause, verify, and add alerting"
+    ],
+    "red_flags": [
+      "Randomly changing code or scaling up servers without evidence",
+      "Looking only at average latency"
+    ],
+    "follow_ups": [
+      "How do you use EXPLAIN ANALYZE to find a slow query?",
+      "How would you roll back safely if a deploy caused it?"
+    ],
+    "tags": [
+      "debugging",
+      "performance",
+      "incident-response"
+    ]
+  }
+]
